@@ -1,5 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import TheatersRoundedIcon from '@material-ui/icons/TheatersRounded';
+import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
+import NoteRoundedIcon from '@material-ui/icons/NoteRounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
+import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,17 +22,39 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../actions/auth';
-import { Box } from '@material-ui/core';
+import Drawer from './Drawer';
+import { Box, Button, LinearProgress } from '@material-ui/core';
+import { useStore } from '../../stores';
+import { observer } from 'mobx-react-lite';
 
-
-export default function Header() {
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.auth);
+function Header() {
+  const store = useStore();
+  const { userStore } = store;
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const menuOptions = [
+    {
+      name: 'בית',
+      page: '/home',
+      icon: <HomeRoundedIcon />
+    },
+    {
+      name: 'צפייה',
+      page: '/animes',
+      icon: <TheatersRoundedIcon />
+    },
+    {
+      name: 'פאנסאבים',
+      page: '/fansubs',
+      icon: <PeopleAltRoundedIcon/>
+    },
+    {
+      name: 'פוסטים',
+      page: '/posts',
+      icon: <NoteRoundedIcon/>
+    },  
+  ];
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -45,36 +74,13 @@ export default function Header() {
 
   const handleLogout = () => {
     handleMenuClose();
-    dispatch(logout());
+    userStore.logout();
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      {
-        user.authData
-        ? <MenuItem onClick={handleLogout}>התנתק</MenuItem>
-        : (
-          <Box>
-            <MenuItem onClick={handleMenuClose} component={Link} to='/login'>כניסה</MenuItem>
-            <MenuItem onClick={handleMenuClose} component={Link} to='/register'>הרשמה</MenuItem>
-          </Box>
-        )
-      }
-    </Menu>
-  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -87,52 +93,71 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {
+        userStore.user
+        ?
+        <div>
+          <MenuItem onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>הודעות</p>
+          </MenuItem>
+
+          <MenuItem onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>התראות</p>
+          </MenuItem>
+
+          <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <PeopleAltRoundedIcon/>
+            </IconButton>
+            <p>הפאנסאבים שלי</p>
+          </MenuItem>
+
+          <MenuItem onClick={handleLogout} className={classes.logout}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <ExitToAppRoundedIcon />
+            </IconButton>
+            <p>התנתק</p>
+          </MenuItem>
+        </div>
+        : (
+          <div>
+            <MenuItem onClick={handleMenuClose} component={Link} to='/login'>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+                <VpnKeyRoundedIcon />
+            </IconButton>
+            <p>כניסה</p>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose} component={Link} to='/register'>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                  <PersonAddRoundedIcon />
+              </IconButton>
+              <p>הרשמה</p>
+            </MenuItem>
+          </div>
+        )
+      }
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component={Link} to='/' className={classes.title} variant="h6" noWrap>
-            Anime Prime
-          </Typography>
-          <div className={classes.search}>
+          <div className={classes.menuButton}>
+            <Drawer options={menuOptions} />
+          </div>
+          
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -144,45 +169,37 @@ export default function Header() {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
+          </div> */}
+          <IconButton
+            aria-label="show more"
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            edge='start'
+            onClick={handleMobileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+<div className={classes.sectionDesktop}>
+
+            {menuOptions.map((option)=> <Button key={option.page} startIcon={option.icon} disableElevation component={NavLink}
+   to={option.page} className={classes.button}>
+            {option.name}
+            </Button>)}
           </div>
+          
+          
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+          <Typography component={Link} to='/' className={classes.title} variant="h6" noWrap>
+            Anime Prime
+          </Typography>
         </Toolbar>
+        <LinearProgress hidden={!store.loading}/>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      <div className={classes.appBarSpacer}></div>
     </div>
   );
 }
+
+export default observer(Header);

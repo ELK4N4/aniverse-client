@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import AnimeCard from './AnimeCard/AnimeCard';
-import axios from 'axios';
 import useStyles from './style';
+import AnimeCard from '../../../../Cards/AnimeCards/AnimeCard';
 
-export default function AnimeCards({ clickable, animes }) {
-    const dispatch = useDispatch();
+export default function ProjectCards({ clickable, animes, onProjectSelect}) {
     const classes = useStyles();
-
     return (
         <Grid
             className={classes.root}
@@ -21,7 +17,7 @@ export default function AnimeCards({ clickable, animes }) {
             //justify="flex-start"
         >
             {animes.map((anime) => (
-                <Grid item xs='auto' key={anime.name} key={anime._id} className={ clickable ? classes.card : null }>
+                <Grid item xs='auto' key={anime._id} className={ clickable ? classes.card : null } onClick={() => onProjectSelect(anime)}>
                     <AnimeCard
                         name={anime.name}
                         summary={anime.summary}

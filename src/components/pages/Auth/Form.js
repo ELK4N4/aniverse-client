@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { login, register } from '../../actions/auth';
 
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,27 +12,36 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Grow, Slide, Paper } from '@material-ui/core';
 import useStyles from './style';
-
+import { useStore } from '../../../stores';
+import { observer } from 'mobx-react-lite';
 
 const initialState = { username: '', email: '', password: '', confirmPassword: '' };
 
-export default function Form() {
+function Form() {
     const [form, setForm] = useState(initialState);
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const { userStore } = useStore();
     const classes = useStyles();
     let location = useLocation();
+    const history = useHistory();
     const [isRegister, setIsRegister] = useState(location.pathname === '/register');
     const [isSlide, setIsSlide] = useState(true);
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
     
+    useEffect(() => {
+        if(userStore.state === 'done') {
+            history.push('/');
+            userStore.resetState();
+        }
+        setIsRegister(location.pathname === '/register');
+        setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email")?.focus();}} , 400);
+    }, [location.pathname, userStore.state]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (isRegister) {
-          dispatch(register({email: form.email, username: form.username, password: form.password}, history));
+            userStore.register({email: form.email, username: form.username, password: form.password});
         } else {
-          dispatch(login({email: form.email, password: form.password}, history));
+            userStore.login({email: form.email, password: form.password});
         }
     };
 
@@ -46,13 +53,6 @@ export default function Form() {
             setTitle('הרשמה');
         }
     }
-
-    useEffect(() => {
-        setIsRegister(location.pathname === '/register');
-        setIsSlide(false);
-        setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email").focus();}} , 400);
-    }, [location.pathname]);
-
 
     return (
         <Grow in>
@@ -150,7 +150,7 @@ export default function Form() {
                             </Grid>
 
                             <Grid item>
-                                <MuiLink component={Link} to={isRegister ? '/login' : '/register'} href="#" variant="body2">
+                                <MuiLink component={Link} to={isRegister ? '/login' : '/register'} onClick={()=> setIsSlide(false)} href="#" variant="body2">
                                     {isRegister ? "יש לך חשבון? התחבר" : "אין לך חשבון? הירשם!"}
                                 </MuiLink>
                             </Grid>
@@ -162,3 +162,5 @@ export default function Form() {
         </Grow>
     );
 }
+
+export default observer(Form);

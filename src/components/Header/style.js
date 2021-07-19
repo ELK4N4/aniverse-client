@@ -2,17 +2,37 @@ import { fade } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+    appBarSpacer: theme.mixins.toolbar,
+    button: {
+      color: 'white',
+      backgroundColor: '#da190b',
+      margin: theme.spacing(1),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      "&.active": {
+        background:'#790e06',
+      },
+    },
     grow: {
       flexGrow: 1,
     },
     menuButton: {
       marginRight: theme.spacing(2),
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
     },
     title: {
-      display: 'none',
+      display: 'block',
+      color: 'white',
+      fontWeight: 700,
+      textDecoration: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
+    },
+    logout: {
+      color: 'red'
     },
     search: {
       position: 'relative',

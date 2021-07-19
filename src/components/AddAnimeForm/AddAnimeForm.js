@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addAnime } from '../../actions/animes'
+import { addAnime } from '../../stores/UserStore'
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +12,11 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Grow, Slide, Paper } from '@material-ui/core';
 import useStyles from './style';
-import AnimeCard from '../AnimeCards/AnimeCard/AnimeCard';
+import AnimeCard from '../Cards/AnimeCards/AnimeCard';
+import { useStore } from '../../stores';
+import { observer } from 'mobx-react-lite';
+import { autorun, runInAction } from 'mobx';
+
 
 const initAnime = {
     hebrewName: '',
@@ -25,19 +28,31 @@ const initAnime = {
     image: ''
 }
 
-export default function AddAnimeForm() {
+function AddAnimeForm() {
     const history = useHistory();
     const classes = useStyles();
+    const { animeStore } = useStore();
     const [anime, setAnime] = useState(initAnime);
-    const dispatch = useDispatch();
 
+    useEffect(
+        () =>
+          autorun(() => {
+            if(animeStore.state === 'done') {
+                history.push('/');
+                runInAction(() => {
+                    animeStore.resetState();
+                });
+            }
+        })
+    ,[])
+    
     const handleOnChange = (e) => {
         setAnime({...anime, [e.target.name]: e.target.value});
     };
 
-    const handleSumbit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addAnime(anime, history));
+        animeStore.addAnime(anime);
     };
 
     return (
@@ -51,7 +66,7 @@ export default function AddAnimeForm() {
                         </Typography>
                     </Slide>
                     <Slide direction="left" in timeout={300}>
-                        <form autoComplete="off" className={classes.form} noValidate onSubmit={handleSumbit}>
+                        <form autoComplete="off" className={classes.form} noValidate onSubmit={handleSubmit}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -165,3 +180,5 @@ export default function AddAnimeForm() {
         </Grow>
     );
 }
+
+export default observer(AddAnimeForm);

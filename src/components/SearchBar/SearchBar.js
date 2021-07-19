@@ -7,22 +7,28 @@ import SearchIcon from '@material-ui/icons/Search';
 import useStyles from './style';
 import { Collapse, Fade, Grow } from '@material-ui/core';
 
-export default function SearchBar({ value, onChange }) {
+export default function SearchBar({ value, placeholder, onChange, onSearch }) {
     const classes = useStyles();
     
+    function onSubmit(e) {
+        e.preventDefault();
+        onSearch();
+    }
+
     return (
         <Grow in timeout={500}>
-            <Paper elevation={3} component="form" className={classes.root}>
+            <Paper elevation={3} component="form" onSubmit={onSubmit} className={classes.root}>
                 <InputBase
                     className={classes.input}
                     value={value}
                     onChange={onChange}
-                    placeholder="חפשו אנימה..."
+                    placeholder={placeholder}
                 />
-                <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                    <SearchIcon className={classes.searchIcon} />
+                <IconButton onClick={onSearch} className={classes.iconButton} aria-label="search">
+                    <SearchIcon type="submit" className={classes.searchIcon} />
                 </IconButton>
             </Paper>
         </Grow>
+
     )
 }

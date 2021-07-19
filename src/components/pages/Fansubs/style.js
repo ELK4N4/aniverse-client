@@ -12,12 +12,9 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(7),
         marginBottom: theme.spacing(7),
     },
-    speedDial: {
+    fab: {
         position: 'fixed',
-        '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-          bottom: theme.spacing(3),
-          left: theme.spacing(3),
-        },
+        bottom: theme.spacing(3),
+        left: theme.spacing(3),
     }
 }));
-  
