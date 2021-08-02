@@ -20,7 +20,7 @@ import { useStore } from '../../../stores';
 import * as api from '../../../api';
 
 
-function Fansubs() {
+function MyFansubs() {
     const store = useStore();
     const { userStore } = store;
     const history = useHistory();
@@ -41,9 +41,22 @@ function Fansubs() {
         }
     }, [])
 
-    const handleOnClick = (fansubId) => {
+    const goToFansub = (fansubId) => {
         history.push(`/my-fansubs/${fansubId}`);
     }
+
+    const deleteFansub = async (fansubId) => {
+        store.startLoading();
+        try {
+            await api.deleteFansub(fansubId)
+            setFansubs(fansubs.filter((fansub) => fansub._id !== fansubId));
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+    
 
     return (
         <>
@@ -54,7 +67,7 @@ function Fansubs() {
                     </Typography>
                     <List >
                     {fansubs.map((fansub) => (
-                        <ListItem button key={fansub._id} onClick={() => handleOnClick(fansub._id)}>
+                        <ListItem button key={fansub._id} onClick={() => goToFansub(fansub._id)}>
                             <ListItemAvatar>
                                 <Avatar>
                                     <PeopleAltRoundedIcon />
@@ -64,7 +77,7 @@ function Fansubs() {
                                 primary={fansub.name}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete">
+                                <IconButton edge="end" aria-label="delete" onClick={() => deleteFansub(fansub._id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -83,4 +96,4 @@ function Fansubs() {
     )
 }
 
-export default Fansubs;
+export default MyFansubs;

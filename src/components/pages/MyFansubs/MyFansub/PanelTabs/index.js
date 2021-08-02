@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -7,6 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ProjectsContainer from '../ProjectsContainer';
+import MembersContainer from '../MembersContainer';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import SettingsContainer from '../SettingsContainer';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,8 +25,8 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box p={3} overflow="hidden">
+          {children}
         </Box>
       )}
     </div>
@@ -34,27 +39,37 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: '100%',
+    margin: 0,
+  },
+  indicator: {
+    backgroundColor: 'white',
   },
 }));
 
-export default function FullWidthTabs() {
+function PanelTabs({ selectedTab }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const history = useHistory();
+  const location = useLocation();
+  const { fansubId } = useParams();
+  const params = new URLSearchParams(location.search);
+  const tabIndex = params.get('tab');
+  const [value, setValue] = useState(parseInt(tabIndex) || 0);
+
+  useEffect(() => {
+    setValue(parseInt(tabIndex) || 0)
+  }, [tabIndex])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    history.push({
+      search: `?tab=${newValue}`,
+      pathname: `/my-fansubs/${fansubId}`
+    })
   };
 
   const handleChangeIndex = (index) => {
@@ -63,35 +78,37 @@ export default function FullWidthTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
+          classes={{
+            indicator: classes.indicator
+          }}
           variant="fullWidth"
-          aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="פרוייקטים" id="1" />
+          <Tab label="צוות" id="2" />
+          <Tab label="הגדרות" id="3" />
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        axis="x-reverse"
         index={value}
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <ProjectsContainer />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <MembersContainer />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <SettingsContainer />
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
+
+export default PanelTabs;

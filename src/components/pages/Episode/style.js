@@ -12,22 +12,10 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(7),
         marginBottom: theme.spacing(7),
     },
-    title: {
-        padding: theme.spacing(2),
-        width: '100%'
-    },
     fab: {
         position: 'fixed',
         bottom: theme.spacing(3),
         left: theme.spacing(3),
-    },
-    paper: {
-        marginTop: theme.spacing(1),
-        padding: theme.spacing(2),
-        overflow: 'hidden'
-    },
-    episodeAvatar: {
-        color: theme.palette.getContrastText(theme.palette.primary.main),
-        backgroundColor: theme.palette.primary.main,
     }
 }));
+  

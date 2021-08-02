@@ -53,13 +53,13 @@ export default function Drawer({options}) {
     >
       <List className={classes.list}>
             {options.map((option) => (
-            <div key={option.page}>
-                <ListItem className={classes.listItem} button component={NavLink} to={option.page}>
-                  <ListItemIcon>{option.icon}</ListItemIcon>
-                  <ListItemText primary={option.name} />
-                </ListItem>
-                <Divider />
-            </div>
+              <div key={option.page}>
+                  <ListItem className={classes.listItem} button component={NavLink} to={option.page}>
+                    <ListItemIcon>{option.icon}</ListItemIcon>
+                    <ListItemText primary={option.name} />
+                  </ListItem>
+                  <Divider />
+              </div>
             ))}
       </List>
     </div>

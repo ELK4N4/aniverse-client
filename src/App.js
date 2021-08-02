@@ -8,8 +8,11 @@ import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import Animes from "./components/pages/Animes";
+import Anime from "./components/pages/Anime";
+import Episode from "./components/pages/Episode";
 import Form from "./components/pages/Auth/Form";
 import Fansubs from "./components/pages/Fansubs";
 import MyFansubs from "./components/pages/MyFansubs";
@@ -30,52 +33,57 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: red,
-  }
+  },
 })
 
 export default function App() {
   return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <StylesProvider jss={jss}>
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <StylesProvider jss={jss}>
 
-          <Header />
-          
-          <Switch>
-            <Route exact path={["/", "/home"]}>
-              <MuiLink component={Link} to='/animes' href="#" variant="body2">
-                  Animes
-              </MuiLink>
-            </Route>
-            <Route exact path={["/login", "/register"]}>
-              <Form />
-            </Route>
-            <Route exact path="/animes">
-              <Animes />
-            </Route>
-            <Route exact path="/animes/add">
-              <AddAnimeForm />
-            </Route>
-            <Route exact path="/fansubs">
-              <Fansubs />
-            </Route>
-            <Route exact path="/fansubs/add">
-              <CreateFansubForm />
-            </Route>
-            <Route exact path="/my-fansubs">
-              <MyFansubs />
-            </Route>
-            <Route exact path="/my-fansubs/:fansubId">
-              <MyFansub />
-            </Route>
-            <Route exact path="/my-fansubs/:fansubId/project/:projectId">
-              <Project />
-            </Route>
-          </Switch>
+            <Header />
+            
+            <Switch>
+              <Route exact path={["/", "/home"]}>
+                <MuiLink component={Link} to='/animes' href="#" variant="body2">
+                    Animes
+                </MuiLink>
+              </Route>
+              <Route exact path={["/login", "/register"]}>
+                <Form />
+              </Route>
+              <Route exact path="/animes">
+                <Animes />
+              </Route>
+              <Route exact path="/animes/add">
+                <AddAnimeForm />
+              </Route>
+              <Route exact path="/animes/:animeId">
+                <Anime />
+              </Route>
+              <Route exact path="/animes/:animeId/episodes/:episodeId">
+                <Episode />
+              </Route>
+              <Route exact path="/fansubs">
+                <Fansubs />
+              </Route>
+              <Route exact path="/fansubs/add">
+                <CreateFansubForm />
+              </Route>
+              <Route exact path="/my-fansubs">
+                <MyFansubs />
+              </Route>
+              <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
+                <MyFansub />
+              </Route>
+            </Switch>
 
 
-        </StylesProvider>
-      </ThemeProvider>
-    </Router>
+          </StylesProvider>
+        </ThemeProvider>
+      </Router>
+    </SnackbarProvider>
   )
 }

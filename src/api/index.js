@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getLocalStorage } from '../localStorage';
 
 const API = axios.create({ baseURL: 'http://localhost:5000'})
+// const API = axios.create({ baseURL: 'https://anime-prime.herokuapp.com/'})
+
 API.interceptors.request.use((req) => {
   if(getLocalStorage('user')) {
     req.headers.authorization = `Bearer ${getLocalStorage('user').token}`;
@@ -16,19 +18,28 @@ export const fetchAnimes = (keyword) => API.get('/animes', { params: {search: ke
 export const fetchAnime = (animeId) => API.get('/animes/' + animeId);
 export const addAnime = (newAnime) => API.post('/animes', newAnime);
 
+export const fetchFansubMembers = (fansubId) => API.get(`fansubs/${fansubId}/members`);
+
 export const fetchFansubs = () => API.get('/fansubs');
 export const fetchFansub = (fansubId) => API.get('/fansubs/' + fansubId);
+export const deleteFansub = (fansubId) => API.delete('/fansubs/' + fansubId);
 export const fetchFansubProjects = (fansubId) => API.get('/fansubs/' + fansubId + '/projects');
 export const addFansub = (newFansub) => API.post('/fansubs', newFansub);
+export const updateFansub = (fansubId, updatedFansub) => API.put('/fansubs/' + fansubId, updatedFansub);
 
 export const fetchProject = (fansubId, projectId) => API.get('/fansubs/' + fansubId + '/projects/' + projectId);
 export const addProject = (fansubId, newProject) => API.post(`fansubs/${fansubId}/projects`, newProject);
 export const deleteProject = (fansubId, projectId) => API.delete(`fansubs/${fansubId}/projects/${projectId}`);
 
-export const fetchEpisode = (fansubId, projectId, episodeId) => API.get(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`);
+export const fetchEpisodes = (animeId) => API.get(`/animes/${animeId}/episodes`);
+export const fetchAnimeAndEpisode = (animeId, episodeId) => API.get(`/animes/${animeId}/episodes/${episodeId}`);
 export const addEpisode = (fansubId, projectId, newEpisode) => API.post(`fansubs/${fansubId}/projects/${projectId}/episodes`, newEpisode);
+export const updateEpisode = (fansubId, projectId, episodeId, updatedEpisode) => API.put(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`, updatedEpisode);
 export const deleteEpisode = (fansubId, projectId, episodeId) => API.delete(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`);
 
+export const addMember = (fansubId, username) => API.post(`fansubs/${fansubId}/members/${username}`);
+export const removeMember = (fansubId, userId) => API.delete(`fansubs/${fansubId}/members/${userId}`);
+export const updateMember = (fansubId, userId, updatedMember) => API.put(`fansubs/${fansubId}/members/${userId}`, updatedMember);
 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);

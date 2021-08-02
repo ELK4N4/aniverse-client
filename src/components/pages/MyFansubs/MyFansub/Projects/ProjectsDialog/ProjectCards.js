@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './style';
-import AnimeCard from '../../../../Cards/AnimeCards/AnimeCard';
+import AnimeCard from '../../../../../Cards/AnimeCards/AnimeCard';
 
 export default function ProjectCards({ clickable, animes, onProjectSelect}) {
     const classes = useStyles();

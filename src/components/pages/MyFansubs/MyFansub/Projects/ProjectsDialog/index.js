@@ -12,13 +12,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import AnimeCards from '../../../../Cards/AnimeCards';
-import SearchBar from '../../../../SearchBar/SearchBar';
+import SearchBar from '../../../../../SearchBar/SearchBar';
 import { Chip, Container } from '@material-ui/core';
-import * as api from '../../../../../api';
+import * as api from '../../../../../../api';
 import ProjectCards from './ProjectCards';
 import { Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import { useStore } from '../../../../../../stores';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -56,9 +57,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ProjectsDialog({ open, filteredProjects, handleDialogClose, addToProjectsList }) {
+function ProjectsDialog({ open, filteredProjects, handleDialogClose }) {
     const classes = useStyles();
     const { fansubId } = useParams();
+    const store = useStore();
+    const { fansubStore } = store;
     const [keyword, setKeyword] = useState('');
     const animes = useRef([]);
     const choosenAnimes = useRef([]);
@@ -68,7 +71,6 @@ export default function ProjectsDialog({ open, filteredProjects, handleDialogClo
         try {
             const { data } = await api.fetchAnimes();
             animes.current = data;
-            animes.current = animes.current.filter(anime => !filteredProjects.some(filteredProject => filteredProject.anime._id === anime._id));
             animes.current = animes.current.filter(anime => !filteredProjects.some(filteredProject => filteredProject.anime._id === anime._id));
             setFilteredAnimes(animes.current);
         } catch (err) {
@@ -108,11 +110,7 @@ export default function ProjectsDialog({ open, filteredProjects, handleDialogClo
 
     const addProjects = () => {
         choosenAnimes.current.forEach(async project => {
-            const {data} = await api.addProject(fansubId, project);
-            const anime = await api.fetchAnime(data.anime);
-            data.anime = anime.data;
-            const projectWithDetails = data;
-            addToProjectsList(projectWithDetails);
+            fansubStore.addProject(project);
         });
         handleDialogClose();
         choosenAnimes.current = [];
@@ -158,3 +156,5 @@ export default function ProjectsDialog({ open, filteredProjects, handleDialogClo
         </Dialog>
     );
 }
+
+export default observer(ProjectsDialog);
