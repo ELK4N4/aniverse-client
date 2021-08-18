@@ -42,7 +42,6 @@ function Fansubs() {
         setKeyword(e.target.value);
     }
 
-
     return (
         <>
             <Container maxWidth="lg">

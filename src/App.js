@@ -15,6 +15,7 @@ import Anime from "./components/pages/Anime";
 import Episode from "./components/pages/Episode";
 import Form from "./components/pages/Auth/Form";
 import Fansubs from "./components/pages/Fansubs";
+import Fansub from "./components/pages/Fansub";
 import MyFansubs from "./components/pages/MyFansubs";
 import MyFansub from "./components/pages/MyFansubs/MyFansub";
 
@@ -33,6 +34,17 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: red,
+  },
+  typography: {
+    h1: {
+      fontWeight: 600
+    },
+    h2: {
+      fontWeight: 600
+    },
+    h3: {
+      fontWeight: 600
+    },
   },
 })
 
@@ -71,6 +83,9 @@ export default function App() {
               </Route>
               <Route exact path="/fansubs/add">
                 <CreateFansubForm />
+              </Route>
+              <Route exact path="/fansubs/:fansubId">
+                <Fansub />
               </Route>
               <Route exact path="/my-fansubs">
                 <MyFansubs />

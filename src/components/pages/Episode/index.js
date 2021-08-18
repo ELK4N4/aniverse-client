@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -18,12 +18,12 @@ import * as api from '../../../api';
 import EpisodeCards from '../../Cards/EpisodeCards';
 
 
-function Anime() {
+function Episode() {
     const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
-    const [episode, setEpisode] = useState({});
+    const [episode, setEpisode] = useState();
 
     useEffect(async () => {
         store.startLoading();
@@ -39,11 +39,44 @@ function Anime() {
 
     return (
         <>
+        {episode && (
             <Container maxWidth="lg">
-                {episode?.name}
+                <Paper className={classes.paper} elevation={20}>
+                    <div className={classes.watch}>
+                        <iframe src={episode.link} frameborder="0" allowfullscreen="" className={classes.iframe}></iframe>
+                    </div>
+
+                    <div className={classes.episodeDetails}>
+                        <Paper className={classes.animeTitlePaper} >
+                            <Typography variant="h5">
+                                {episode.anime.name.hebrew}
+                            </Typography>
+                        </Paper>
+                        <Typography variant="h5">
+                                פרק&nbsp;
+                                {episode.number}
+                                &nbsp;-&nbsp;
+                                {episode.name}
+                        </Typography>
+                        <br />
+                        <Typography variant="body" style={{margin: 10}}>
+                                צפיות:&nbsp;
+                                {episode.views}
+                        </Typography>
+                        <Typography variant="body" style={{margin: 10}}>
+                                פורסם בתאריך:&nbsp;
+                                {new Date(episode.createdAt).toLocaleDateString()}
+                        </Typography>
+                        <Typography variant="body" style={{margin: 10}}>
+                                הועלה על ידי:&nbsp;
+                                {episode.addedByFansub.name}
+                        </Typography>
+                    </div>
+                </Paper>
             </Container>
+        )}
         </>
     )
 }
 
-export default Anime;
+export default Episode;

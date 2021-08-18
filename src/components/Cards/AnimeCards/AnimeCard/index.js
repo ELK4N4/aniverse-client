@@ -8,7 +8,7 @@ import { Paper } from '@material-ui/core';
 import useStyles from './style';
 
 
-export default function AnimeCard({ img, name, summary, showContent, timeout }) {
+export default function AnimeCard({ img, name, summary, showContent, timeout, width, height }) {
   const classes = useStyles();
 
   const [hover, setHover] = useState(false);
@@ -21,6 +21,7 @@ export default function AnimeCard({ img, name, summary, showContent, timeout }) 
         onMouseOver={toggleHover} 
         onMouseOut={toggleHover} 
         raised={hover}
+        style={{width}}
         >
         <CardActionArea className={classes.cardActionArea}>
             <CardMedia
@@ -28,6 +29,7 @@ export default function AnimeCard({ img, name, summary, showContent, timeout }) 
                 className={classes.media}
                 image={ img }
                 title= { name.hebrew }
+                style={{height}}
             />
             <Grow in={hover && showContent} mountOnEnter unmountOnExit>
                 <Paper square className={classes.content}>

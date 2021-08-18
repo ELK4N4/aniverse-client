@@ -17,7 +17,7 @@ import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 
 
-function ProjectsContainer() {
+function Projects() {
     const store = useStore();
     const { userStore } = store;
     const { fansubStore } = store;
@@ -99,4 +99,4 @@ function ProjectsContainer() {
     )
 }
 
-export default observer(ProjectsContainer);
+export default observer(Projects);

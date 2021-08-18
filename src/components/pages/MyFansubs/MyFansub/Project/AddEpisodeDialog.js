@@ -11,9 +11,9 @@ import { Container, FormControl, InputLabel, MenuItem, Select } from '@material-
 import { useParams } from 'react-router-dom';
 
 
-const initialState = { number: '', name: '', link: '' , post: '', image: '' };
+const initialState = { number: '', season: '', name: '', link: '' , post: '', image: '' };
 
-export default function AddEpisodeDialog({onSumbit}) {
+export default function AddEpisodeDialog({onSumbit, seasons}) {
     const [open, setOpen] = useState(false);
     const [episode, setEpisode] = useState(initialState);
     const { fansubId, projectId } = useParams();
@@ -27,7 +27,9 @@ export default function AddEpisodeDialog({onSumbit}) {
         handleClose();
     }
 
-    const handleChange = (e) => setEpisode({ ...episode, [e.target.name]: e.target.value });
+    const handleChange = (e) => {
+        setEpisode({ ...episode, [e.target.name]: e.target.value });
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -52,6 +54,20 @@ export default function AddEpisodeDialog({onSumbit}) {
                             name="number"
                             onChange={handleChange}
                         />
+                        <FormControl fullWidth margin="dense">
+                            <InputLabel id="season-select-label">עונה</InputLabel>
+                            <Select
+                                labelId="season-label"
+                                id="season"
+                                onChange={handleChange}
+                                fullWidth
+                                name="season"
+                                >
+                                    {Array.from({length: seasons}, (_, i) => i + 1).map(season => (
+                                        <MenuItem value={season}>{season}</MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
                         <TextField
                             margin="dense"
                             id="name"
@@ -77,6 +93,7 @@ export default function AddEpisodeDialog({onSumbit}) {
                             label="פוסט"
                             type="text"
                             fullWidth
+                            multiline
                             onChange={handleChange}
                         />
                         <TextField

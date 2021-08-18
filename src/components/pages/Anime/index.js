@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Container } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -16,6 +16,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import EpisodeCards from '../../Cards/EpisodeCards';
+import AnimeDetails from './AnimeDetails';
+import EpisodesContainer from './EpisodesContainer';
 
 
 function Anime() {
@@ -23,14 +25,14 @@ function Anime() {
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
-    const [anime, setAnime] = useState({});
-    const [episodes, setEpisodes] = useState([]);
+    const [anime, setAnime] = useState();
+    const [episodes, setEpisodes] = useState();
 
     useEffect(async () => {
         store.startLoading();
         try {
             const { data } = await api.fetchAnime(animeId);
-            console.log(data)
+            console.log(anime, data)
             setAnime(data);
             const episodes = await api.fetchEpisodes(animeId);
             console.log("episodes.data", episodes.data)
@@ -44,10 +46,11 @@ function Anime() {
 
     return (
         <>
-            <Container maxWidth="lg">
-                 - {animeId} פרקים
-                <EpisodeCards clickable episodes={episodes}/>
-            </Container>
+                {anime && <AnimeDetails anime={anime}/> }
+                <div style={{marginTop: 50}} />
+                {episodes && <EpisodesContainer episodes={episodes}/> }
+                <div style={{marginTop: 80}} />
+
         </>
     )
 }

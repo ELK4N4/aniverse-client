@@ -225,6 +225,14 @@ class FansubStore {
     }
   }
 
+  get fansubAnimes() {
+    const animes = [];
+    this.projects.forEach(project => {
+      animes.push(project.anime);
+    })
+    return animes;
+  }
+
 }
 
 export default FansubStore;

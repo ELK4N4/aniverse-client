@@ -10,7 +10,7 @@ export default function AnimeCards({ clickable, animes }) {
 
     const handleClick = (animeId) => {
         if(clickable) {
-            history.push('animes/' + animeId);
+            history.push('/animes/' + animeId);
         }
     }
 

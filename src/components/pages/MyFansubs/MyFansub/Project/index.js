@@ -36,6 +36,7 @@ function Project() {
         try {
             const projectRes = await api.fetchProject(fansubId, projectId);
             const animeRes = await api.fetchAnime(projectRes.data.anime);
+            console.log(projectRes.data)
             setProject(projectRes.data);
             setAnime(animeRes.data);
         } catch (err) {
@@ -51,7 +52,6 @@ function Project() {
             const episodeId = updatedEpisode._id;
             delete updatedEpisode._id;
             const { data } = await api.updateEpisode(fansubId, projectId, episodeId, updatedEpisode);
-            
             const newProject = {...project};
             project.episodes.forEach((episode, index) => {
                 if(episode._id === episodeId) {
@@ -190,8 +190,8 @@ function Project() {
                         </List>
                     }
 
-                        <AddEpisodeDialog onSumbit={addEpisode}></AddEpisodeDialog>
-                        {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} ></EditEpisodeDialog> }
+                        <AddEpisodeDialog onSumbit={addEpisode} seasons={anime.seasons} />
+                        {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} seasons={anime.seasons}></EditEpisodeDialog> }
                     </Paper>
                 </Container>
             </ Slide>

@@ -23,7 +23,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import Drawer from './Drawer';
-import { Box, Button, LinearProgress } from '@material-ui/core';
+import { Box, Button, LinearProgress, Slide, Zoom } from '@material-ui/core';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
