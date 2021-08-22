@@ -10,7 +10,7 @@ export default function Comment({ comment }) {
     const { animeId } = useParams();
 
     return (
-        <Paper className={classes.paper} elevation={20}>
+        <Paper className={classes.paper} elevation={5}>
             תגובה
         </Paper>
     );

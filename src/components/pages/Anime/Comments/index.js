@@ -38,10 +38,7 @@ function Comments({comments}) {
 
     return (
         <>
-            <Container maxWidth="lg">
-                <Comment />
-            </Container>
-
+            <Comment />
         </>
     )
 }

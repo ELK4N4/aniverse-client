@@ -46,8 +46,6 @@ export default makeStyles((theme) => ({
         }
     },
     paper: {
-        marginTop: theme.spacing(5),
-        marginBottom: theme.spacing(5),
         overflow: 'hidden',
         transition: theme.transitions.create("all", {
             easing: theme.transitions.easing.sharp, 

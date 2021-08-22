@@ -39,40 +39,38 @@ function Episode({anime, episode}) {
     return (
         <>
         {episode && (
-            <Container maxWidth="lg">
-                <Paper className={classes.paper} elevation={20}>
-                    <div className={classes.watch}>
-                        <iframe src={episode.link} frameborder="0" allowfullscreen="" className={classes.iframe}></iframe>
-                    </div>
+            <Paper className={classes.paper} elevation={5}>
+                <div className={classes.watch}>
+                    <iframe src={episode.link} frameborder="0" allowfullscreen="" className={classes.iframe}></iframe>
+                </div>
 
-                    <div className={classes.episodeDetails}>
-                        <Paper className={classes.animeTitlePaper} >
-                            <Typography variant="h5">
-                                {anime.name.hebrew}
-                            </Typography>
-                        </Paper>
+                <div className={classes.episodeDetails}>
+                    <Paper className={classes.animeTitlePaper} >
                         <Typography variant="h5">
-                                פרק&nbsp;
-                                {episode.number}
-                                &nbsp;-&nbsp;
-                                {episode.name}
+                            {anime.name.hebrew}
                         </Typography>
-                        <br />
-                        <Typography variant="body" style={{margin: 10}}>
-                                צפיות:&nbsp;
-                                {episode.views}
-                        </Typography>
-                        <Typography variant="body" style={{margin: 10}}>
-                                פורסם בתאריך:&nbsp;
-                                {new Date(episode.createdAt).toLocaleDateString()}
-                        </Typography>
-                        <Typography variant="body" style={{margin: 10}}>
-                                הועלה על ידי:&nbsp;
-                                {episode.addedByFansub.name}
-                        </Typography>
-                    </div>
-                </Paper>
-            </Container>
+                    </Paper>
+                    <Typography variant="h5">
+                            פרק&nbsp;
+                            {episode.number}
+                            &nbsp;-&nbsp;
+                            {episode.name}
+                    </Typography>
+                    <br />
+                    <Typography variant="body" style={{margin: 10}}>
+                            צפיות:&nbsp;
+                            {episode.views}
+                    </Typography>
+                    <Typography variant="body" style={{margin: 10}}>
+                            פורסם בתאריך:&nbsp;
+                            {new Date(episode.createdAt).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="body" style={{margin: 10}}>
+                            הועלה על ידי:&nbsp;
+                            {episode.addedByFansub.name}
+                    </Typography>
+                </div>
+            </Paper>
         )}
         </>
     )

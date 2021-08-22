@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Box, Container } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -18,6 +18,8 @@ import * as api from '../../../api';
 import EpisodeCards from '../../Cards/EpisodeCards';
 import AnimeDetails from './AnimeDetails';
 import Episode from './Episode';
+import Comments from './Comments';
+import { useIsMount } from '../../../hooks/useIsMount';
 
 
 function Anime() {
@@ -27,26 +29,53 @@ function Anime() {
     const classes = useStyles();
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState();
+    const [activeEpisode, setActiveEpisode] = useState();
+    const isMount = useIsMount();
 
     useEffect(async () => {
-        store.startLoading();
-        try {
-            const { data } = await api.fetchAnime(animeId);
-            console.log(anime, data)
-            setAnime(data);
-            const episodes = await api.fetchEpisodes(animeId);
-            console.log("episodes.data", episodes.data)
-            setEpisodes(episodes.data);
-        } catch (err) {
-            console.error(err.response);
-        } finally {
-            store.stopLoading();
+        if(isMount) {
+            store.startLoading();
+            try {
+                const { data } = await api.fetchAnime(animeId);
+                console.log(anime, data)
+                setAnime(data);
+                const episodes = await api.fetchEpisodes(animeId);
+                console.log("episodes.data", episodes.data)
+                setEpisodes(episodes.data);
+                setActiveEpisode(episodes.data.find(episode => episode._id === episodeId))
+            } catch (err) {
+                console.error(err.response);
+            } finally {
+                store.stopLoading();
+            }
+        } else {
+            setActiveEpisode(episodes.find(episode => episode._id === episodeId))
         }
-    }, []);
+    }, [episodeId]);
 
     return (
         <>
-            {(anime && episodes) && <AnimeDetails anime={anime} episodes={episodes} />}
+            {(anime && episodes) && (
+                <>
+                    <div className={classes.showcase} >
+                        <Container maxWidth="lg">
+                            <Typography variant="h3" className={classes.animeName}>
+                                { anime.name.hebrew }
+                            </Typography>
+                            <Typography variant="h5" className={classes.animeName}>
+                                ז'אנר:
+                                &nbsp;
+                                { anime.genre }
+                            </Typography>
+                        </Container>
+                    </div>
+                    <Container maxWidth="lg" className={classes.containers}>
+                        <AnimeDetails anime={anime} episodes={episodes} activeEpisode={activeEpisode}/>
+                        <Episode anime={anime} episode={activeEpisode}/>
+                        <Comments />
+                    </Container>
+                </>
+            )}
         </>
     )
 }
