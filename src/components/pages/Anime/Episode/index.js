@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
-import SearchBar from '../../SearchBar/SearchBar';
+import SearchBar from '../../../SearchBar/SearchBar';
 import { Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -13,29 +13,28 @@ import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { useStore } from '../../../stores';
-import * as api from '../../../api';
-import EpisodeCards from '../../Cards/EpisodeCards';
+import { useStore } from '../../../../stores';
+import * as api from '../../../../api';
+import EpisodeCards from '../../../Cards/EpisodeCards';
 
 
-function Episode() {
+function Episode({anime, episode}) {
     const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
-    const [episode, setEpisode] = useState();
 
     useEffect(async () => {
-        store.startLoading();
-        try {
-            const { data } = await api.fetchAnimeAndEpisode(animeId, episodeId);
-            setEpisode(data);
-        } catch (err) {
-            console.error(err.response);
-        } finally {
-            store.stopLoading();
-        }
-    }, []);
+        // store.startLoading();
+        // try {
+        //     const { data } = await api.fetchAnimeAndEpisode(animeId, episodeId);
+        //     setEpisode(data);
+        // } catch (err) {
+        //     console.error(err.response);
+        // } finally {
+        //     store.stopLoading();
+        // }
+    }, [episodeId]);
 
     return (
         <>
@@ -49,7 +48,7 @@ function Episode() {
                     <div className={classes.episodeDetails}>
                         <Paper className={classes.animeTitlePaper} >
                             <Typography variant="h5">
-                                {episode.anime.name.hebrew}
+                                {anime.name.hebrew}
                             </Typography>
                         </Paper>
                         <Typography variant="h5">

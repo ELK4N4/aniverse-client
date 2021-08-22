@@ -12,7 +12,6 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import Animes from "./components/pages/Animes";
 import Anime from "./components/pages/Anime";
-import Episode from "./components/pages/Episode";
 import Form from "./components/pages/Auth/Form";
 import Fansubs from "./components/pages/Fansubs";
 import Fansub from "./components/pages/Fansub";
@@ -72,11 +71,8 @@ export default function App() {
               <Route exact path="/animes/add">
                 <AddAnimeForm />
               </Route>
-              <Route exact path="/animes/:animeId">
+              <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes/:episodeId"]}>
                 <Anime />
-              </Route>
-              <Route exact path="/animes/:animeId/episodes/:episodeId">
-                <Episode />
               </Route>
               <Route exact path="/fansubs">
                 <Fansubs />

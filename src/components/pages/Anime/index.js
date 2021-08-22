@@ -17,11 +17,11 @@ import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import EpisodeCards from '../../Cards/EpisodeCards';
 import AnimeDetails from './AnimeDetails';
-import EpisodesContainer from './EpisodesContainer';
+import Episode from './Episode';
 
 
 function Anime() {
-    const { animeId } = useParams();
+    const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
@@ -46,11 +46,7 @@ function Anime() {
 
     return (
         <>
-                {anime && <AnimeDetails anime={anime}/> }
-                <div style={{marginTop: 50}} />
-                {episodes && <EpisodesContainer episodes={episodes}/> }
-                <div style={{marginTop: 80}} />
-
+            {(anime && episodes) && <AnimeDetails anime={anime} episodes={episodes} />}
         </>
     )
 }

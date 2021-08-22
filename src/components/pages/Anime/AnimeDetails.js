@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
-import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -14,66 +14,83 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
-import EpisodeCards from '../../Cards/EpisodeCards';
 import AnimeCard from '../../Cards/AnimeCards/AnimeCard';
+import Episode from './Episode';
+import Comments from './Comments';
 
 
 
-function AnimeDetails({anime}) {
+function AnimeDetails({anime, episodes}) {
     const store = useStore();
+    const { animeId, episodeId } = useParams();
     const { userStore } = store;
+    const history = useHistory();
     const classes = useStyles();
+    const [activeEpisode, setActiveEpisode] = useState();
 
     useEffect(async () => {
+        setActiveEpisode(episodes.find(episode => episode._id === episodeId))
         console.log(anime)
-    }, []);
+    }, [episodeId]);
+
+    const onEpisodeClick = (episodeId) => {
+        history.push('/animes/' + animeId + '/episodes/' + episodeId);
+    }
 
     return (
         <>
-            <div className={classes.mainContainer}>
-                <Grid container spacing={0} className={classes.showcase} >
-                    <Grid item xs={12} md={9} sm={5} component={Box} display="flex" justifyContent="center">
-                        <div>
-                            <Paper elevation={7} className={classes.titlePaper}>
-                                <Typography variant="h3" component="h2" >
-                                    { anime.name.hebrew }
-                                </Typography>
-                            </Paper>
-                            <Typography variant="h5" className={classes.summaryTitle}>
+            <div className={classes.showcase} >
+                <Container maxWidth="lg">
+                    <Typography variant="h3" className={classes.animeName}>
+                        { anime.name.hebrew }
+                    </Typography>
+                    <Typography variant="h5" className={classes.animeName}>
+                        ז'אנר:
+                        &nbsp;
+                        { anime.genre }
+                    </Typography>
+                </Container>
+            </div>
+            <Container maxWidth="lg">
+                <Paper elevation={5} className={classes.detailsContainer}>
+                    <Box display="flex">
+                        <div style={{ padding: 20, width: '250px'}}>
+                            <img src={anime.image} width="200" height="300" style={{borderRadius: '40px', objectFit: 'cover'}} />
+                            <div>
+                                מספר פרקים:
+                                &nbsp;
+                                {anime.episodesNumber}
+                            </div>
+                        </div>
+                        <div style={{ padding: 20}}>
+                            <Typography variant="body" className={classes.detailsTitle}>
                                 תקציר
                             </Typography>
-                            <Typography variant="h6" className={classes.summaryContent}>
-                                { anime.summary }
+                            <Typography variant="body">
+                                {anime.summary}
                             </Typography>
+
+                            <Typography variant="body" className={classes.detailsTitle}>
+                                פרקים
+                            </Typography>
+                            <Typography variant="body">
+                                בחרו פרק
+                            </Typography>
+                            <Box display="flex" className={classes.episodesBtnsContainer} >
+                                {episodes.map((episode) => (
+                                    <Button onClick={() => onEpisodeClick(episode._id)} color="primary" variant={activeEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                        {episode.number}
+                                    </Button>
+                                ))}
+                                
+                            </Box>
                         </div>
-                    </Grid>
-                    <Grid item xs={12} md={3} sm={7} component={Box} display="flex" justifyContent="center" alignItems="center">
-                        <AnimeCard img={anime.image} width={300} height={450} name={anime.name} summary={anime.summary} showContent />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={0} className={classes.detailsContainer} >
-                        <Grid item xs={12} sm={6} md={3}>
-                            שם באנגלית:
-                            &nbsp;
-                            {anime.name.english}
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            שם ביפנית:
-                            &nbsp;
-                            {anime.name.japanese}
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            מספר פרקים:
-                            &nbsp;
-                            {anime.episodesNumber}
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            ז'אנר:
-                            &nbsp;
-                            {anime.genre}
-                        </Grid>
-                </Grid>
-            </div>
+                    </Box>
+                </Paper>
+            </Container>
+
+            <Episode anime={anime} episode={activeEpisode}/>
+            <Comments />
         </>
     )
 }
