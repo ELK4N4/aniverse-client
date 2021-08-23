@@ -18,27 +18,21 @@ import * as api from '../../../../api';
 import Comment from '../../../Comment';
 
 
-function Comments({comments}) {
+function Comments({comments, removeComment, editComment}) {
     const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
 
     useEffect(async () => {
-        // store.startLoading();
-        // try {
-        //     const { data } = await api.fetchAnimeAndEpisode(animeId, episodeId);
-        //     setEpisode(data);
-        // } catch (err) {
-        //     console.error(err.response);
-        // } finally {
-        //     store.stopLoading();
-        // }
-    }, [episodeId]);
+        // comments.forEach(comment => {
+        //     console.log(comment)
+        // })
+    });
 
     return (
         <>
-            <Comment />
+            {comments.map(comment => <Comment key={comment._id} comment={comment} removeComment={removeComment} editComment={editComment} />)}
         </>
     )
 }

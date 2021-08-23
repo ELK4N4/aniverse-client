@@ -5,12 +5,19 @@ export default makeStyles((theme) => ({
         padding: theme.spacing(4),
     },
     header: {
-        borderBottom: `3px solid ${theme.palette.primary.main}`,
+        borderBottom: `2px solid ${theme.palette.primary.main}`,
         marginBottom: theme.spacing(2),
         '& > *': {
             marginRight: theme.spacing(1),
             marginLeft: theme.spacing(1),
             marginBottom: theme.spacing(1.5),
+        }
+    },
+    headerControls: {
+        marginLeft: 'auto',
+        '& > *': {
+            marginRight: theme.spacing(.5),
+            marginLeft: theme.spacing(.5),
         }
     },
     avatar: {

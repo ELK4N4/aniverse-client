@@ -37,6 +37,12 @@ export const addEpisode = (fansubId, projectId, newEpisode) => API.post(`fansubs
 export const updateEpisode = (fansubId, projectId, episodeId, updatedEpisode) => API.put(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`, updatedEpisode);
 export const deleteEpisode = (fansubId, projectId, episodeId) => API.delete(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`);
 
+export const fetchComments = (animeId, episodeId) => API.get(`/animes/${animeId}/episodes/${episodeId}/comments`);
+export const addComment = (animeId, episodeId, comment) => API.post(`/animes/${animeId}/episodes/${episodeId}/comments`, comment);
+export const removeComment = (animeId, episodeId, commentId) => API.delete(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`);
+export const updateComment = (animeId, episodeId, commentId, updatedComment) => API.put(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`, updatedComment);
+
+
 export const addMember = (fansubId, username) => API.post(`fansubs/${fansubId}/members/${username}`);
 export const removeMember = (fansubId, userId) => API.delete(`fansubs/${fansubId}/members/${userId}`);
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`fansubs/${fansubId}/members/${userId}`, updatedMember);

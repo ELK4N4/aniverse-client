@@ -42,7 +42,7 @@ function Episode({anime, episode}) {
         {episode && (
             <Paper className={classes.paper} elevation={5}>
                 <div className={classes.watch}>
-                    <iframe src={episode.link} frameborder="0" allowfullscreen="" className={classes.iframe}></iframe>
+                    <iframe src={episode.link} frameBorder="0" allowFullScreen="" className={classes.iframe}></iframe>
                 </div>
 
                 <div className={classes.episodeDetails}>
@@ -58,15 +58,15 @@ function Episode({anime, episode}) {
                             {episode.name}
                     </Typography>
                     <br />
-                    <Typography variant="body" style={{margin: 10}}>
+                    <Typography variant="body2" style={{margin: 10}}>
                             צפיות:&nbsp;
                             {episode.views}
                     </Typography>
-                    <Typography variant="body" style={{margin: 10}}>
+                    <Typography variant="body2" style={{margin: 10}}>
                             פורסם בתאריך:&nbsp;
                             {new Date(episode.createdAt).toLocaleDateString()}
                     </Typography>
-                    <Typography variant="body" style={{margin: 10}}>
+                    <Typography variant="body2" style={{margin: 10}}>
                             הועלה על ידי:
                             <MuiLink component={Link} to={`/fansubs/${episode.addedByFansub._id}`} href="#">
                                 {episode.addedByFansub.name}

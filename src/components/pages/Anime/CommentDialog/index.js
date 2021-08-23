@@ -19,24 +19,31 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import Comment from '../../../Comment';
 
+const initComment = {message: ''}
 
-function CommentDialog({onSumbit, open, handleClose}) {
+function CommentDialog({onSumbit, open, handleClose, updatedComment = initComment}) {
     const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
     const classes = useStyles();
-    const [message, setMessage] = useState();
+    const [comment, setComment] = useState(updatedComment);
 
-    const handleChange = (e) => setMessage(e.target.value);
+    useEffect(() => {
+        setComment(updatedComment);
+    }, [updatedComment])
+
+    const handleChange = (e) => setComment({ ...comment, [e.target.name]: e.target.value });
 
     const handleSumbit = () => {
+        onSumbit(comment);
+        setComment(initComment)
         handleClose();
     };
 
     return (
         <>
             <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">תגובה חדשה</DialogTitle>
+                <DialogTitle id="form-dialog-title">{updatedComment.message.length == 0 ? 'תגובה חדשה' : 'עריכת תגובה' }</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="message"
@@ -47,6 +54,7 @@ function CommentDialog({onSumbit, open, handleClose}) {
                         multiline
                         rows={4}
                         autoFocus
+                        value={comment.message}
                         name="message"
                         onChange={handleChange}
                     />

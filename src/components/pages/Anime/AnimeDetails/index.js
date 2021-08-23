@@ -34,22 +34,22 @@ function AnimeDetails({anime, episodes, activeEpisode}) {
                         </div>
                     </div>
                     <div style={{ padding: 20}}>
-                        <Typography variant="body" className={classes.detailsTitle}>
+                        <Typography variant="body1" className={classes.detailsTitle}>
                             תקציר
                         </Typography>
-                        <Typography variant="body">
+                        <Typography variant="body1">
                             {anime.summary}
                         </Typography>
 
-                        <Typography variant="body" className={classes.detailsTitle}>
+                        <Typography variant="body1" className={classes.detailsTitle}>
                             פרקים
                         </Typography>
-                        <Typography variant="body">
+                        <Typography variant="body1">
                             בחרו פרק
                         </Typography>
                         <Box display="flex" className={classes.episodesBtnsContainer} >
                             {episodes.map((episode) => (
-                                <Button onClick={() => onEpisodeClick(episode._id)} color="primary" variant={activeEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={activeEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                     {episode.number}
                                 </Button>
                             ))}

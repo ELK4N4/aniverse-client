@@ -31,6 +31,8 @@ function Anime() {
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState();
     const [activeEpisode, setActiveEpisode] = useState();
+    const [comments, setComments] = useState([]);
+    const [updatedComment, setUpdatedComment] = useState();
     const [open, setOpen] = useState(false);
     const isMount = useIsMount();
     
@@ -40,25 +42,86 @@ function Anime() {
             store.startLoading();
             try {
                 const { data } = await api.fetchAnime(animeId);
-                console.log(anime, data)
                 setAnime(data);
                 const episodes = await api.fetchEpisodes(animeId);
-                console.log("episodes.data", episodes.data)
                 setEpisodes(episodes.data);
-                setActiveEpisode(episodes.data.find(episode => episode._id === episodeId))
+                const currentEpisode = episodes.data.find(episode => episode._id === episodeId);
+                if(currentEpisode) {
+                    setActiveEpisode(currentEpisode)
+                    try {
+                        const { data } = await api.fetchComments(animeId, episodeId);
+                        setComments(data);
+                    } catch (err) {
+                        console.error(err.response);
+                    } finally {
+                        store.stopLoading();
+                    }
+                }
             } catch (err) {
                 console.error(err.response);
             } finally {
                 store.stopLoading();
             }
-        } else {
+        } else if(episodeId) {
             setActiveEpisode(episodes.find(episode => episode._id === episodeId))
+            try {
+                const { data } = await api.fetchComments(animeId, episodeId);
+                setComments(data);
+            } catch (err) {
+                console.error(err.response);
+            } finally {
+                store.stopLoading();
+            }
         }
     }, [episodeId]);
 
     const handleClose = () => {
         setOpen(false);
     };
+
+    const openCommentDialog = () => {
+        setOpen(true);
+        setUpdatedComment(undefined);
+    }
+
+    const addComment = async (comment) => {
+        try {
+            const { data } = await api.addComment(animeId, episodeId, comment);
+            const commentTemp = [...comments];
+            commentTemp.push(data)
+            setComments(commentTemp);
+        } catch (err) {
+            console.error(err.response);
+        }
+    }
+
+    const removeComment = async (commentId) => {
+        try {
+            const { data } = await api.removeComment(animeId, episodeId, commentId);
+            const updatedComments = comments.filter((comment) => comment._id !== commentId);
+            setComments(updatedComments);
+        } catch (err) {
+            console.error(err.response);
+        }
+    }
+
+    const editComment = (comment) => {
+        setUpdatedComment(comment);
+        setOpen(true);
+    }
+
+    const updateComment = async (updatedComment) => {
+        try {
+            const { data } = await api.updateComment(animeId, episodeId, updatedComment._id, updatedComment);
+            const editCommentIndex = comments.findIndex(comment => comment._id === updatedComment._id);
+            const commentTemp = [...comments];
+            commentTemp[editCommentIndex] = data;
+            setComments(commentTemp);
+            setUpdatedComment(undefined);
+        } catch (err) {
+            console.error(err.response);
+        }
+    }
 
     return (
         <>
@@ -80,17 +143,17 @@ function Anime() {
                         <AnimeDetails anime={anime} episodes={episodes} activeEpisode={activeEpisode}/>
                         {activeEpisode && (
                             <>
-                            <Episode anime={anime} episode={activeEpisode}/>
-                            <Box display="flex">
-                                <Typography variant="h5" className={classes.commentsTitle}>
-                                    {`תגובות (${0})`}
-                                </Typography>
-                                <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-                                    הוסף תגובה +
-                                </Button>
-                                <CommentDialog open={open} handleClose={() => setOpen(false)} />
-                            </Box>
-                            <Comments />
+                                <Episode anime={anime} episode={activeEpisode}/>
+                                <Box display="flex">
+                                    <Typography variant="h5" className={classes.commentsTitle}>
+                                        {`תגובות (${comments.length})`}
+                                    </Typography>
+                                    <Button variant="contained" color="primary" onClick={openCommentDialog}>
+                                        הוסף תגובה +
+                                    </Button>
+                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} open={open} handleClose={handleClose} />
+                                </Box>
+                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} />
                             </>
                         )}
                         
