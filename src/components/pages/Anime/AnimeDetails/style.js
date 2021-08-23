@@ -62,8 +62,8 @@ export default makeStyles((theme) => ({
     },
     detailsTitle: {
         fontWeight: 'bold',
+        fontSize: 17,
         marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
         display: 'block',
         color: theme.palette.primary.main
     },
