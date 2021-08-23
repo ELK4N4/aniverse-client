@@ -12,16 +12,16 @@ export default function Comment({ comment, removeComment, editComment }) {
     const history = useHistory();
 
     const handleUserClick= () => {
-        history.push(`/users/${comment.addedByUser}`);
+        history.push(`/users/${comment.addedByUser._id}`);
     }
 
     return (
         <Paper className={classes.paper} elevation={5}>
             <Box display="flex" alignItems="center" className={classes.header}>
-                <Avatar className={classes.avatar} onClick={handleUserClick}>{comment.addedByUser[0]}</Avatar>
+                <Avatar src={comment.addedByUser?.profileImage ?? undefined} className={classes.avatar} onClick={handleUserClick}>{comment.addedByUser.username.toString()[0]}</Avatar>
                 <Typography variant="h6" style={{cursor: "pointer"}} onClick={handleUserClick}>
                     <MuiLink>
-                        {comment.addedByUser}
+                        {comment.addedByUser.username}
                     </MuiLink>
                 </Typography>
                 <Box display="flex" alignItems="center" className={classes.headerControls} >
