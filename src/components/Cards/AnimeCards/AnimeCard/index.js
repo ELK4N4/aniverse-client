@@ -4,7 +4,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grow from '@material-ui/core/Grow';
 import Typography from '@material-ui/core/Typography';
-import { Paper } from '@material-ui/core';
+import { Paper, Zoom } from '@material-ui/core';
 import useStyles from './style';
 
 
@@ -16,7 +16,7 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
   const toggleHover = () => setHover(!hover);
 
   return (
-    <Grow in timeout={700}>
+    <Grow in timeout={300}>
         <Card className={classes.root}
         onMouseOver={toggleHover} 
         onMouseOut={toggleHover} 

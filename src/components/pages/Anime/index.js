@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Box, Container, Typography } from '@material-ui/core';
+import { Box, Button, Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -20,6 +20,7 @@ import AnimeDetails from './AnimeDetails';
 import Episode from './Episode';
 import Comments from './Comments';
 import { useIsMount } from '../../../hooks/useIsMount';
+import CommentDialog from './CommentDialog';
 
 
 function Anime() {
@@ -30,7 +31,9 @@ function Anime() {
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState();
     const [activeEpisode, setActiveEpisode] = useState();
+    const [open, setOpen] = useState(false);
     const isMount = useIsMount();
+    
 
     useEffect(async () => {
         if(isMount) {
@@ -53,6 +56,10 @@ function Anime() {
         }
     }, [episodeId]);
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             {(anime && episodes) && (
@@ -71,8 +78,22 @@ function Anime() {
                     </div>
                     <Container maxWidth="lg" className={classes.containers}>
                         <AnimeDetails anime={anime} episodes={episodes} activeEpisode={activeEpisode}/>
-                        <Episode anime={anime} episode={activeEpisode}/>
-                        <Comments />
+                        {activeEpisode && (
+                            <>
+                            <Episode anime={anime} episode={activeEpisode}/>
+                            <Box display="flex">
+                                <Typography variant="h5" className={classes.commentsTitle}>
+                                    {`תגובות (${0})`}
+                                </Typography>
+                                <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+                                    הוסף תגובה +
+                                </Button>
+                                <CommentDialog open={open} handleClose={() => setOpen(false)} />
+                            </Box>
+                            <Comments />
+                            </>
+                        )}
+                        
                     </Container>
                 </>
             )}

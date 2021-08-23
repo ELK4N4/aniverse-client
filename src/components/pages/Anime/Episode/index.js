@@ -9,6 +9,7 @@ import { Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import { Link as MuiLink } from '@material-ui/core/';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
@@ -66,8 +67,10 @@ function Episode({anime, episode}) {
                             {new Date(episode.createdAt).toLocaleDateString()}
                     </Typography>
                     <Typography variant="body" style={{margin: 10}}>
-                            הועלה על ידי:&nbsp;
-                            {episode.addedByFansub.name}
+                            הועלה על ידי:
+                            <MuiLink component={Link} to={`/fansubs/${episode.addedByFansub._id}`} href="#">
+                                {episode.addedByFansub.name}
+                            </MuiLink>
                     </Typography>
                 </div>
             </Paper>
