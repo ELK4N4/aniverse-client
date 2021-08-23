@@ -80,12 +80,6 @@ export default makeStyles((theme) => ({
         paddingRight: theme.spacing(4),
         margin: 'auto',
         marginBottom: theme.spacing(7),
-    },
-    commentsTitle: {
-        display: 'inline-block',
-        fontWeight: 'bold',
-        marginRight: theme.spacing(3),
-        marginLeft: theme.spacing(2),
     }
 }));
   

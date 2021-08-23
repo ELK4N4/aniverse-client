@@ -33,33 +33,33 @@ export default function AddMemberDialog({onSumbit}) {
 
     return (
         <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            הוסף חבר +
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>
-            <DialogContent>
-                <TextField
-                    margin="dense"
-                    id="name"
-                    label="שם משתמש"
-                    type="name"
-                    fullWidth
-                    value={username}
-                    autoFocus
-                    name="text"
-                    onChange={handleChange}
-                />
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={handleClose} color="primary">
-                ביטול
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                הוסף חבר +
             </Button>
-            <Button onClick={handleSumbit} variant="contained" color="primary">
-                הוסף +
-            </Button>
-            </DialogActions>
-        </Dialog>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        id="name"
+                        label="שם משתמש"
+                        type="name"
+                        fullWidth
+                        value={username}
+                        autoFocus
+                        name="text"
+                        onChange={handleChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    ביטול
+                </Button>
+                <Button onClick={handleSumbit} variant="contained" color="primary">
+                    הוסף +
+                </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }
