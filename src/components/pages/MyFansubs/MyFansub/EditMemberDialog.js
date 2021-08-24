@@ -34,9 +34,9 @@ function EditMemberDialog({open, handleClose, member}) {
     useEffect(() => {
         setInputs({...inputs, role: member.role});
         setPermissions(member.permissions);
-        let helperArr = [];
+        const helperArr = [];
         for (const type in permissionsTypes) {
-            if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
+            if(!member.permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
