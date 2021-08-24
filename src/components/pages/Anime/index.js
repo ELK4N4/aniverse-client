@@ -89,6 +89,7 @@ function Anime() {
             const { data } = await api.addComment(animeId, episodeId, comment);
             const commentTemp = [...comments];
             commentTemp.push(data)
+            console.log('data', data)
             setComments(commentTemp);
         } catch (err) {
             console.error(err.response);

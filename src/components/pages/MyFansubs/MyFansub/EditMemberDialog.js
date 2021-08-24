@@ -27,13 +27,12 @@ function EditMemberDialog({open, handleClose, member}) {
     const { userStore } = store;
     const { fansubStore } = store;
     const { fansubId, projectId } = useParams();
-    const [inputs, setInputs] = useState({role: '', permission: ''});
-    const [roles, setRoles] = useState(member.roles);
+    const [inputs, setInputs] = useState({role: member.role, permission: ''});
     const [permissions, setPermissions] = useState(member.permissions);
     const [availablePermissions, setAvailablePermissions] = useState([]);
 
     useEffect(() => {
-        setRoles(member.roles);
+        setInputs({...inputs, role: member.role});
         setPermissions(member.permissions);
         let helperArr = [];
         for (const type in permissionsTypes) {
@@ -45,13 +44,8 @@ function EditMemberDialog({open, handleClose, member}) {
     }, [member])
 
     const handleSubmit = async () => {
-        await api.updateMember(fansubId, member.user._id, {roles, permissions})
+        await api.updateMember(fansubId, member.user._id, {role: inputs.role, permissions})
         handleClose();
-    }
-
-    const addRole = (e) => {
-        e.preventDefault();
-        setRoles([...roles, inputs.role]);
     }
 
     const addPermission = () => {
@@ -68,10 +62,6 @@ function EditMemberDialog({open, handleClose, member}) {
     const removeMember = (userId) => () => {
         fansubStore.removeMember(userId);
         handleClose();
-    };
-
-    const removeRole = (roleToRemove) => () => {
-        setRoles((roles) => roles.filter((role) => role !== roleToRemove));
     };
 
     const removePermission = (permissionToRemove) => () => {
@@ -98,29 +88,21 @@ function EditMemberDialog({open, handleClose, member}) {
                 </DialogContentText>
                 
                 <Typography variant="h6">
-                    תפקידים
+                    תפקיד
                 </Typography>
                 <Divider />
                 <Container style={{marginBottom: "10px"}}>
-                    <Paper elevation={3} component="form" className={classes.searchPaper} onSubmit={addRole}>
-                        <InputBase
-                            className={classes.input}
-                            placeholder={'תפקיד חדש'}
-                            onChange={handleChange}
-                            name="role"
-                            value={inputs.role}
-                        />
-                        <IconButton className={classes.iconButton} aria-label="search" type="submit" onClick={addRole}>
-                            <AddIcon className={classes.searchIcon} />
-                        </IconButton>
-                    </Paper>
-                    {roles?.map(role => (
-                        <Chip
-                            label={role}
-                            className={classes.chip}
-                            onDelete={removeRole(role)}
-                        />
-                    ))}
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="role"
+                        label="תפקיד"
+                        name="role"
+                        value={inputs.role}
+                        onChange={handleChange}
+                    />
                 </Container>
 
                 <Typography variant="h6">
