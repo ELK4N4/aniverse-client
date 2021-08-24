@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link as MuiLink } from '@material-ui/core/';
+import { FormControl, Input, InputLabel, Link as MuiLink, ListItemText, MenuItem, Select } from '@material-ui/core/';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -22,11 +22,55 @@ const initAnime = {
     hebrewName: '',
     englishName: '',
     japaneseName: '',
-    genre: '',
+    genres: [],
     episodesNumber: 0,
     summary: '',
     image: ''
 }
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 50;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
+
+const genres = [
+    'אקשן',
+    'הרפתקה',
+    'דרמה',
+    'קומדיה',
+    'חיי היומיום',
+    'פנטזיה',
+    'קסם',
+    'על טבעי',
+    'אימה',
+    'מסתורין',
+    'פסיכולוגי',
+    'רומנטיקה',
+    'מדע בדיוני',
+    'סייברפאנק',
+    'האצ\'י',
+    'שדים',
+    'הארם',
+    'אומנות לחימה',
+    'היסטוריה',
+    'איסקאי',
+    'מוזיקה',
+    'פרודיה',
+    'פוסט אפוקליפטי',
+    'בית ספר',
+    'סיינן',
+    'שונן',
+    'שוג\'ו',
+    'חלל',
+    'ספורט',
+    'טרגדיה',
+];
 
 function AddAnimeForm() {
     const history = useHistory();
@@ -103,18 +147,35 @@ function AddAnimeForm() {
                                 value={anime.japaneseName}
                                 onChange={handleOnChange}
                             />
-                            <TextField
-                                variant="outlined"
+                            <FormControl
                                 margin="normal"
-                                required
                                 fullWidth
-                                id="genre"
-                                label="ז'אנר"
-                                name="genre"
-                                autoComplete="off"
-                                value={anime.genre}
+                                variant="outlined"
+                                className={classes.selectControl}
+                            >
+                                <InputLabel id="genres-label">ז'אנרים</InputLabel>
+                                <Select
+                                labelId="genres"
+                                id="genres"
+                                multiple
+                                value={anime.genres}
                                 onChange={handleOnChange}
-                            />
+                                renderValue={(selected) => selected.join(", ")}
+                                MenuProps={MenuProps}
+                                label="ז'אנרים"
+                                name="genres"
+                                >
+                                {genres.map((genre) => (
+                                    <MenuItem key={genre} value={genre}>
+                                    <Checkbox
+                                        color="primary"
+                                        checked={anime.genres.indexOf(genre) > -1}
+                                    />
+                                    <ListItemText primary={genre} />
+                                    </MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
                             <TextField
                                 variant="outlined"
                                 margin="normal"

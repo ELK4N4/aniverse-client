@@ -136,7 +136,7 @@ function Anime() {
                             <Typography variant="h5" className={classes.animeName}>
                                 ז'אנר:
                                 &nbsp;
-                                { anime.genre }
+                                { anime.genres.join(", ") }
                             </Typography>
                         </Container>
                     </div>
