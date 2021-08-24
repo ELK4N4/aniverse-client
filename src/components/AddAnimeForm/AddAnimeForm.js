@@ -152,6 +152,7 @@ function AddAnimeForm() {
                                 fullWidth
                                 variant="outlined"
                                 className={classes.selectControl}
+                                required
                             >
                                 <InputLabel id="genres-label">ז'אנרים</InputLabel>
                                 <Select
