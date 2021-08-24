@@ -21,6 +21,7 @@ import MyFansub from "./components/pages/MyFansubs/MyFansub";
 import AddAnimeForm from './components/AddAnimeForm/AddAnimeForm';
 import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
 import Project from './components/pages/MyFansubs/MyFansub/Project';
+import Sandbox from './components/pages/Sandbox';
 
 
 // Configure JSS
@@ -88,6 +89,9 @@ export default function App() {
               </Route>
               <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                 <MyFansub />
+              </Route>
+              <Route exact path="/sandbox">
+                <Sandbox />
               </Route>
             </Switch>
 
