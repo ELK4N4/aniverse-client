@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 
 
 
-export default function EditEpisodeDialog({open, handleClose, onSumbit, currentEditedEpisode, seasons}) {
+export default function EditEpisodeDialog({open, handleClose, onSumbit, currentEditedEpisode}) {
     const [episode, setEpisode] = useState(currentEditedEpisode);
     const { fansubId, projectId } = useParams();
 
@@ -40,21 +40,6 @@ export default function EditEpisodeDialog({open, handleClose, onSumbit, currentE
                             onChange={handleChange}
                             defaultValue={episode.number}
                         />
-                        <FormControl  fullWidth margin="dense">
-                            <InputLabel id="season-select-label">עונה</InputLabel>
-                            <Select
-                                labelId="season-label"
-                                id="season"
-                                onChange={handleChange}
-                                fullWidth
-                                name="season"
-                                value={episode.season}
-                                >
-                                    {Array.from({length: seasons}, (_, i) => i + 1).map(season => (
-                                        <MenuItem value={season}>{season}</MenuItem>
-                                    ))}
-                            </Select>
-                        </FormControl>
                         <TextField
                             margin="dense"
                             id="name"

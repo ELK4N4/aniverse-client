@@ -24,7 +24,6 @@ const initAnime = {
     japaneseName: '',
     genre: '',
     episodesNumber: 0,
-    seasons: 1,
     summary: '',
     image: ''
 }
@@ -127,19 +126,6 @@ function AddAnimeForm() {
                                 name="episodesNumber"
                                 autoComplete="off"
                                 value={anime.episodesNumber}
-                                onChange={handleOnChange}
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="seasons"
-                                type="number"
-                                label="עונות"
-                                name="seasons"
-                                autoComplete="off"
-                                value={anime.seasons}
                                 onChange={handleOnChange}
                             />
                             <TextField

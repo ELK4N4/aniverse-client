@@ -190,8 +190,8 @@ function Project() {
                         </List>
                     }
 
-                        <AddEpisodeDialog onSumbit={addEpisode} seasons={anime.seasons} />
-                        {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} seasons={anime.seasons}></EditEpisodeDialog> }
+                        <AddEpisodeDialog onSumbit={addEpisode} />
+                        {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} ></EditEpisodeDialog> }
                     </Paper>
                 </Container>
             </ Slide>

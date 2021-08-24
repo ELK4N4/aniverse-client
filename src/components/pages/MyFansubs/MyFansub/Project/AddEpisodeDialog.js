@@ -11,9 +11,9 @@ import { Container, FormControl, InputLabel, MenuItem, Select } from '@material-
 import { useParams } from 'react-router-dom';
 
 
-const initialState = { number: '', season: '', name: '', link: '' , post: '', image: '' };
+const initialState = { number: '', name: '', link: '' , post: '', image: '' };
 
-export default function AddEpisodeDialog({onSumbit, seasons}) {
+export default function AddEpisodeDialog({onSumbit}) {
     const [open, setOpen] = useState(false);
     const [episode, setEpisode] = useState(initialState);
     const { fansubId, projectId } = useParams();
@@ -54,20 +54,6 @@ export default function AddEpisodeDialog({onSumbit, seasons}) {
                             name="number"
                             onChange={handleChange}
                         />
-                        <FormControl fullWidth margin="dense">
-                            <InputLabel id="season-select-label">עונה</InputLabel>
-                            <Select
-                                labelId="season-label"
-                                id="season"
-                                onChange={handleChange}
-                                fullWidth
-                                name="season"
-                                >
-                                    {Array.from({length: seasons}, (_, i) => i + 1).map(season => (
-                                        <MenuItem value={season}>{season}</MenuItem>
-                                    ))}
-                            </Select>
-                        </FormControl>
                         <TextField
                             margin="dense"
                             id="name"
