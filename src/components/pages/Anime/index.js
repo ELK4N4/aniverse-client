@@ -10,7 +10,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useHistory } from 'react-router';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
@@ -24,14 +24,20 @@ import CommentDialog from './CommentDialog';
 
 
 function Anime() {
-    const { animeId, episodeId } = useParams();
+    const { animeId } = useParams();
     const store = useStore();
+    const location = useLocation();
+    const history = useHistory();
+    const params = new URLSearchParams(location.search);
+    const fansubId = params.get('fansub') || 'recommended';
+    const episodeId = params.get('episode');
     const { userStore } = store;
     const classes = useStyles();
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState();
     const [currentEpisode, setCurrentEpisode] = useState();
     const [clickedEpisode, setClickedEpisode] = useState();
+    const [choosenFansub, setChoosenFansub] = useState('recommended');
     const [comments, setComments] = useState([]);
     const [updatedComment, setUpdatedComment] = useState();
     const [open, setOpen] = useState(false);
@@ -39,18 +45,26 @@ function Anime() {
     
 
     useEffect(async () => {
+        setChoosenFansub(fansubId);
         if(isMount) {
             store.startLoading();
             try {
                 const { data } = await api.fetchAnime(animeId);
-                console.log(data)
                 setAnime(data);
-                const episodes = await api.fetchEpisodes(animeId);
-                setEpisodes(data.projects[0].episodes);
+                let currentProject;
+                if(!data.recommended) {
+                    currentProject = data.projects[0];
+                    setChoosenFansub(currentProject.fansub._id);
+                } else if(fansubId === 'recommended') {
+                    currentProject = data.recommended;
+                } else {
+                    currentProject = data.projects.find(project => project.fansub._id === fansubId);
+                    setChoosenFansub(currentProject.fansub._id);
+                }
+                setEpisodes(currentProject.episodes);
                 if(episodeId) {
-                    setClickedEpisode(episodes.data.find(episode => episode._id === episodeId))
+                    setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
                     const episodeRes = await api.fetchEpisode(animeId, episodeId);
-                    console.log(episodeRes.data)
                     setCurrentEpisode(episodeRes.data);
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
@@ -60,25 +74,43 @@ function Anime() {
             } finally {
                 store.stopLoading();
             }
-        } else if(episodeId) {
-            setClickedEpisode(episodes.find(episode => episode._id === episodeId));
-            store.startLoading();
-            try {
-                const episodeRes = await api.fetchEpisode(animeId, episodeId);
-                setCurrentEpisode(episodeRes.data);
-                const commentsRes = await api.fetchComments(animeId, episodeId);
-                setComments(commentsRes.data);
-            } catch (err) {
-                console.error(err.response);
-            } finally {
-                store.stopLoading();
+        } else {
+            let currentProject;
+            if(!anime.recommended) {
+                currentProject = anime.projects[0];
+            } else if(fansubId === 'recommended') {
+                currentProject = anime.recommended;
+            } else {
+                currentProject = anime.projects.find(project => project.fansub._id === fansubId);
+            }
+            setEpisodes(currentProject.episodes)
+            if(episodeId) {
+                setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
+                store.startLoading();
+                try {
+                    const episodeRes = await api.fetchEpisode(animeId, episodeId);
+                    setCurrentEpisode(episodeRes.data);
+                    const commentsRes = await api.fetchComments(animeId, episodeId);
+                    setComments(commentsRes.data);
+                } catch (err) {
+                    console.error(err.response);
+                } finally {
+                    store.stopLoading();
+                }
             }
         }
-    }, [episodeId]);
+    }, [episodeId, fansubId]);
 
     const handleClose = () => {
         setOpen(false);
     };
+
+    const changeFansub = (fansub) => {
+        setCurrentEpisode(null);
+        setClickedEpisode(null);
+        setChoosenFansub(fansub);
+        history.push('/animes/' + animeId + '/episodes' + '?fansub=' + fansub);
+    }
 
     const openCommentDialog = () => {
         setOpen(true);
@@ -90,7 +122,6 @@ function Anime() {
             const { data } = await api.addComment(animeId, episodeId, comment);
             const commentTemp = [...comments];
             commentTemp.push(data)
-            console.log('data', data)
             setComments(commentTemp);
         } catch (err) {
             console.error(err.response);
@@ -142,7 +173,7 @@ function Anime() {
                         </Container>
                     </div>
                     <Container maxWidth="lg" className={classes.containers}>
-                        <AnimeDetails anime={anime} episodes={episodes} clickedEpisode={clickedEpisode}/>
+                        <AnimeDetails anime={anime} projects={anime.projects} episodes={episodes} choosenFansub={choosenFansub} changeFansub={changeFansub} clickedEpisode={clickedEpisode}/>
                         {currentEpisode && (
                             <>
                                 <Episode anime={anime} episode={currentEpisode}/>

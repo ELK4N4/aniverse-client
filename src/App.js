@@ -72,7 +72,7 @@ export default function App() {
               <Route exact path="/animes/add">
                 <AddAnimeForm />
               </Route>
-              <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes/:episodeId"]}>
+              <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes", "/animes/:animeId/episodes/:episodeId"]}>
                 <Anime />
               </Route>
               <Route exact path="/fansubs">

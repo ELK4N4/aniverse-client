@@ -31,6 +31,21 @@ export default makeStyles((theme) => ({
             marginBottom: theme.spacing(5),
         },
     },
+    episodesTitlesHeader: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        '& > *': {
+            marginRight: theme.spacing(1),
+        },
+    },
+    episodesTitlesHeader: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        maxWidth: theme.spacing(25),
+        '& > *': {
+            marginRight: theme.spacing(1),
+        },
+    },
     mainContainer: {
         padding: theme.spacing(0),
         margin: theme.spacing(0),

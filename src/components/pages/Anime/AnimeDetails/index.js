@@ -3,22 +3,24 @@ import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import useStyles from './style';
-import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 
 
 
-function AnimeDetails({anime, episodes, clickedEpisode}) {
+function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, clickedEpisode}) {
     const store = useStore();
-    const { animeId, episodeId } = useParams();
-    const { userStore } = store;
+    const location = useLocation();
     const history = useHistory();
+    const { animeId, episodeId } = useParams();
+    const params = new URLSearchParams(location.search);
+    const fansubId = choosenFansub;
+    const { userStore } = store;
     const classes = useStyles();
-
     const onEpisodeClick = (episodeId) => {
-        history.push('/animes/' + animeId + '/episodes/' + episodeId);
+        history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episodeId);
     }
 
     return (
@@ -40,10 +42,33 @@ function AnimeDetails({anime, episodes, clickedEpisode}) {
                         <Typography variant="body1">
                             {anime.summary}
                         </Typography>
-
-                        <Typography variant="body1" className={classes.detailsTitle}>
-                            פרקים
-                        </Typography>
+                        <Box display="flex" alignItems="center" className={classes.episodesTitlesHeader}>
+                            <Typography variant="body1" className={classes.detailsTitle}>
+                                פרקים
+                            </Typography>
+                            <FormControl size="small" variant="outlined" fullWidth>
+                                <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
+                                <Select
+                                    labelId="choosen-fansub-label"
+                                    id="choosen-fansub"
+                                    value={choosenFansub}
+                                    onChange={(e) => changeFansub(e.target.value)}
+                                    label="פאנסאב"
+                                >
+                                {anime.recommended && (
+                                    <MenuItem value="recommended">
+                                        <em>מומלץ</em>
+                                    </MenuItem>
+                                )}
+                                {projects.map((project) => (
+                                    <MenuItem key={project.fansub._id} value={project.fansub._id}>
+                                        {project.fansub.name}
+                                    </MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        
                         <Typography variant="body1">
                             בחרו פרק
                         </Typography>
