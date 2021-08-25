@@ -10,7 +10,7 @@ import { useStore } from '../../../../stores';
 
 
 
-function AnimeDetails({anime, episodes, activeEpisode}) {
+function AnimeDetails({anime, episodes, clickedEpisode}) {
     const store = useStore();
     const { animeId, episodeId } = useParams();
     const { userStore } = store;
@@ -49,7 +49,7 @@ function AnimeDetails({anime, episodes, activeEpisode}) {
                         </Typography>
                         <Box display="flex" className={classes.episodesBtnsContainer} >
                             {episodes.map((episode) => (
-                                <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={activeEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                     {episode.number}
                                 </Button>
                             ))}

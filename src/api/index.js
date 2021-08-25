@@ -32,7 +32,7 @@ export const addProject = (fansubId, newProject) => API.post(`fansubs/${fansubId
 export const deleteProject = (fansubId, projectId) => API.delete(`fansubs/${fansubId}/projects/${projectId}`);
 
 export const fetchEpisodes = (animeId) => API.get(`/animes/${animeId}/episodes`);
-export const fetchAnimeAndEpisode = (animeId, episodeId) => API.get(`/animes/${animeId}/episodes/${episodeId}`);
+export const fetchEpisode = (animeId, episodeId) => API.get(`/animes/${animeId}/episodes/${episodeId}`);
 export const addEpisode = (fansubId, projectId, newEpisode) => API.post(`fansubs/${fansubId}/projects/${projectId}/episodes`, newEpisode);
 export const updateEpisode = (fansubId, projectId, episodeId, updatedEpisode) => API.put(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`, updatedEpisode);
 export const deleteEpisode = (fansubId, projectId, episodeId) => API.delete(`fansubs/${fansubId}/projects/${projectId}/episodes/${episodeId}`);

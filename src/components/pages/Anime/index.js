@@ -30,7 +30,8 @@ function Anime() {
     const classes = useStyles();
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState();
-    const [activeEpisode, setActiveEpisode] = useState();
+    const [currentEpisode, setCurrentEpisode] = useState();
+    const [clickedEpisode, setClickedEpisode] = useState();
     const [comments, setComments] = useState([]);
     const [updatedComment, setUpdatedComment] = useState();
     const [open, setOpen] = useState(false);
@@ -42,20 +43,17 @@ function Anime() {
             store.startLoading();
             try {
                 const { data } = await api.fetchAnime(animeId);
+                console.log(data)
                 setAnime(data);
                 const episodes = await api.fetchEpisodes(animeId);
-                setEpisodes(episodes.data);
-                const currentEpisode = episodes.data.find(episode => episode._id === episodeId);
-                if(currentEpisode) {
-                    setActiveEpisode(currentEpisode)
-                    try {
-                        const { data } = await api.fetchComments(animeId, episodeId);
-                        setComments(data);
-                    } catch (err) {
-                        console.error(err.response);
-                    } finally {
-                        store.stopLoading();
-                    }
+                setEpisodes(data.projects[0].episodes);
+                if(episodeId) {
+                    setClickedEpisode(episodes.data.find(episode => episode._id === episodeId))
+                    const episodeRes = await api.fetchEpisode(animeId, episodeId);
+                    console.log(episodeRes.data)
+                    setCurrentEpisode(episodeRes.data);
+                    const commentsRes = await api.fetchComments(animeId, episodeId);
+                    setComments(commentsRes.data);
                 }
             } catch (err) {
                 console.error(err.response);
@@ -63,10 +61,13 @@ function Anime() {
                 store.stopLoading();
             }
         } else if(episodeId) {
-            setActiveEpisode(episodes.find(episode => episode._id === episodeId))
+            setClickedEpisode(episodes.find(episode => episode._id === episodeId));
+            store.startLoading();
             try {
-                const { data } = await api.fetchComments(animeId, episodeId);
-                setComments(data);
+                const episodeRes = await api.fetchEpisode(animeId, episodeId);
+                setCurrentEpisode(episodeRes.data);
+                const commentsRes = await api.fetchComments(animeId, episodeId);
+                setComments(commentsRes.data);
             } catch (err) {
                 console.error(err.response);
             } finally {
@@ -141,10 +142,10 @@ function Anime() {
                         </Container>
                     </div>
                     <Container maxWidth="lg" className={classes.containers}>
-                        <AnimeDetails anime={anime} episodes={episodes} activeEpisode={activeEpisode}/>
-                        {activeEpisode && (
+                        <AnimeDetails anime={anime} episodes={episodes} clickedEpisode={clickedEpisode}/>
+                        {currentEpisode && (
                             <>
-                                <Episode anime={anime} episode={activeEpisode}/>
+                                <Episode anime={anime} episode={currentEpisode}/>
                                 <Box display="flex">
                                     <Typography variant="h5" className={classes.commentsTitle}>
                                         {`תגובות (${comments.length})`}

@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
         width: 200,
       },
       media: {
-        height: 300,
+        height: 200,
       },
       cardActionArea: {
         position: 'relative',

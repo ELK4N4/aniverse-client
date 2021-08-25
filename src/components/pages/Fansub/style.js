@@ -12,6 +12,7 @@ export default makeStyles((theme) => ({
         width: theme.spacing(24),
         height: theme.spacing(24),
         boxShadow: '0 0 15px 5px rgba(0, 0, 0, 0.2)',
+        borderRadius: theme.shape.borderRadius
     },
     showcase: {
         background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
