@@ -11,7 +11,7 @@ import { Container, FormControl, InputLabel, MenuItem, Select } from '@material-
 import { useParams } from 'react-router-dom';
 
 
-const initialState = { number: '', name: '', link: '' , post: '', image: '' };
+const initialState = { number: '', name: '', link: '' , post: '' };
 
 export default function AddEpisodeDialog({onSumbit}) {
     const [open, setOpen] = useState(false);
@@ -80,15 +80,6 @@ export default function AddEpisodeDialog({onSumbit}) {
                             type="text"
                             fullWidth
                             multiline
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="image"
-                            name="image"
-                            label="תמונה"
-                            type="link"
-                            fullWidth
                             onChange={handleChange}
                         />
                     </DialogContent>

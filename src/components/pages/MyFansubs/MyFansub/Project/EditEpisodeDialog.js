@@ -71,16 +71,6 @@ export default function EditEpisodeDialog({open, handleClose, onSumbit, currentE
                             defaultValue={episode.post}
                             onChange={handleChange}
                         />
-                        <TextField
-                            margin="dense"
-                            id="image"
-                            name="image"
-                            label="תמונה"
-                            type="link"
-                            fullWidth
-                            defaultValue={episode.image}
-                            onChange={handleChange}
-                        />
                     </DialogContent>
                 </Container>
                 <DialogActions>
