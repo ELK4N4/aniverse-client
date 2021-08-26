@@ -90,7 +90,7 @@ class UserStore {
     });
 
     try {
-      const { data } = await api.fetchUser();
+      const { data } = await api.fetchCurrentUser();
       this.setProfile(data);
       runInAction(() => {
         this.state = 'done';

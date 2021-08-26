@@ -11,7 +11,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchUser = () => API.get('/user');
+export const fetchCurrentUser = () => API.get('/user');
 export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 
 export const fetchAnimes = (keyword) => API.get('/animes', { params: {search: keyword} });
@@ -46,6 +46,8 @@ export const updateComment = (animeId, episodeId, commentId, updatedComment) => 
 export const addMember = (fansubId, username) => API.post(`fansubs/${fansubId}/members/${username}`);
 export const removeMember = (fansubId, userId) => API.delete(`fansubs/${fansubId}/members/${userId}`);
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`fansubs/${fansubId}/members/${userId}`, updatedMember);
+
+export const fetchUser = (userId) => API.get(`user/${userId}/`);
 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);

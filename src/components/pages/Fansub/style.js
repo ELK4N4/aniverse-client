@@ -28,6 +28,9 @@ export default makeStyles((theme) => ({
         color: 'white',
         textShadow: '0px 0px 20px #000000',
     },
+    followButton: {
+        boxShadow: '0px 0px 20px #000000',
+    },
     title: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(4)
@@ -40,5 +43,15 @@ export default makeStyles((theme) => ({
     userAvatar: {
         width: theme.spacing(15),
         height: theme.spacing(15),
+    },
+    memberPaper: {
+        cursor: 'pointer',
+        backgroundColor: fade(theme.palette.primary.main, 0.15),
+        padding: theme.spacing(2),
+        width: theme.spacing(30),
+        transition: '.2s',
+        '&:hover': {
+            backgroundColor: fade(theme.palette.primary.main, 0.25),
+        }
     },
 }));

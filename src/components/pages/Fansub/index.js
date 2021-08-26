@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Avatar, Box, Container, Grid, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Grid, Typography } from '@material-ui/core';
 import FansubCards from '../../Cards/FansubCards';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -39,7 +39,10 @@ function Fansubs() {
                 <Grid item>
                     <Typography variant="h2" className={classes.fansubName}>
                         {fansubStore.fansub.name}
-                    </Typography> 
+                    </Typography>
+                    <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton}>
+                        עקוב
+                    </Button>
                 </Grid>
             </Grid>
             <FansubTabs />

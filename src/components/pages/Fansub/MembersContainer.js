@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import { Avatar, Button, Container, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../stores';
@@ -26,7 +26,7 @@ function MembersContainer() {
     const classes = useStyles();
 
     const handleClick = (userId) => {
-        history.push('/users/' + userId);
+        history.push('/user/' + userId);
     }
 
     return (
@@ -47,10 +47,22 @@ function MembersContainer() {
                     >
                         {fansubStore.members.map((member) => (
                             <Grid item xs='auto' key={member.user._id} onClick={() => handleClick(member.user._id)}>
-                                <Avatar
-                                    src={member.user.profileImage}
-                                    className={classes.userAvatar}
-                                />
+                                <Paper elevation={0} className={classes.memberPaper}>
+                                    <Box display="flex" alignItems="center">
+                                        <Avatar
+                                            src={member.user.profileImage}
+                                            className={classes.userAvatar}
+                                        />
+                                        <div style={{marginRight: 30}}>
+                                            <Typography gutterBottom variant="h5">
+                                                { member.user.username }
+                                            </Typography>
+                                            <Typography gutterBottom variant="body1">
+                                                { member.role }
+                                            </Typography>
+                                        </div>
+                                    </Box>
+                                </Paper>
                             {member.userId}
                             </Grid>
                             
