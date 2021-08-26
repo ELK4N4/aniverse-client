@@ -17,6 +17,16 @@ export default makeStyles((theme) => ({
         top: '0px',
         width: '100%',
         overflow: 'hidden',
+        transition: '.2s',
+      },
+      contentHover: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        position: 'absolute',
+        color: 'white',
+        top: '34%',
+        width: '100%',
+        overflow: 'hidden',
+        transition: '.2s',
       },
       padding: {
         padding: theme.spacing(1.5),

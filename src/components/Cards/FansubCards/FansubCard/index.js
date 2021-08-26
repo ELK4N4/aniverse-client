@@ -4,7 +4,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grow from '@material-ui/core/Grow';
 import Typography from '@material-ui/core/Typography';
-import { Paper } from '@material-ui/core';
+import { Paper, Slide } from '@material-ui/core';
 import useStyles from './style';
 
 
@@ -29,15 +29,13 @@ export default function FansubCard({ img, name, showContent, timeout }) {
                 image={ img }
                 title= { name }
             />
-            <Grow in={hover && showContent} mountOnEnter unmountOnExit>
-                <Paper square className={classes.content}>
-                    <div className={classes.padding}>
-                        <Typography align="center" gutterBottom variant="h5" component="h2">
-                            { name }
-                        </Typography>
-                    </div>
-                </Paper>
-            </Grow>
+            <Paper square className={!hover ? classes.content : classes.contentHover}>
+                <div className={classes.padding}>
+                    <Typography align="center" gutterBottom variant="h5" component="h2">
+                        { name }
+                    </Typography>
+                </div>
+            </Paper>
         </CardActionArea>
         </Card>
     </Grow>
