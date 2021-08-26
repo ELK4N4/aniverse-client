@@ -46,8 +46,8 @@ function MembersContainer() {
                         justify="flex-start"
                     >
                         {fansubStore.members.map((member) => (
-                            <Grid item xs='auto' key={member.user._id} onClick={() => handleClick(member.user._id)}>
-                                <Paper elevation={0} className={classes.memberPaper}>
+                            <Grid item xs='auto' key={member.user._id}>
+                                <Paper elevation={0} className={classes.memberPaper} onClick={() => handleClick(member.user._id)}>
                                     <Box display="flex" alignItems="center">
                                         <Avatar
                                             src={member.user.profileImage}
