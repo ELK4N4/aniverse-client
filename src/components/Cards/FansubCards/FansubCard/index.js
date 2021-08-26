@@ -8,7 +8,7 @@ import { Paper } from '@material-ui/core';
 import useStyles from './style';
 
 
-export default function FansubCard({ img, name, summary, showContent, timeout }) {
+export default function FansubCard({ img, name, showContent, timeout }) {
   const classes = useStyles();
 
   const [hover, setHover] = useState(false);
@@ -31,12 +31,11 @@ export default function FansubCard({ img, name, summary, showContent, timeout })
             />
             <Grow in={hover && showContent} mountOnEnter unmountOnExit>
                 <Paper square className={classes.content}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        { name }
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        { summary }
-                    </Typography>
+                    <div className={classes.padding}>
+                        <Typography align="center" gutterBottom variant="h5" component="h2">
+                            { name }
+                        </Typography>
+                    </div>
                 </Paper>
             </Grow>
         </CardActionArea>

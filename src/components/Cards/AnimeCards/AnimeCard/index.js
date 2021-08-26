@@ -33,19 +33,23 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
                 />
                 <Slide in={!hover && showContent} direction="down">
                     <Paper square className={classes.title}>
+                        <div className={classes.padding}>
                             <Typography align="center" variant="h5" component="h2">
                                 { name.hebrew }
                             </Typography>
+                        </div>
                     </Paper>
                 </Slide>
                 <Slide in={hover && showContent} direction="up">
                     <Paper square className={classes.content}>
-                        <Typography align="center" gutterBottom variant="h5" component="h2">
-                            { name.hebrew }
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                            { summary }
-                        </Typography>
+                        <div className={classes.padding}>
+                            <Typography align="center" gutterBottom variant="h5" component="h2">
+                                { name.hebrew }
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                { summary }
+                            </Typography>
+                        </div>
                     </Paper>
                 </Slide>
             </CardActionArea>

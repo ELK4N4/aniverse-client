@@ -16,8 +16,10 @@ export default makeStyles((theme) => ({
         color: 'white',
         top: '0px',
         width: '100%',
-        maxHeight: '30%',
         overflow: 'hidden',
-        padding: theme.spacing(2)
       },
+      padding: {
+        padding: theme.spacing(1.5),
+        paddingBottom:  0,
+      }
 }));

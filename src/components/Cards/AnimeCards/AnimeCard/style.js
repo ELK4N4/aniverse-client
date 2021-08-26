@@ -16,7 +16,6 @@ export default makeStyles((theme) => ({
         color: 'white',
         top: '0px',
         overflow: 'hidden',
-        padding: theme.spacing(1),
       },
       content: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -24,6 +23,8 @@ export default makeStyles((theme) => ({
         color: 'white',
         top: '0px',
         overflow: 'hidden',
-        padding: theme.spacing(1),
       },
+      padding: {
+        padding: theme.spacing(1),
+      }
 }));
