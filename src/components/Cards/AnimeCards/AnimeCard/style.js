@@ -15,6 +15,7 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         color: 'white',
         top: '0px',
+        width: '100%',
         overflow: 'hidden',
       },
       content: {
@@ -22,7 +23,9 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         color: 'white',
         top: '0px',
+        width: '100%',
         overflow: 'hidden',
+        textOverflow: 'ellipsis',
       },
       padding: {
         padding: theme.spacing(1),

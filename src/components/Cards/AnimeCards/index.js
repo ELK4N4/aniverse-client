@@ -28,7 +28,7 @@ export default function AnimeCards({ clickable, animes }) {
             {animes.map((anime) => (
                 <Grid item xs='auto' key={anime._id} className={clickable ? classes.card : null} onClick={() => handleClick(anime._id)}>
                     <AnimeCard
-                        name={anime.name}
+                        name={anime.name.hebrew}
                         summary={anime.summary}
                         img={anime.image}
                         showContent

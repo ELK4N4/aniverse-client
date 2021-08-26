@@ -35,7 +35,7 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
                     <Paper square className={classes.title}>
                         <div className={classes.padding}>
                             <Typography align="center" variant="h5" component="h2">
-                                { name.hebrew }
+                                { name }
                             </Typography>
                         </div>
                     </Paper>
@@ -44,7 +44,7 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
                     <Paper square className={classes.content}>
                         <div className={classes.padding}>
                             <Typography align="center" gutterBottom variant="h5" component="h2">
-                                { name.hebrew }
+                                { name }
                             </Typography>
                             <Typography variant="body2" component="p">
                                 { summary }
