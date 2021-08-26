@@ -10,14 +10,20 @@ export default makeStyles((theme) => ({
       cardActionArea: {
         position: 'relative',
       },
+      title: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        position: 'absolute',
+        color: 'white',
+        top: '0px',
+        overflow: 'hidden',
+        padding: theme.spacing(1),
+      },
       content: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         position: 'absolute',
         color: 'white',
         top: '0px',
-        width: '100%',
-        maxHeight: '30%',
         overflow: 'hidden',
-        padding: theme.spacing(2)
+        padding: theme.spacing(1),
       },
 }));
