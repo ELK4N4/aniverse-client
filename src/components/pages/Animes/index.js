@@ -11,33 +11,45 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
+import * as api from '../../../api';
+
 
 
 function Animes() {
     const store = useStore();
-    const { animeStore } = store;
-    const { animes } = animeStore;
     const classes = useStyles();
-    const [keyword, setKeyword] = useState('');
+    const location = useLocation();
+    const history = useHistory();
+    const params = new URLSearchParams(location.search);
+    const search = params.get('search') || '';
+    const [animes, setAnimes] = useState([]);
+    const [keyword, setKeyword] = useState(search);
 
-    useEffect(() => {
-        if(animeStore.state === 'done') { 
-            animeStore.resetState();
-        } else {
-            animeStore.fetchAnimes();
+    useEffect( async () => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchAnimes(keyword);
+            setAnimes(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
-    })
+    }, [search])
 
     const handleOnChange = (e) => {
         setKeyword(e.target.value);
     }
 
     const handleOnSearch = async (e) => {
-        animeStore.fetchAnimes(keyword);
+        history.push({
+            pathname: '/animes',
+            search: `?search=${keyword}`
+        })
     }
 
     return (
@@ -57,4 +69,4 @@ function Animes() {
     )
 }
 
-export default observer(Animes);
+export default Animes;
