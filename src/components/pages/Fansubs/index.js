@@ -11,7 +11,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
@@ -20,15 +20,18 @@ import * as api from '../../../api';
 
 function Fansubs() {
     const store = useStore();
-    const history = useHistory();
     const classes = useStyles();
+    const history = useHistory();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const search = params.get('search') || '';
+    const [keyword, setKeyword] = useState(search);
     const [fansubs, setFansubs] = useState([]);
-    const [keyword, setKeyword] = useState('');
 
     useEffect(async () => {
         store.startLoading();
         try {
-            const { data } = await api.fetchFansubs();
+            const { data } = await api.fetchFansubs(keyword);
             console.log(data);
             setFansubs(data);
         } catch (err) {
@@ -36,10 +39,17 @@ function Fansubs() {
         } finally {
             store.stopLoading();
         }
-    }, [])
+    }, [search])
 
     const handleOnChange = (e) => {
         setKeyword(e.target.value);
+    }
+
+    const handleOnSearch = async (e) => {
+        history.push({
+            pathname: '/fansubs',
+            search: `?search=${keyword}`
+        })
     }
 
 
@@ -47,7 +57,7 @@ function Fansubs() {
         <>
             <Container maxWidth="lg">
                 <div className={classes.searchBar}>
-                    <SearchBar value={keyword} placeholder="חפשו פאנסאב..." onChange={handleOnChange}/>
+                    <SearchBar value={keyword} placeholder="חפשו פאנסאב..." onChange={handleOnChange} onSearch={handleOnSearch}/>
                 </div>
                 <FansubCards clickable fansubs={fansubs} keyword={keyword}/>
             </Container>
