@@ -29,9 +29,10 @@ function Fansubs() {
     const [fansubs, setFansubs] = useState([]);
 
     useEffect(async () => {
+        setKeyword(search)
         store.startLoading();
         try {
-            const { data } = await api.fetchFansubs(keyword);
+            const { data } = await api.fetchFansubs(search);
             console.log(data);
             setFansubs(data);
         } catch (err) {

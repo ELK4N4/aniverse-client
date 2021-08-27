@@ -19,7 +19,7 @@ export default function ProjectCards({ clickable, animes, onProjectSelect}) {
             {animes.map((anime) => (
                 <Grid item xs='auto' key={anime._id} className={ clickable ? classes.card : null } onClick={() => onProjectSelect(anime)}>
                     <AnimeCard
-                        name={anime.name}
+                        name={anime.name.hebrew}
                         summary={anime.summary}
                         img={anime.image}
                         showContent

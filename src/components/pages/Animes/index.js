@@ -30,9 +30,10 @@ function Animes() {
     const [keyword, setKeyword] = useState(search);
 
     useEffect( async () => {
+        setKeyword(search)
         store.startLoading();
         try {
-            const { data } = await api.fetchAnimes(keyword);
+            const { data } = await api.fetchAnimes(search);
             setAnimes(data);
         } catch (err) {
             console.error(err.response);
