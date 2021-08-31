@@ -17,6 +17,8 @@ export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 export const fetchAnimes = (keyword) => API.get('/animes', { params: {search: keyword} });
 export const fetchAnime = (animeId) => API.get('/animes/' + animeId);
 export const addAnime = (newAnime) => API.post('/animes', newAnime);
+export const updateAnime = (animeId, updatedAnime) => API.put('/animes/' + animeId, updatedAnime);
+export const deleteAnime = (animeId) => API.delete('/animes/' + animeId);
 
 export const fetchFansubMembers = (fansubId) => API.get(`fansubs/${fansubId}/members`);
 

@@ -17,6 +17,7 @@ import Fansubs from "./components/pages/Fansubs";
 import Fansub from "./components/pages/Fansub";
 import MyFansubs from "./components/pages/MyFansubs";
 import MyFansub from "./components/pages/MyFansubs/MyFansub";
+import ManageAnimes from "./components/pages/ManageAnimes";
 
 import AddAnimeForm from './components/AddAnimeForm/AddAnimeForm';
 import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
@@ -47,6 +48,7 @@ const theme = createMuiTheme({
       fontWeight: 600
     },
   },
+
 })
 
 export default function App() {
@@ -90,6 +92,9 @@ export default function App() {
               </Route>
               <Route exact path="/user/:userId">
                 <User />
+              </Route>
+              <Route exact path= {["/manage-animes/"]}>
+                <ManageAnimes />
               </Route>
               <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                 <MyFansub />

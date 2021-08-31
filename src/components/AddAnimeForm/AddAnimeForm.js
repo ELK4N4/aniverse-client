@@ -19,9 +19,11 @@ import { autorun, runInAction } from 'mobx';
 
 
 const initAnime = {
-    hebrewName: '',
-    englishName: '',
-    japaneseName: '',
+    name: {
+        hebrew: '',
+        english: '',
+        japanese: '',
+    },
     genres: [],
     episodesNumber: 0,
     summary: '',
@@ -91,7 +93,13 @@ function AddAnimeForm() {
     ,[])
     
     const handleOnChange = (e) => {
-        setAnime({...anime, [e.target.name]: e.target.value});
+        if(e.target.name.includes('name')) {
+            const animeTemp = {...anime}
+            animeTemp.name[e.target.name.split('.')[1]] = e.target.value;
+            setAnime(animeTemp);
+        } else {
+            setAnime({...anime, [e.target.name]: e.target.value});
+        }
     };
 
     const handleSubmit = (e) => {
@@ -116,11 +124,11 @@ function AddAnimeForm() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="hebrewName"
+                                id="name.hebrew"
                                 label="שם האנימה"
-                                name="hebrewName"
+                                name="name.hebrew"
                                 autoFocus
-                                value={anime.hebrewName}
+                                value={anime.name.hebrew}
                                 onChange={handleOnChange}
                             />
                             <TextField
@@ -128,11 +136,11 @@ function AddAnimeForm() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="englishName"
+                                id="name.english"
                                 label="שם האנימה באנגלית"
-                                name="englishName"
+                                name="name.english"
                                 autoComplete="off"
-                                value={anime.englishName}
+                                value={anime.name.english}
                                 onChange={handleOnChange}
                             />
                             <TextField
@@ -140,11 +148,11 @@ function AddAnimeForm() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="japaneseName"
+                                id="name.japanese"
                                 label="שם האנימה ביפנית"
-                                name="japaneseName"
+                                name="name.japanese"
                                 autoComplete="off"
-                                value={anime.japaneseName}
+                                value={anime.name.japanese}
                                 onChange={handleOnChange}
                             />
                             <FormControl
@@ -219,7 +227,7 @@ function AddAnimeForm() {
                                 תצוגה מקדימה
                             </Typography>
                             <AnimeCard
-                                name={anime.hebrewName}
+                                name={anime.name.hebrew}
                                 summary={anime.summary}
                                 img={anime.image ? anime.image : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
                                 showContent

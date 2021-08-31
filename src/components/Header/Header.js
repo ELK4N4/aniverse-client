@@ -16,6 +16,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
+import MovieIcon from '@material-ui/icons/Movie';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -113,6 +114,13 @@ function Header() {
               </Badge>
             </IconButton>
             <p>התראות</p>
+          </MenuItem>
+
+          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <MovieIcon/>
+            </IconButton>
+            <p>ניהול אנימות</p>
           </MenuItem>
 
           <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>
