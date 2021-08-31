@@ -135,13 +135,6 @@ function Header() {
 
           <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <AccountBoxIcon/>
-            </IconButton>
-            <p>הפרופיל שלי</p>
-          </MenuItem>
-
-          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
               <SettingsIcon/>
             </IconButton>
             <p>הגדרות</p>
