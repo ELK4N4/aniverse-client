@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TheatersRoundedIcon from '@material-ui/icons/TheatersRounded';
@@ -17,6 +17,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import MovieIcon from '@material-ui/icons/Movie';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -32,6 +34,7 @@ function Header() {
   const store = useStore();
   const { userStore } = store;
   const classes = useStyles();
+
   const menuOptions = [
     {
       name: 'בית',
@@ -130,6 +133,20 @@ function Header() {
             <p>הפאנסאבים שלי</p>
           </MenuItem>
 
+          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <AccountBoxIcon/>
+            </IconButton>
+            <p>הפרופיל שלי</p>
+          </MenuItem>
+
+          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <SettingsIcon/>
+            </IconButton>
+            <p>הגדרות</p>
+          </MenuItem>
+
           <MenuItem onClick={handleLogout} className={classes.logout}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <ExitToAppRoundedIcon />
@@ -178,20 +195,19 @@ function Header() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div> */}
-          <IconButton
-            aria-label="show more"
-            aria-controls={mobileMenuId}
-            aria-haspopup="true"
-            edge='start'
-            onClick={handleMobileMenuOpen}
+          <Button
+            variant="outlined"
             color="inherit"
+            onClick={handleMobileMenuOpen}
+            className={classes.button}
+            startIcon={<AccountCircle />}
           >
-            <AccountCircle />
-          </IconButton>
-<div className={classes.sectionDesktop}>
-
+            {userStore.user?.user?.username || 'אורח'}
+          </Button>
+          
+          <div className={classes.sectionDesktop}>
             {menuOptions.map((option)=> <Button key={option.page} startIcon={option.icon} disableElevation component={NavLink}
-   to={option.page} className={classes.button}>
+              to={option.page} className={classes.button}>
             {option.name}
             </Button>)}
           </div>

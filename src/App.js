@@ -57,9 +57,7 @@ export default function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <StylesProvider jss={jss}>
-
             <Header />
-            
             <Switch>
               <Route exact path={["/", "/home"]}>
                 <MuiLink component={Link} to='/animes' href="#" variant="body2">
@@ -103,7 +101,6 @@ export default function App() {
                 <Sandbox />
               </Route>
             </Switch>
-
 
           </StylesProvider>
         </ThemeProvider>
