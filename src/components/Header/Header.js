@@ -195,9 +195,9 @@ function Header() {
             onClick={handleMobileMenuOpen}
             className={classes.button}
             startIcon={<AccountCircle />}
+            endIcon={<ExpandMoreIcon />}
           >
             {userStore.user?.user?.username || 'אורח'}
-            <ExpandMoreIcon />
           </Button>
           
           <div className={classes.sectionDesktop}>
