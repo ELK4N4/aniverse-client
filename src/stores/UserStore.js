@@ -16,6 +16,7 @@ class UserStore {
   }
 
   checkCache() {
+    this.fetchCurrentUser();
     const user = getLocalStorage('user');
     if (user) {
       runInAction(() => {
@@ -23,7 +24,7 @@ class UserStore {
       });
     }
   }
-  
+
   resetState() { 
     this.state = 'initial';
   }
@@ -84,6 +85,11 @@ class UserStore {
   };
 
   fetchCurrentUser = async () => {
+    const user = getLocalStorage('user');
+    if (!user) {
+      return;
+    }
+
     runInAction(() => {
       this.rootStore.loading = true;
       this.state = 'pending';
@@ -98,6 +104,7 @@ class UserStore {
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
+        this.logout();
         this.errors = err;
         this.state = 'error';
       });
