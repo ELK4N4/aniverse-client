@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TheatersRoundedIcon from '@material-ui/icons/TheatersRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
@@ -196,6 +197,7 @@ function Header() {
             startIcon={<AccountCircle />}
           >
             {userStore.user?.user?.username || 'אורח'}
+            <ExpandMoreIcon />
           </Button>
           
           <div className={classes.sectionDesktop}>
