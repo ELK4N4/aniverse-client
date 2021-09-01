@@ -102,9 +102,11 @@ class UserStore {
         this.state = 'done';
       });
     } catch (err) {
-      console.error(err.response);
+
       runInAction(() => {
-        this.logout();
+        if(err.message !== "Network Error") {
+          this.logout();
+        }
         this.errors = err;
         this.state = 'error';
       });
