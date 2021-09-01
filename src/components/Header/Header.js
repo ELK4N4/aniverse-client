@@ -133,7 +133,7 @@ function Header() {
             <p>הפאנסאבים שלי</p>
           </MenuItem>
 
-          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
+          <MenuItem component={Link} to={'/user/settings'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <SettingsIcon/>
             </IconButton>

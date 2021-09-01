@@ -40,6 +40,7 @@ export default function UserDetails() {
                                 <Chip color="primary" label={user?.role} className={classes.roleChip}/>
                             )}
                         </Box>
+                        
                         <Typography variant="h6" color="">
                             { user?._id }
                         </Typography>

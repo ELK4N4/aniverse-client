@@ -50,4 +50,4 @@ function Fansubs() {
     )
 }
 
-export default observer(Fansubs);
+export default Fansubs;

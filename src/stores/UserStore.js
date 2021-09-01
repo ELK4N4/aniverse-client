@@ -83,7 +83,7 @@ class UserStore {
     }
   };
 
-  updateData = async (formData) => {
+  fetchCurrentUser = async () => {
     runInAction(() => {
       this.rootStore.loading = true;
       this.state = 'pending';
@@ -91,7 +91,7 @@ class UserStore {
 
     try {
       const { data } = await api.fetchCurrentUser();
-      this.setProfile(data);
+      this.setProfile({...this.user, user: data});
       runInAction(() => {
         this.state = 'done';
       });

@@ -12,6 +12,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import Animes from "./components/pages/Animes";
 import Anime from "./components/pages/Anime";
+import UserSettings from "./components/pages/UserSettings";
 import Form from "./components/pages/Auth/Form";
 import Fansubs from "./components/pages/Fansubs";
 import Fansub from "./components/pages/Fansub";
@@ -88,7 +89,7 @@ export default function App() {
               <Route exact path="/my-fansubs">
                 <MyFansubs />
               </Route>
-              <Route exact path="/user/:userId">
+              <Route exact path="/users/:userId">
                 <User />
               </Route>
               <Route exact path= {["/manage-animes/"]}>
@@ -96,6 +97,9 @@ export default function App() {
               </Route>
               <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                 <MyFansub />
+              </Route>
+              <Route exact path="/user/settings">
+                <UserSettings />
               </Route>
               <Route exact path="/sandbox">
                 <Sandbox />
