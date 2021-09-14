@@ -30,10 +30,12 @@ export default makeStyles((theme) => ({
     },
     followButton: {
         boxShadow: '0px 0px 20px #000000',
+        marginTop: theme.spacing(1.5),
     },
     followingButton: {
         boxShadow: '0px 0px 20px #000000',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: theme.spacing(1.5),
     },
     title: {
         paddingTop: theme.spacing(1),
