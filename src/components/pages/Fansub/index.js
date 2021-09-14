@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Avatar, Box, Button, Container, Grid, Typography } from '@material-ui/core';
+import { Avatar, Badge, Box, Button, Container, Grid, Typography, withStyles } from '@material-ui/core';
 import FansubCards from '../../Cards/FansubCards';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -19,6 +19,14 @@ import * as api from '../../../api';
 import FansubTabs from './FansubTabs';
 import { toJS } from 'mobx';
 
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+      right: -3,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+      transform: 'scale(1.3)'
+    },
+}))(Badge);
 
 function Fansubs() {
     const { fansubId } = useParams();
@@ -41,19 +49,17 @@ function Fansubs() {
                     <Typography variant="h2" className={classes.fansubName}>
                         {fansubStore.fansub.name}
                     </Typography>
-                    <Typography variant="h6" className={classes.fansubName}>
-                        {fansubStore.followers}
-                    </Typography>
-
-                    {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
-                        <Button size="large" disableElevation variant="contained" className={classes.followButton}>
-                            עוקב
-                        </Button>
-                    :
-                        <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
-                            עקוב +
-                        </Button>
-                    }
+                    <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
+                        {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
+                            <Button size="large" disableElevation variant="contained" className={classes.followButton}>
+                                עוקב
+                            </Button>
+                        :
+                            <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
+                                עקוב +
+                            </Button>
+                        }
+                    </StyledBadge>
                 </Grid>
             </Grid>
             <FansubTabs />
