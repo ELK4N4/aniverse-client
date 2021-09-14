@@ -31,6 +31,10 @@ export default makeStyles((theme) => ({
     followButton: {
         boxShadow: '0px 0px 20px #000000',
     },
+    followingButton: {
+        boxShadow: '0px 0px 20px #000000',
+        backgroundColor: 'white'
+    },
     title: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(4)

@@ -51,7 +51,7 @@ function Fansubs() {
                     </Typography>
                     <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
                         {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
-                            <Button size="large" disableElevation variant="contained" className={classes.followButton}>
+                            <Button size="large" disableElevation variant="contained" className={classes.followingButton}>
                                 עוקב
                             </Button>
                         :
