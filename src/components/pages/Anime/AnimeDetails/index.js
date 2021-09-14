@@ -19,6 +19,11 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const fansubId = choosenFansub;
     const { userStore } = store;
     const classes = useStyles();
+
+    useEffect(() => {
+        console.log('choosenFansub')
+    })
+
     const onEpisodeClick = (episodeId) => {
         history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episodeId);
     }
@@ -46,32 +51,36 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                             <Typography variant="body1" className={classes.detailsTitle}>
                                 פרקים
                             </Typography>
-                            <FormControl size="small" variant="outlined" fullWidth>
-                                <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
-                                <Select
-                                    labelId="choosen-fansub-label"
-                                    id="choosen-fansub"
-                                    value={choosenFansub}
-                                    onChange={(e) => changeFansub(e.target.value)}
-                                    label="פאנסאב"
-                                >
-                                {anime.recommended && (
-                                    <MenuItem value="recommended">
-                                        <em>מומלץ</em>
-                                    </MenuItem>
-                                )}
-                                {projects.map((project) => (
-                                    <MenuItem key={project.fansub._id} value={project.fansub._id}>
-                                        {project.fansub.name}
-                                    </MenuItem>
-                                ))}
-                                </Select>
-                            </FormControl>
+                            {choosenFansub && (
+                                <FormControl size="small" variant="outlined" fullWidth>
+                                    <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
+                                    <Select
+                                        labelId="choosen-fansub-label"
+                                        id="choosen-fansub"
+                                        value={choosenFansub}
+                                        onChange={(e) => changeFansub(e.target.value)}
+                                        label="פאנסאב"
+                                    >
+                                    {projects.map((project) => (
+                                        <MenuItem key={project.fansub._id} value={project.fansub._id}>
+                                            {project.fansub.name}
+                                        </MenuItem>
+                                    ))}
+                                    </Select>
+                                </FormControl>
+                            )}
                         </Box>
                         
-                        <Typography variant="body1">
-                            בחרו פרק
-                        </Typography>
+                        {episodes.length === 0 ? (
+                            <Typography variant="body1">
+                                אין פרקים עדיין לאנימה זו
+                            </Typography>
+                        ) : (
+                            <Typography variant="body1">
+                                בחרו פרק
+                            </Typography>
+                        )}
+
                         <Box display="flex" className={classes.episodesBtnsContainer} >
                             {episodes.map((episode) => (
                                 <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>

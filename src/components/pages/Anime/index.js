@@ -29,15 +29,15 @@ function Anime() {
     const location = useLocation();
     const history = useHistory();
     const params = new URLSearchParams(location.search);
-    const fansubId = params.get('fansub') || 'recommended';
+    const fansubId = params.get('fansub');
     const episodeId = params.get('episode');
     const { userStore } = store;
     const classes = useStyles();
     const [anime, setAnime] = useState();
-    const [episodes, setEpisodes] = useState();
+    const [episodes, setEpisodes] = useState([]);
     const [currentEpisode, setCurrentEpisode] = useState();
     const [clickedEpisode, setClickedEpisode] = useState();
-    const [choosenFansub, setChoosenFansub] = useState('recommended');
+    const [choosenFansub, setChoosenFansub] = useState();
     const [comments, setComments] = useState([]);
     const [updatedComment, setUpdatedComment] = useState();
     const [open, setOpen] = useState(false);
@@ -45,22 +45,22 @@ function Anime() {
     
 
     useEffect(async () => {
-        setChoosenFansub(fansubId);
         if(isMount) {
             store.startLoading();
             try {
-                const { data } = await api.fetchAnime(animeId);
-                setAnime(data);
+                const animeRes = await api.fetchAnime(animeId);
+                setAnime(animeRes.data);
                 let currentProject;
-                if(!data.recommended) {
-                    currentProject = data.projects[0];
-                    setChoosenFansub(currentProject.fansub._id);
-                } else if(fansubId === 'recommended') {
-                    currentProject = data.recommended;
-                } else {
-                    currentProject = data.projects.find(project => project.fansub._id === fansubId);
-                    setChoosenFansub(currentProject.fansub._id);
+                if(animeRes.data.projects.length === 1) {
+                    currentProject = animeRes.data.projects[0];
+                } else if(animeRes.data.projects.length > 1) {
+                    if(fansubId) {
+                        currentProject = animeRes.data.projects.find(project => project.fansub._id === fansubId);
+                    } else {
+                        currentProject= animeRes.data.projects[0];
+                    }
                 }
+                setChoosenFansub(currentProject.fansub._id);
                 setEpisodes(currentProject.episodes);
                 if(episodeId) {
                     setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
@@ -75,28 +75,15 @@ function Anime() {
                 store.stopLoading();
             }
         } else {
-            let currentProject;
-            if(!anime.recommended) {
-                currentProject = anime.projects[0];
-            } else if(fansubId === 'recommended') {
-                currentProject = anime.recommended;
-            } else {
-                currentProject = anime.projects.find(project => project.fansub._id === fansubId);
-            }
-            setEpisodes(currentProject.episodes)
+            const currentProject = anime.projects.find(project => project.fansub._id === fansubId);
+            setChoosenFansub(currentProject.fansub._id);
+            setEpisodes(currentProject.episodes);
             if(episodeId) {
                 setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
-                store.startLoading();
-                try {
-                    const episodeRes = await api.fetchEpisode(animeId, episodeId);
-                    setCurrentEpisode(episodeRes.data);
-                    const commentsRes = await api.fetchComments(animeId, episodeId);
-                    setComments(commentsRes.data);
-                } catch (err) {
-                    console.error(err.response);
-                } finally {
-                    store.stopLoading();
-                }
+                const episodeRes = await api.fetchEpisode(animeId, episodeId);
+                setCurrentEpisode(episodeRes.data);
+                const commentsRes = await api.fetchComments(animeId, episodeId);
+                setComments(commentsRes.data);
             }
         }
     }, [episodeId, fansubId]);
@@ -158,7 +145,7 @@ function Anime() {
 
     return (
         <>
-            {(anime && episodes) && (
+            {(anime) && (
                 <>
                     <div className={classes.showcase} >
                         <Container maxWidth="lg">
