@@ -22,6 +22,7 @@ import { toJS } from 'mobx';
 const StyledBadge = withStyles((theme) => ({
     badge: {
       right: -3,
+      top: 7,
       border: `2px solid ${theme.palette.background.paper}`,
       padding: '0 4px',
       transform: 'scale(1.3)'
