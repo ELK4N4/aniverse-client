@@ -20,10 +20,6 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const { userStore } = store;
     const classes = useStyles();
 
-    useEffect(() => {
-        console.log('choosenFansub')
-    })
-
     const onEpisodeClick = (episodeId) => {
         history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episodeId);
     }
