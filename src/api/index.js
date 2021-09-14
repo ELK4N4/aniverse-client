@@ -29,6 +29,8 @@ export const fetchFansubProjects = (fansubId) => API.get('/fansubs/' + fansubId 
 export const addFansub = (newFansub) => API.post('/fansubs', newFansub);
 export const updateFansub = (fansubId, updatedFansub) => API.put('/fansubs/' + fansubId, updatedFansub);
 
+export const followFansub = (fansubId) => API.post(`fansubs/${fansubId}/followers/`);
+
 export const fetchProject = (fansubId, projectId) => API.get('/fansubs/' + fansubId + '/projects/' + projectId);
 export const addProject = (fansubId, newProject) => API.post(`fansubs/${fansubId}/projects`, newProject);
 export const deleteProject = (fansubId, projectId) => API.delete(`fansubs/${fansubId}/projects/${projectId}`);

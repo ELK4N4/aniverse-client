@@ -24,6 +24,7 @@ class FansubStore {
       const projectsData = await api.fetchFansubProjects(fansubId);
       runInAction(() => {
         this.fansub = fansubData.data;
+        this.followers = fansubData.followers;
         this.members = membersData.data;
         this.projects = projectsData.data;
         this.state = 'done';
@@ -225,6 +226,29 @@ class FansubStore {
     }
   }
 
+  async followFansub() {
+    this.rootStore.loading = true;
+    this.state = 'pending';
+
+    try {
+      const { data } = await api.followFansub(this.fansub._id);
+      runInAction(() => {
+        this.fansub.followers++;
+        this.state = 'done';
+      });
+    } catch (err) {
+      console.error(err.response);
+      runInAction(() => {
+        this.errors = err;
+        this.state = 'error';
+      });
+    } finally {
+      runInAction(() => {
+        this.rootStore.loading = false;
+      });
+    }
+  }
+
   get fansubAnimes() {
     const animes = [];
     this.projects.forEach(project => {
@@ -233,6 +257,9 @@ class FansubStore {
     return animes;
   }
 
+  get followers() {
+    return this.fansub.followers;
+  }
 }
 
 export default FansubStore;

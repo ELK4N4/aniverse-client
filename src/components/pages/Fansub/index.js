@@ -23,6 +23,7 @@ function Fansubs() {
     const { fansubId } = useParams();
     const store = useStore();
     const { fansubStore } = store;
+    const { userStore } = store;
     const history = useHistory();
     const classes = useStyles();
 
@@ -40,8 +41,21 @@ function Fansubs() {
                     <Typography variant="h2" className={classes.fansubName}>
                         {fansubStore.fansub.name}
                     </Typography>
-                    <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton}>
-                        עקוב
+                    <Typography variant="h6" className={classes.fansubName}>
+                        {fansubStore.followers}
+                    </Typography>
+                    {/* {userStore.user.user.followingFansubs.find(fansubId) ? 
+                        <Button size="large" disableElevation disabled variant="contained" color="primary" className={classes.followButton}>
+                            אתה עוקב כבר
+                        </Button>
+                    :
+                        <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
+                            עקוב +
+                        </Button>
+                    } */}
+
+                    <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
+                        עקוב +
                     </Button>
                 </Grid>
             </Grid>
