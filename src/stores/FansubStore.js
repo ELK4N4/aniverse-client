@@ -24,7 +24,6 @@ class FansubStore {
       const projectsData = await api.fetchFansubProjects(fansubId);
       runInAction(() => {
         this.fansub = fansubData.data;
-        this.followers = fansubData.followers;
         this.members = membersData.data;
         this.projects = projectsData.data;
         this.state = 'done';
@@ -234,6 +233,7 @@ class FansubStore {
       const { data } = await api.followFansub(this.fansub._id);
       runInAction(() => {
         this.fansub.followers++;
+        this.rootStore.userStore.followFansub(this.fansub._id);
         this.state = 'done';
       });
     } catch (err) {

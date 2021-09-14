@@ -17,13 +17,13 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import FansubTabs from './FansubTabs';
+import { toJS } from 'mobx';
 
 
 function Fansubs() {
     const { fansubId } = useParams();
     const store = useStore();
-    const { fansubStore } = store;
-    const { userStore } = store;
+    const { userStore, fansubStore } = store;
     const history = useHistory();
     const classes = useStyles();
 
@@ -33,7 +33,7 @@ function Fansubs() {
     
     return (
         <>
-            <Grid container spacing={0} className={classes.showcase} justifyContent="flex-end" alignItems="center">
+            <Grid container spacing={0} className={classes.showcase} justifycontent="flex-end" alignItems="center">
                 <Grid item>
                     {<Avatar src={fansubStore.fansub.image} className={classes.logo}/> }
                 </Grid>
@@ -44,19 +44,16 @@ function Fansubs() {
                     <Typography variant="h6" className={classes.fansubName}>
                         {fansubStore.followers}
                     </Typography>
-                    {/* {userStore.user.user.followingFansubs.find(fansubId) ? 
-                        <Button size="large" disableElevation disabled variant="contained" color="primary" className={classes.followButton}>
-                            אתה עוקב כבר
+
+                    {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
+                        <Button size="large" disableElevation variant="contained" className={classes.followButton}>
+                            עוקב
                         </Button>
                     :
                         <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
                             עקוב +
                         </Button>
-                    } */}
-
-                    <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
-                        עקוב +
-                    </Button>
+                    }
                 </Grid>
             </Grid>
             <FansubTabs />
@@ -64,4 +61,4 @@ function Fansubs() {
     )
 }
 
-export default Fansubs;
+export default observer(Fansubs);

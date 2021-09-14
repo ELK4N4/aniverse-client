@@ -122,6 +122,9 @@ class UserStore {
     this.user = null;
   }
 
+  followFansub(fansubId) {
+    this.user.user.followingFansubs.push(fansubId);
+  }
 }
 
 export default UserStore;
