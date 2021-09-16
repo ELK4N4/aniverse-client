@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../SearchBar/SearchBar';
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import FansubCards from '../../Cards/FansubCards';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -56,7 +56,14 @@ function Fansubs() {
 
     return (
         <>
-            <Container maxWidth="lg">
+            <div className={classes.showcase} >
+                <Container maxWidth="lg" >
+                    <Typography variant="h1" align="center" className={classes.pageTitle}>
+                        פאנסאבים
+                    </Typography>
+                </Container>
+            </div>
+            <Container maxWidth="lg" className={classes.pageContent}>
                 <div className={classes.searchBar}>
                     <SearchBar value={keyword} placeholder="חפשו פאנסאב..." onChange={handleOnChange} onSearch={handleOnSearch}/>
                 </div>

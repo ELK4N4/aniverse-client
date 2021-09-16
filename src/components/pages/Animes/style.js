@@ -16,6 +16,21 @@ export default makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(3),
         left: theme.spacing(3),
-    }
+    },
+    showcase: {
+        background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
+        paddingTop: theme.spacing(7),
+        paddingBottom: theme.spacing(11),
+        borderBottom: `7px solid black`,
+    },
+    pageTitle: {
+        fontSize: 90,
+        color: 'white',
+        textShadow: '0px 0px 20px #000000',
+        fontWeight: 'bold',
+    },
+    pageContent: {
+        marginTop: -theme.spacing(13)
+    },
 }));
   
