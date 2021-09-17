@@ -249,6 +249,30 @@ class FansubStore {
     }
   }
 
+  async unfollowFansub() {
+    this.rootStore.loading = true;
+    this.state = 'pending';
+
+    try {
+      const { data } = await api.unfollowFansub(this.fansub._id);
+      runInAction(() => {
+        this.fansub.followers++;
+        this.rootStore.userStore.unfollowFansub(this.fansub._id);
+        this.state = 'done';
+      });
+    } catch (err) {
+      console.error(err.response);
+      runInAction(() => {
+        this.errors = err;
+        this.state = 'error';
+      });
+    } finally {
+      runInAction(() => {
+        this.rootStore.loading = false;
+      });
+    }
+  }
+
   get fansubAnimes() {
     const animes = [];
     this.projects.forEach(project => {

@@ -125,6 +125,10 @@ class UserStore {
   followFansub(fansubId) {
     this.user.user.followingFansubs.push(fansubId);
   }
+
+  unfollowFansub(fansubId) {
+    this.user.user.followingFansubs = this.user.user.followingFansubs.filter((fansub) => fansub !== fansubId);
+  }
 }
 
 export default UserStore;

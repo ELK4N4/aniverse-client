@@ -52,8 +52,8 @@ function Fansubs() {
                     </Typography>
                     <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
                         {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
-                            <Button size="large" disableElevation variant="contained" className={classes.followingButton}>
-                                עוקב
+                            <Button size="large" disableElevation variant="contained" className={classes.followingButton} onClick={() => fansubStore.unfollowFansub()}>
+                                בטל מעקב
                             </Button>
                         :
                             <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>

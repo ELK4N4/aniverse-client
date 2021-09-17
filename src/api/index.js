@@ -30,6 +30,7 @@ export const addFansub = (newFansub) => API.post('/fansubs', newFansub);
 export const updateFansub = (fansubId, updatedFansub) => API.put('/fansubs/' + fansubId, updatedFansub);
 
 export const followFansub = (fansubId) => API.post(`fansubs/${fansubId}/followers/`);
+export const unfollowFansub = (fansubId) => API.delete(`fansubs/${fansubId}/followers/`);
 
 export const fetchProject = (fansubId, projectId) => API.get('/fansubs/' + fansubId + '/projects/' + projectId);
 export const addProject = (fansubId, newProject) => API.post(`fansubs/${fansubId}/projects`, newProject);
