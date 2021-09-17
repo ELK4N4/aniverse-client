@@ -7,7 +7,7 @@ import { red } from '@material-ui/core/colors';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'; //needs to be BrowserRouter instead of HashRouter
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import Animes from "./components/pages/Animes";
