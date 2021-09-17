@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/anime-prime-client/static/css/main.0fc14452.chunk.css",
-    "main.js": "/anime-prime-client/static/js/main.8ea329e8.chunk.js",
-    "main.js.map": "/anime-prime-client/static/js/main.8ea329e8.chunk.js.map",
+    "main.js": "/anime-prime-client/static/js/main.b7f5b86e.chunk.js",
+    "main.js.map": "/anime-prime-client/static/js/main.b7f5b86e.chunk.js.map",
     "runtime-main.js": "/anime-prime-client/static/js/runtime-main.ea3f9baf.js",
     "runtime-main.js.map": "/anime-prime-client/static/js/runtime-main.ea3f9baf.js.map",
-    "static/js/2.25e8407f.chunk.js": "/anime-prime-client/static/js/2.25e8407f.chunk.js",
-    "static/js/2.25e8407f.chunk.js.map": "/anime-prime-client/static/js/2.25e8407f.chunk.js.map",
+    "static/js/2.ac2dd07e.chunk.js": "/anime-prime-client/static/js/2.ac2dd07e.chunk.js",
+    "static/js/2.ac2dd07e.chunk.js.map": "/anime-prime-client/static/js/2.ac2dd07e.chunk.js.map",
     "index.html": "/anime-prime-client/index.html",
     "static/css/main.0fc14452.chunk.css.map": "/anime-prime-client/static/css/main.0fc14452.chunk.css.map",
-    "static/js/2.25e8407f.chunk.js.LICENSE.txt": "/anime-prime-client/static/js/2.25e8407f.chunk.js.LICENSE.txt"
+    "static/js/2.ac2dd07e.chunk.js.LICENSE.txt": "/anime-prime-client/static/js/2.ac2dd07e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ea3f9baf.js",
-    "static/js/2.25e8407f.chunk.js",
+    "static/js/2.ac2dd07e.chunk.js",
     "static/css/main.0fc14452.chunk.css",
-    "static/js/main.8ea329e8.chunk.js"
+    "static/js/main.b7f5b86e.chunk.js"
   ]
 }
