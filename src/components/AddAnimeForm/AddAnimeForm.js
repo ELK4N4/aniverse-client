@@ -104,6 +104,7 @@ function AddAnimeForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(anime.name)
         animeStore.addAnime(anime);
     };
 
