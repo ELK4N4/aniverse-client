@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/anime-prime-client/static/css/main.0fc14452.chunk.css",
-    "main.js": "/anime-prime-client/static/js/main.89490f75.chunk.js",
-    "main.js.map": "/anime-prime-client/static/js/main.89490f75.chunk.js.map",
+    "main.js": "/anime-prime-client/static/js/main.8ea329e8.chunk.js",
+    "main.js.map": "/anime-prime-client/static/js/main.8ea329e8.chunk.js.map",
     "runtime-main.js": "/anime-prime-client/static/js/runtime-main.ea3f9baf.js",
     "runtime-main.js.map": "/anime-prime-client/static/js/runtime-main.ea3f9baf.js.map",
     "static/js/2.25e8407f.chunk.js": "/anime-prime-client/static/js/2.25e8407f.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.ea3f9baf.js",
     "static/js/2.25e8407f.chunk.js",
     "static/css/main.0fc14452.chunk.css",
-    "static/js/main.89490f75.chunk.js"
+    "static/js/main.8ea329e8.chunk.js"
   ]
 }
