@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { getLocalStorage } from '../localStorage';
-
-const API = axios.create({ baseURL: 'http://localhost:5000'})
-// const API = axios.create({ baseURL: 'https://anime-prime.herokuapp.com/'})
+const API = axios.create({ baseURL: process.env.REACT_APP_API_URL})
 
 API.interceptors.request.use((req) => {
   if(getLocalStorage('user')) {
