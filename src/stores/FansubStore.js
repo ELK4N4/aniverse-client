@@ -256,7 +256,7 @@ class FansubStore {
     try {
       const { data } = await api.unfollowFansub(this.fansub._id);
       runInAction(() => {
-        this.fansub.followers++;
+        this.fansub.followers--;
         this.rootStore.userStore.unfollowFansub(this.fansub._id);
         this.state = 'done';
       });
