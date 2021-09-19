@@ -68,11 +68,6 @@ function Animes() {
                 </div>
                 <AnimeCards clickable animes={animes} keyword={keyword}/>
             </Container>
-            <Link to='/animes/add'>
-                <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
-                    <AddIcon />
-                </Fab>
-            </Link>
         </>
     )
 }

@@ -69,11 +69,6 @@ function Fansubs() {
                 </div>
                 <FansubCards clickable fansubs={fansubs} keyword={keyword}/>
             </Container>
-            <Link to='/fansubs/add'>
-                <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
-                    <AddIcon />
-                </Fab>
-            </Link>
         </>
     )
 }
