@@ -75,7 +75,16 @@ function Anime() {
                 store.stopLoading();
             }
         } else {
-            const currentProject = anime.projects.find(project => project.fansub._id === fansubId);
+            let currentProject;
+            if(anime.projects.length === 1) {
+                currentProject = anime.projects[0];
+            } else if(anime.projects.length > 1) {
+                if(fansubId) {
+                    currentProject = anime.projects.find(project => project.fansub._id === fansubId);
+                } else {
+                    currentProject= anime.projects[0];
+                }
+            }
             setChoosenFansub(currentProject.fansub._id);
             setEpisodes(currentProject.episodes);
             if(episodeId) {
@@ -84,6 +93,10 @@ function Anime() {
                 setCurrentEpisode(episodeRes.data);
                 const commentsRes = await api.fetchComments(animeId, episodeId);
                 setComments(commentsRes.data);
+            } else {
+                setClickedEpisode(null)
+                setCurrentEpisode(null);
+                setComments([]);
             }
         }
     }, [episodeId, fansubId]);
