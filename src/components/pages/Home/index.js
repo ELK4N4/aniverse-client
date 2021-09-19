@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography } from '@material-ui/core';
 import useStyles from './style';
 import { useHistory } from 'react-router';
+import withMaxHeight from '../../../hoc/withMaxHeight';
 
-export default function Home() {
+function Home() {
     const classes = useStyles();
     const history = useHistory();
     
@@ -28,3 +29,5 @@ export default function Home() {
         </Box>
     );
 }
+
+export default withMaxHeight(Home);

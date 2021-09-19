@@ -26,8 +26,6 @@ import Project from './components/pages/MyFansubs/MyFansub/Project';
 import Sandbox from './components/pages/Sandbox';
 import User from './components/pages/User';
 import Home from './components/pages/Home';
-import PageWrapper from './components/PageWrapper';
-
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -60,7 +58,6 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <StylesProvider jss={jss}>
             <Header />
-            <PageWrapper>
               <Switch>
                 <Route exact path={["/", "/home"]}>
                   <Home />
@@ -105,7 +102,6 @@ export default function App() {
                   <Sandbox />
                 </Route>
               </Switch>
-            </PageWrapper>
           </StylesProvider>
         </ThemeProvider>
       </Router>
