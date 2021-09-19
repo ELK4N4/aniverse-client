@@ -31,7 +31,7 @@ import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom } from '@m
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
-function Header() {
+function Header({toggleTheme, themeIcon}) {
   const store = useStore();
   const { userStore } = store;
   const classes = useStyles();
@@ -203,6 +203,15 @@ function Header() {
           <div className={classes.menuButton}>
             <Drawer options={menuOptions} />
           </div>
+
+          <IconButton
+            color="inherit"
+            aria-label="mode"
+            onClick={toggleTheme}
+          >
+            {themeIcon}
+          </IconButton>
+
           <Button
             variant="outlined"
             color="inherit"
@@ -213,7 +222,7 @@ function Header() {
           >
             {userStore.user?.user?.username || 'אורח'}
           </Button>
-          
+
           <div className={classes.sectionDesktop}>
             {menuOptions.map((option)=> <NavButton key={option.page} startIcon={option.icon} disableElevation component={NavLink}
               to={option.page}>
