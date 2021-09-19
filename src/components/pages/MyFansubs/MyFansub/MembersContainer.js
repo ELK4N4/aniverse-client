@@ -71,7 +71,7 @@ function ProjectsContainer() {
                     {fansubStore.members?.map((member) => (
                         <ListItem button key={member.user._id}>
                             <ListItemAvatar>
-                                <Avatar src={member.user.profileImage}/>
+                                <Avatar src={member.user.avatar}/>
                             </ListItemAvatar>
                             <ListItemText
                                 primary={member.user.username}

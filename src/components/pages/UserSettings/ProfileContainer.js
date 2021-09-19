@@ -18,7 +18,7 @@ import AnimeCards from '../../Cards/AnimeCards';
 function ProfileContianer() {
     const store = useStore();
     const { userStore } = store;
-    const initialState = { profileImage: userStore.user.user.profileImage, banner: userStore.user.user.banner};
+    const initialState = { avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
@@ -38,11 +38,11 @@ function ProfileContianer() {
                             margin="normal"
                             required
                             fullWidth
-                            value={form.profileImage}
-                            id="profileImage"
+                            value={form.avatar}
+                            id="avatar"
                             label="תמונת פרופיל"
-                            name="profileImage"
-                            autoComplete="profileImage"
+                            name="avatar"
+                            autoComplete="avatar"
                             onChange={handleChange}
                         />
                         <TextField

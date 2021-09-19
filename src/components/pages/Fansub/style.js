@@ -1,4 +1,4 @@
-import { fade } from '@material-ui/core/';
+import { alpha } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
@@ -55,12 +55,12 @@ export default makeStyles((theme) => ({
     },
     memberPaper: {
         cursor: 'pointer',
-        backgroundColor: fade(theme.palette.primary.main, 0.15),
+        backgroundColor: alpha(theme.palette.primary.main, 0.15),
         padding: theme.spacing(2),
         width: theme.spacing(30),
         transition: '.2s',
         '&:hover': {
-            backgroundColor: fade(theme.palette.primary.main, 0.25),
+            backgroundColor: alpha(theme.palette.primary.main, 0.25),
         }
     },
 }));

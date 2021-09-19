@@ -13,7 +13,7 @@ export default function UserDetails({user}) {
         <>
             <Paper elevation={5} className={classes.paper}>
                 <Box display="flex" alignItems="center" className={classes.userHeader}>
-                    <Avatar src={user?.profileImage} className={classes.userImage} />
+                    <Avatar src={user?.avatar} className={classes.userImage} />
                     <Box>
                         <Box display="flex" alignItems="center">
                             <Typography variant="h3" className={classes.username} >

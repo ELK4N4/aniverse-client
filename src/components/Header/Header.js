@@ -189,8 +189,8 @@ function Header() {
   }))(Avatar);
 
   const profileIcon = () => {
-    if(userStore.user?.user.profileImage) {
-      return <NavAvatar src={userStore.user.user.profileImage} className={classes.avatar} />
+    if(userStore.user?.user.avatar) {
+      return <NavAvatar src={userStore.user.user.avatar} className={classes.avatar} />
     } else {
       return <AccountCircle />
     }

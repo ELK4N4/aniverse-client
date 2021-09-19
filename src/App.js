@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Link as MuiLink, withStyles } from '@material-ui/core/';
 import Header from "./components/Header/Header";
-import { createMuiTheme, ThemeProvider, Box } from '@material-ui/core';
+import { createTheme , ThemeProvider, Box } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -30,7 +30,7 @@ import Home from './components/pages/Home';
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
-const theme = createMuiTheme({
+const theme = createTheme ({
   direction: 'rtl',
   shape: {
     borderRadius: 30,

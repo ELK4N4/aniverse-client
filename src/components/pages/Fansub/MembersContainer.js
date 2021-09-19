@@ -50,7 +50,7 @@ function MembersContainer() {
                                 <Paper elevation={0} className={classes.memberPaper} onClick={() => handleClick(member.user._id)}>
                                     <Box display="flex" alignItems="center">
                                         <Avatar
-                                            src={member.user.profileImage}
+                                            src={member.user.avatar}
                                             className={classes.userAvatar}
                                         />
                                         <div style={{marginRight: 30}}>

@@ -18,7 +18,7 @@ export default function Comment({ comment, removeComment, editComment }) {
     return (
         <Paper className={classes.paper} elevation={5}>
             <Box display="flex" alignItems="center" className={classes.header}>
-                <Avatar src={comment.addedByUser?.profileImage ?? undefined} className={classes.avatar} onClick={handleUserClick}>{comment.addedByUser.username.toString()[0]}</Avatar>
+                <Avatar src={comment.addedByUser?.avatar ?? undefined} className={classes.avatar} onClick={handleUserClick}>{comment.addedByUser.username.toString()[0]}</Avatar>
                 <Typography variant="h6" style={{cursor: "pointer"}} onClick={handleUserClick}>
                     <MuiLink>
                         {comment.addedByUser.username}
