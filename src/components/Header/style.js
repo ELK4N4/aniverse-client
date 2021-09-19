@@ -3,16 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
-    button: {
-      color: 'white !important',
-      backgroundColor: '#da190b',
-      margin: theme.spacing(1),
-      paddingRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      "&.active": {
-        background:'#790e06',
-      },
-    },
     grow: {
       flexGrow: 1,
     },

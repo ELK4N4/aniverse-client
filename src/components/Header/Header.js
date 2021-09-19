@@ -196,7 +196,7 @@ function Header() {
           <div className={classes.menuButton}>
             <Drawer options={menuOptions} />
           </div>
-          <Button
+          <NavButton
             variant="outlined"
             color="inherit"
             onClick={handleMobileMenuOpen}
@@ -205,7 +205,7 @@ function Header() {
             endIcon={<ExpandMoreIcon />}
           >
             {userStore.user?.user?.username || 'אורח'}
-          </Button>
+          </NavButton>
           
           <div className={classes.sectionDesktop}>
             {menuOptions.map((option)=> <NavButton key={option.page} startIcon={option.icon} disableElevation component={NavLink}
