@@ -168,14 +168,6 @@ function Header() {
     </Menu>
   );
 
-  const profileIcon = () => {
-    if(userStore.user?.user.profileImage) {
-      return <Avatar src={userStore.user.user.profileImage} className={classes.avatar} />
-    } else {
-      return <AccountCircle />
-    }
-  }
-
   const NavButton = withStyles((theme) => ({
     root: {
       color: 'white !important',
@@ -189,6 +181,21 @@ function Header() {
     }
   }))(Button);
 
+  const NavAvatar = withStyles((theme) => ({
+    root: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    }
+  }))(Avatar);
+
+  const profileIcon = () => {
+    if(userStore.user?.user.profileImage) {
+      return <NavAvatar src={userStore.user.user.profileImage} className={classes.avatar} />
+    } else {
+      return <AccountCircle />
+    }
+  }
+
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
@@ -196,7 +203,7 @@ function Header() {
           <div className={classes.menuButton}>
             <Drawer options={menuOptions} />
           </div>
-          <NavButton
+          <Button
             variant="outlined"
             color="inherit"
             onClick={handleMobileMenuOpen}
@@ -205,7 +212,7 @@ function Header() {
             endIcon={<ExpandMoreIcon />}
           >
             {userStore.user?.user?.username || 'אורח'}
-          </NavButton>
+          </Button>
           
           <div className={classes.sectionDesktop}>
             {menuOptions.map((option)=> <NavButton key={option.page} startIcon={option.icon} disableElevation component={NavLink}
