@@ -91,24 +91,34 @@ function SettingsContainer() {
                                     onChange={handleChange}
                                     defaultValue={fansubStore.fansub.image}
                                 />
-                            
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    id="banner"
+                                    label="באנר"
+                                    name="banner"
+                                    autoComplete="banner"
+                                    onChange={handleChange}
+                                    defaultValue={fansubStore.fansub.banner}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                            <Typography component="h6" variant="h5" align="center">
-                                                תצוגה מקדימה
-                                    </Typography>
-                            <Box
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                >
-                                <FansubCard
-                                    name={form.name}
-                                    img={form.image ? form.image : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
-                                    showContent
-                                    timeout={500}
-                                />
-                            </Box>
+                                <Typography component="h6" variant="h5" align="center">
+                                    תצוגה מקדימה
+                                </Typography>
+                                <Box
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    >
+                                    <FansubCard
+                                        name={form.name}
+                                        img={form.image ? form.image : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
+                                        showContent
+                                        timeout={500}
+                                    />
+                                </Box>
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <Button

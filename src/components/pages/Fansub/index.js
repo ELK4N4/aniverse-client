@@ -39,10 +39,28 @@ function Fansubs() {
     useEffect(async () => {
         fansubStore.fetchFansub(fansubId);
     }, [fansubId]);
+
+    const showcaseStyle = () => {
+        if(fansubStore.fansub.banner) {
+            return {
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url('${fansubStore.fansub.banner}')`
+            };
+        } else {
+            return null;
+        }
+    }
+
+    const tabsBackgroundColor = () => {
+        if(fansubStore.fansub.banner) {
+            return "black"
+        } else {
+            return "";
+        }
+    }
     
     return (
         <>
-            <Grid container spacing={0} className={classes.showcase} justifycontent="flex-end" alignItems="center">
+            <Grid container spacing={0} className={classes.showcase} style={showcaseStyle()} justifycontent="flex-end" alignItems="center">
                 <Grid item>
                     {<Avatar src={fansubStore.fansub.image} className={classes.logo}/> }
                 </Grid>
@@ -63,7 +81,7 @@ function Fansubs() {
                     </StyledBadge>
                 </Grid>
             </Grid>
-            <FansubTabs />
+            <FansubTabs tabsBackgroundColor={tabsBackgroundColor()}/>
         </>
     )
 }

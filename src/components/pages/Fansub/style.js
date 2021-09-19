@@ -16,6 +16,9 @@ export default makeStyles((theme) => ({
     },
     showcase: {
         background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         padding: theme.spacing(8),
         paddingTop: theme.spacing(6.5),
         paddingBottom: theme.spacing(6),

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FansubTabs({ selectedTab }) {
+function FansubTabs({ selectedTab, tabsBackgroundColor }) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -83,6 +83,9 @@ function FansubTabs({ selectedTab }) {
           onChange={handleChange}
           classes={{
             indicator: classes.indicator
+          }}
+          style= {{
+            backgroundColor: tabsBackgroundColor
           }}
           variant="fullWidth"
         >
