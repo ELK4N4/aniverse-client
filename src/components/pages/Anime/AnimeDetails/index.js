@@ -27,16 +27,18 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     return (
         <>
             <Paper elevation={5} className={classes.detailsContainer}>
-                <Box display="flex">
-                    <div style={{ padding: 20, width: '250px'}}>
-                        <img src={anime.image} width="200" height="300" style={{borderRadius: '40px', objectFit: 'cover'}} />
+                <Box display="flex" className={classes.mainBox}>
+                    <Box className={classes.metadataBox}>
                         <div>
-                            מספר פרקים:
-                            &nbsp;
-                            {anime.episodesNumber}
+                            <img src={anime.image} width="200" height="300" className={classes.animeImage} />
+                            <div>
+                                מספר פרקים:
+                                &nbsp;
+                                {anime.episodesNumber}
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ padding: 20}}>
+                    </Box>
+                    <div>
                         <Typography variant="body1" className={classes.detailsTitle}>
                             תקציר
                         </Typography>

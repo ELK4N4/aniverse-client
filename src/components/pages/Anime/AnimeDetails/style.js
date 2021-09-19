@@ -9,15 +9,6 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
         width: '100%',
     },
-    searchBar: {
-        marginTop: theme.spacing(7),
-        marginBottom: theme.spacing(7),
-    },
-    fab: {
-        position: 'fixed',
-        bottom: theme.spacing(3),
-        left: theme.spacing(3),
-    },
     showcase: {
         background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
         padding: theme.spacing(8),
@@ -34,13 +25,6 @@ export default makeStyles((theme) => ({
     episodesTitlesHeader: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
-        '& > *': {
-            marginRight: theme.spacing(1),
-        },
-    },
-    episodesTitlesHeader: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
         maxWidth: theme.spacing(25),
         '& > *': {
             marginRight: theme.spacing(1),
@@ -49,6 +33,32 @@ export default makeStyles((theme) => ({
     mainContainer: {
         padding: theme.spacing(0),
         margin: theme.spacing(0),
+    },
+    mainBox: {
+        padding: 20,
+        display: 'flex',
+        [theme.breakpoints.down('xs')]: {
+            display: 'block',
+        },
+    },
+    metadataBox: {
+        display: 'block',
+        width: '250px',
+        marginRight: theme.spacing(3),
+        [theme.breakpoints.down('xs')]: {
+            display: 'flex',
+            width: '100%',
+            justifyItems: 'center',
+            alignItems: 'center',
+        },
+        '& > div': {
+            margin: 'auto',
+        }
+    },
+    animeImage: {
+        borderRadius: '40px',
+        objectFit: 'cover',
+        marginBottom: 10,
     },
     titlePaper: {
         padding: theme.spacing(1),
