@@ -88,6 +88,6 @@ export default makeStyles((theme) => ({
     avatar: {
       width: theme.spacing(3),
       height: theme.spacing(3),
-  },
-  }));
+    },
+}));
   

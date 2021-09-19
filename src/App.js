@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Link as MuiLink } from '@material-ui/core/';
+import { Link as MuiLink, withStyles } from '@material-ui/core/';
 import Header from "./components/Header/Header";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider, Box } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -25,6 +25,8 @@ import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
 import Project from './components/pages/MyFansubs/MyFansub/Project';
 import Sandbox from './components/pages/Sandbox';
 import User from './components/pages/User';
+import Home from './components/pages/Home';
+import PageWrapper from './components/PageWrapper';
 
 
 // Configure JSS
@@ -49,7 +51,6 @@ const theme = createMuiTheme({
       fontWeight: 600
     },
   },
-
 })
 
 export default function App() {
@@ -59,11 +60,10 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <StylesProvider jss={jss}>
             <Header />
+            <PageWrapper>
             <Switch>
               <Route exact path={["/", "/home"]}>
-                <MuiLink component={Link} to='/animes' href="#" variant="body2">
-                    Animes
-                </MuiLink>
+                <Home />
               </Route>
               <Route exact path={["/login", "/register"]}>
                 <Form />
@@ -105,7 +105,7 @@ export default function App() {
                 <Sandbox />
               </Route>
             </Switch>
-
+            </PageWrapper>
           </StylesProvider>
         </ThemeProvider>
       </Router>
