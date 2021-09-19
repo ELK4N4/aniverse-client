@@ -27,7 +27,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import Drawer from './Drawer';
-import { Avatar, Box, Button, LinearProgress, Slide, Zoom } from '@material-ui/core';
+import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom } from '@material-ui/core';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
@@ -176,6 +176,19 @@ function Header() {
     }
   }
 
+  const NavButton = withStyles((theme) => ({
+    root: {
+      color: 'white !important',
+      backgroundColor: '#da190b',
+      margin: theme.spacing(1),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      "&.active": {
+        background:'#790e06',
+      },
+    }
+  }))(Button);
+
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
@@ -195,10 +208,10 @@ function Header() {
           </Button>
           
           <div className={classes.sectionDesktop}>
-            {menuOptions.map((option)=> <Button key={option.page} startIcon={option.icon} disableElevation component={NavLink}
-              to={option.page} className={classes.button}>
+            {menuOptions.map((option)=> <NavButton key={option.page} startIcon={option.icon} disableElevation component={NavLink}
+              to={option.page}>
             {option.name}
-            </Button>)}
+            </NavButton>)}
           </div>
           
           

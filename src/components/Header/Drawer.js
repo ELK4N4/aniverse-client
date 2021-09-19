@@ -38,7 +38,6 @@ export default function Drawer({options}) {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
     setState(open);
   };
 
