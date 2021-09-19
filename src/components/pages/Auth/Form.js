@@ -14,6 +14,7 @@ import { Grow, Slide, Paper } from '@material-ui/core';
 import useStyles from './style';
 import { useStore } from '../../../stores';
 import { observer } from 'mobx-react-lite';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const initialState = { username: '', email: '', password: '', confirmPassword: '' };
 
@@ -23,13 +24,15 @@ function Form() {
     const classes = useStyles();
     let location = useLocation();
     const history = useHistory();
+    const params = new URLSearchParams(location.search);
+    const redirect = params.get('redirect');
     const [isRegister, setIsRegister] = useState(location.pathname === '/register');
     const [isSlide, setIsSlide] = useState(true);
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
     
     useEffect(() => {
         if(userStore.state === 'done') {
-            history.push('/');
+            history.push(redirect || '/');
             userStore.resetState();
         }
         setIsRegister(location.pathname === '/register');
@@ -56,8 +59,16 @@ function Form() {
 
     return (
         <Grow in>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" className={classes.root}>
             <CssBaseline />
+            {redirect && 
+                <>
+                    <Alert variant="filled" severity="info">
+                        <strong>עליך להתחבר כדי להמשיך</strong>
+                    </Alert>
+                    <br />
+                </>
+            }
             <Paper elevation={5} className={classes.paper}>
                 <Slide direction="down" in={isSlide} timeout={450}>
                     <Typography component="h1" variant="h5">

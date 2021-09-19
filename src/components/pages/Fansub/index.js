@@ -10,7 +10,7 @@ import FansubCards from '../../Cards/FansubCards';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -34,6 +34,7 @@ function Fansubs() {
     const store = useStore();
     const { userStore, fansubStore } = store;
     const history = useHistory();
+    const location = useLocation();
     const classes = useStyles();
 
     useEffect(async () => {
@@ -58,6 +59,14 @@ function Fansubs() {
         }
     }
     
+    const onFollowClick = () => {
+        if(userStore.user) {
+            fansubStore.followFansub();
+        } else {
+            history.push('/login?redirect=' + location.pathname);
+        }
+    }
+
     return (
         <>
             <Grid container spacing={0} className={classes.showcase} style={showcaseStyle()} justifycontent="flex-end" alignItems="center">
@@ -69,12 +78,12 @@ function Fansubs() {
                         {fansubStore.fansub.name}
                     </Typography>
                     <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
-                        {userStore.user.user.followingFansubs.find((fansub => fansub === fansubId)) ? 
+                        {userStore.user?.user?.followingFansubs.find((fansub => fansub === fansubId)) ? 
                             <Button size="large" disableElevation variant="contained" className={classes.followingButton} onClick={() => fansubStore.unfollowFansub()}>
                                 בטל מעקב
                             </Button>
                         :
-                            <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={() => fansubStore.followFansub()}>
+                            <Button size="large" disableElevation variant="contained" color="primary" className={classes.followButton} onClick={onFollowClick}>
                                 עקוב +
                             </Button>
                         }
