@@ -24,7 +24,6 @@ export default makeStyles((theme) => ({
         borderBottom: `7px solid black`,
     },
     pageTitle: {
-        fontSize: 90,
         color: 'white',
         textShadow: '0px 0px 20px #000000',
         fontWeight: 'bold',

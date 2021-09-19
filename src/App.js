@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Link as MuiLink, withStyles } from '@material-ui/core/';
+import { Link as MuiLink, responsiveFontSizes, withStyles } from '@material-ui/core/';
 import Header from "./components/Header/Header";
 import { createTheme , ThemeProvider, Box } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
@@ -30,7 +30,7 @@ import Home from './components/pages/Home';
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
-const theme = createTheme ({
+let theme = createTheme ({
   direction: 'rtl',
   shape: {
     borderRadius: 30,
@@ -40,7 +40,7 @@ const theme = createTheme ({
   },
   typography: {
     h1: {
-      fontWeight: 600
+      fontWeight: 600,
     },
     h2: {
       fontWeight: 600
@@ -50,6 +50,8 @@ const theme = createTheme ({
     },
   },
 })
+
+theme = responsiveFontSizes(theme);
 
 export default function App() {
   return (
