@@ -20,7 +20,7 @@ import * as api from '../../api';
 
 const initFansub = {
     name: '',
-    image: ''
+    avatar: ''
 }
 
 function CreateFansubForm() {
@@ -91,9 +91,9 @@ function CreateFansubForm() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="image"
+                                id="avatar"
                                 label="תמונה"
-                                name="image"
+                                name="avatar"
                                 autoComplete="off"
                                 value={Fansub.englishName}
                                 onChange={handleOnChange}

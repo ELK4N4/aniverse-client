@@ -22,10 +22,10 @@ function SettingsContainer() {
     const store = useStore();
     const { fansubStore } = store;
     const classes = useStyles();
-    const [form, setForm] = useState({ name: fansubStore.fansub.name, image: fansubStore.fansub.image });
+    const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar });
 
     useEffect(() => {
-        setForm({ name: fansubStore.fansub.name, image: fansubStore.fansub.image });
+        setForm({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar });
     }, [store.loading])
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -84,12 +84,12 @@ function SettingsContainer() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="image"
+                                    id="avatar"
                                     label="תמונת פאנסאב"
-                                    name="image"
-                                    autoComplete="image"
+                                    name="avatar"
+                                    autoComplete="avatar"
                                     onChange={handleChange}
-                                    defaultValue={fansubStore.fansub.image}
+                                    defaultValue={fansubStore.fansub.avatar}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -114,7 +114,7 @@ function SettingsContainer() {
                                     >
                                     <FansubCard
                                         name={form.name}
-                                        img={form.image ? form.image : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
+                                        img={form.avatar ? form.avatar : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
                                         showContent
                                         timeout={500}
                                     />

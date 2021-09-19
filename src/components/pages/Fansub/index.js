@@ -71,7 +71,7 @@ function Fansubs() {
         <>
             <Grid container spacing={0} className={classes.showcase} style={showcaseStyle()} justifycontent="flex-end" alignItems="center">
                 <Grid item>
-                    {<Avatar src={fansubStore.fansub.image} className={classes.logo}/> }
+                    {<Avatar src={fansubStore.fansub.avatar} className={classes.logo}/> }
                 </Grid>
                 <Grid item>
                     <Typography variant="h2" className={classes.fansubName}>

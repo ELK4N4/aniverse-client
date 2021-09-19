@@ -31,7 +31,7 @@ export default function FansubCards({ clickable, fansubs, keyword }) {
                     <FansubCard
                         name={fansub.name}
                         summary={fansub.summary}
-                        img={fansub.image}
+                        img={fansub.avatar}
                         showContent
                         timeout={500}
                     />
