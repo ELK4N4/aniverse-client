@@ -61,50 +61,50 @@ export default function App() {
           <StylesProvider jss={jss}>
             <Header />
             <PageWrapper>
-            <Switch>
-              <Route exact path={["/", "/home"]}>
-                <Home />
-              </Route>
-              <Route exact path={["/login", "/register"]}>
-                <Form />
-              </Route>
-              <Route exact path="/animes">
-                <Animes />
-              </Route>
-              <Route exact path="/animes/add">
-                <AddAnimeForm />
-              </Route>
-              <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes", "/animes/:animeId/episodes/:episodeId"]}>
-                <Anime />
-              </Route>
-              <Route exact path="/fansubs">
-                <Fansubs />
-              </Route>
-              <Route exact path="/fansubs/add">
-                <CreateFansubForm />
-              </Route>
-              <Route exact path="/fansubs/:fansubId">
-                <Fansub />
-              </Route>
-              <Route exact path="/my-fansubs">
-                <MyFansubs />
-              </Route>
-              <Route exact path="/users/:userId">
-                <User />
-              </Route>
-              <Route exact path= {["/manage-animes/"]}>
-                <ManageAnimes />
-              </Route>
-              <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
-                <MyFansub />
-              </Route>
-              <Route exact path="/user/settings">
-                <UserSettings />
-              </Route>
-              <Route exact path="/sandbox">
-                <Sandbox />
-              </Route>
-            </Switch>
+              <Switch>
+                <Route exact path={["/", "/home"]}>
+                  <Home />
+                </Route>
+                <Route exact path={["/login", "/register"]}>
+                  <Form />
+                </Route>
+                <Route exact path="/animes">
+                  <Animes />
+                </Route>
+                <Route exact path="/animes/add">
+                  <AddAnimeForm />
+                </Route>
+                <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes", "/animes/:animeId/episodes/:episodeId"]}>
+                  <Anime />
+                </Route>
+                <Route exact path="/fansubs">
+                  <Fansubs />
+                </Route>
+                <Route exact path="/fansubs/add">
+                  <CreateFansubForm />
+                </Route>
+                <Route exact path="/fansubs/:fansubId">
+                  <Fansub />
+                </Route>
+                <Route exact path="/my-fansubs">
+                  <MyFansubs />
+                </Route>
+                <Route exact path="/users/:userId">
+                  <User />
+                </Route>
+                <Route exact path= {["/manage-animes/"]}>
+                  <ManageAnimes />
+                </Route>
+                <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
+                  <MyFansub />
+                </Route>
+                <Route exact path="/user/settings">
+                  <UserSettings />
+                </Route>
+                <Route exact path="/sandbox">
+                  <Sandbox />
+                </Route>
+              </Switch>
             </PageWrapper>
           </StylesProvider>
         </ThemeProvider>
