@@ -6,25 +6,8 @@ import * as api from '../../../../api';
 import { useStore } from '../../../../stores';
 import { useSnackbar } from 'notistack';
 
-export default function UserDetails() {
+export default function UserDetails({user}) {
     const classes = useStyles();
-    const store = useStore();
-    const { userStore } = store;
-    const { userId } = useParams();
-    const [user, setUser] = useState();
-    const { enqueueSnackbar } = useSnackbar();
-
-    useEffect( async () => {
-        store.startLoading();
-        try {
-            const { data } = await api.fetchUser(userId);
-            setUser(data);
-        } catch (err) {
-            enqueueSnackbar(err.message, {variant: 'error'});
-        } finally {
-            store.stopLoading();
-        }
-    }, [userId])
     
     return (
         <>
