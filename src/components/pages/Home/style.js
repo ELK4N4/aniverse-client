@@ -13,17 +13,11 @@ export default makeStyles((theme) => ({
     title: {
       color: 'white',
       textShadow: '0px 0px 10px #000000',
-      fontSize: 80,
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 60,
-      },
+
     },
     subtitle: {
       color: 'white',
       textShadow: '0px 0px 10px #000000',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 20,
-      },
     },
     watchBtn: {
       color: 'white',
