@@ -143,11 +143,21 @@ function Anime() {
         }
     }
 
+    const showcaseStyle = () => {
+        if(anime.image) {
+            return {
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url('${anime.image}')`
+            };
+        } else {
+            return null;
+        }
+    }
+
     return (
         <>
             {(anime) && (
                 <>
-                    <div className={classes.showcase} >
+                    <div className={classes.showcase} style={showcaseStyle()}>
                         <Container maxWidth="lg">
                             <Typography variant="h3" className={classes.animeName}>
                                 { anime.name.hebrew }
