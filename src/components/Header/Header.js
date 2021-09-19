@@ -27,7 +27,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import Drawer from './Drawer';
-import { Box, Button, LinearProgress, Slide, Zoom } from '@material-ui/core';
+import { Avatar, Box, Button, LinearProgress, Slide, Zoom } from '@material-ui/core';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
@@ -168,6 +168,14 @@ function Header() {
     </Menu>
   );
 
+  const profileIcon = () => {
+    if(userStore.user?.user.profileImage) {
+      return <Avatar src={userStore.user.user.profileImage} className={classes.avatar} />
+    } else {
+      return <AccountCircle />
+    }
+  }
+
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
@@ -175,26 +183,12 @@ function Header() {
           <div className={classes.menuButton}>
             <Drawer options={menuOptions} />
           </div>
-          
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="חיפוש..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div> */}
           <Button
             variant="outlined"
             color="inherit"
             onClick={handleMobileMenuOpen}
             className={classes.button}
-            startIcon={<AccountCircle />}
+            startIcon={profileIcon()}
             endIcon={<ExpandMoreIcon />}
           >
             {userStore.user?.user?.username || 'אורח'}

@@ -43,7 +43,6 @@ function UserContainer() {
                             label="כתובת אימייל"
                             name="email"
                             autoComplete="email"
-                            autoFocus
                             onChange={handleChange}
                         />
                         <TextField
