@@ -16,6 +16,7 @@ import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 import { autorun, runInAction } from 'mobx';
 import * as api from '../../api';
+import { useSnackbar } from 'notistack';
 
 
 const initFansub = {
@@ -28,6 +29,7 @@ function CreateFansubForm() {
     const history = useHistory();
     const classes = useStyles();
     const { funsubStore } = useStore();
+    const { enqueueSnackbar } = useSnackbar();
     const [Fansub, setFansub] = useState(initFansub);
 
     useEffect(
@@ -52,10 +54,16 @@ function CreateFansubForm() {
         store.startLoading();
         try {
             const { data } = await api.addFansub(Fansub);
-            console.log(data);
-            history.push('/fansubs');
+            enqueueSnackbar('פאנסאב נוסף בהצלחה', {variant: 'success'});
+            history.push('/fansubs/' + data._id);
         } catch (err) {
-            console.error(err.response);
+            if (err.response) {
+                enqueueSnackbar(err.response.data, {variant: 'error'});
+            } else if (err.request) {
+                enqueueSnackbar(err.request, {variant: 'error'});
+            } else {
+                enqueueSnackbar(err.message, {variant: 'error'});
+            }
         } finally {
             store.stopLoading();
         }
