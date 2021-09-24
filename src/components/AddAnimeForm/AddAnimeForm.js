@@ -16,6 +16,8 @@ import AnimeCard from '../Cards/AnimeCards/AnimeCard';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 import { autorun, runInAction } from 'mobx';
+import * as api from '../../api';
+import { useSnackbar } from 'notistack';
 
 
 const initAnime = {
@@ -77,21 +79,10 @@ const genres = [
 function AddAnimeForm() {
     const history = useHistory();
     const classes = useStyles();
-    const { animeStore } = useStore();
+    const store = useStore();
+    const { enqueueSnackbar } = useSnackbar();
     const [anime, setAnime] = useState(initAnime);
 
-    useEffect(
-        () =>
-          autorun(() => {
-            if(animeStore.state === 'done') {
-                history.push('/');
-                runInAction(() => {
-                    animeStore.resetState();
-                });
-            }
-        })
-    ,[])
-    
     const handleOnChange = (e) => {
         if(e.target.name.includes('name')) {
             const animeTemp = {...anime}
@@ -102,10 +93,25 @@ function AddAnimeForm() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(anime.name)
-        animeStore.addAnime(anime);
+
+        store.startLoading();
+        try {
+            const { data } = await api.addAnime(anime);
+            enqueueSnackbar('האנימה נוספה בהצלחה', {variant: 'success'});
+            history.push('/animes/' + data._id);
+        } catch (err) {
+            if (err.response) {
+                enqueueSnackbar(err.response.data, {variant: 'error'});
+            } else if (err.request) {
+                enqueueSnackbar(err.request, {variant: 'error'});
+            } else {
+                enqueueSnackbar(err.message, {variant: 'error'});
+            }
+        } finally {
+            store.stopLoading();
+        }
     };
 
     return (
@@ -252,4 +258,4 @@ function AddAnimeForm() {
     );
 }
 
-export default observer(AddAnimeForm);
+export default AddAnimeForm;
