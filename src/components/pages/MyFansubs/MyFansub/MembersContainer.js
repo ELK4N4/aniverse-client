@@ -14,18 +14,17 @@ import * as api from '../../../../api';
 import EditMemberDialog from './EditMemberDialog';
 import { Skeleton } from '@material-ui/lab';
 import AddMemberDialog from './AddMemberDialog';
+import { useSnackbar } from 'notistack';
 
 
 function ProjectsContainer() {
     const store = useStore();
     const { fansubStore } = store;
     const history = useHistory();
-    const { fansubId } = useParams();
     const classes = useStyles();
-    const [members, setMembers] = useState({});
     const [editMember, setEditMember] = useState();
+    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     const handleClickOpen = (member) => {
         setEditMember(member);
@@ -36,16 +35,9 @@ function ProjectsContainer() {
         setOpen(false);
     };
 
-    const addMember = async (username) => {
-        fansubStore.addMember(username)
-        // const { data } = await api.addMember(fansubId, username);
-    }
-
     const removeMember = async (userId) => {
         fansubStore.removeMember(userId)
-        // const { data } = await api.removeMember(fansubId, userId);
     }
-
 
     return (
         <>
@@ -89,7 +81,7 @@ function ProjectsContainer() {
                     </List>
                 }
 
-                    <AddMemberDialog onSumbit={addMember} />
+                    <AddMemberDialog />
 
                 </Paper>
 

@@ -7,11 +7,15 @@ class FansubStore {
   members = [];
   projects = [];
   state = 'initial';
-  errors = null
+  errors = null;
 
   constructor(rootStore) {
     makeAutoObservable(this, { rootStore: false });
     this.rootStore = rootStore;
+  }
+
+  resetState() {
+    this.state = 'initial';
   }
 
   async fetchFansub(fansubId) {
@@ -64,7 +68,7 @@ class FansubStore {
     }
   }
 
-  async addMember(username) {
+  async addMember(username, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -73,12 +77,21 @@ class FansubStore {
       runInAction(() => {
         this.members.push(data);
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
         this.errors = err;
         this.state = 'error';
+        if (err.response) {
+          this.errors = err.response.data;
+        } else if (err.request) {
+          this.errors = err.request;
+        } else {
+          this.errors = err.message;
+        }
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {

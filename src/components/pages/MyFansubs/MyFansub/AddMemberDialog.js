@@ -8,21 +8,37 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import { useStore } from '../../../../stores';
+import { useSnackbar } from 'notistack';
 
 
 
-export default function AddMemberDialog({onSumbit}) {
+export default function AddMemberDialog() {
+    const store = useStore();
+    const { fansubStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
     const [username, setUserame] = useState('');
     const { fansubId } = useParams();
 
-    const handleClickOpen = () => {
+    const addMember = async (username) => {
+        fansubStore.addMember(username,
+            () => {
+                enqueueSnackbar('חבר צוות נוסף בהצלחה', {variant: 'success'});
+                handleClose();
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            },
+        );
+    }
+
+    const handleOpen = () => {
         setOpen(true);
     };
 
     const handleSumbit = async () => {
-        onSumbit(username);
-        handleClose();
+        addMember(username);
     }
 
     const handleChange = (e) => setUserame(e.target.value);
@@ -33,7 +49,7 @@ export default function AddMemberDialog({onSumbit}) {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" color="primary" onClick={handleOpen}>
                 הוסף חבר +
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
