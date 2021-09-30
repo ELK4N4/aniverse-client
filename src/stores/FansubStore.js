@@ -1,5 +1,6 @@
 import { runInAction, makeAutoObservable, toJS, makeObservable, action } from 'mobx';
 import * as api from '../api';
+import errorMessage from '../errorMessage';
 
 class FansubStore {
   rootStore = null;
@@ -82,15 +83,8 @@ class FansubStore {
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
-        if (err.response) {
-          this.errors = err.response.data;
-        } else if (err.request) {
-          this.errors = err.request;
-        } else {
-          this.errors = err.message;
-        }
         onError(this.errors);
       });
     } finally {
@@ -100,7 +94,7 @@ class FansubStore {
     }
   }
 
-  async removeMember(userId) {
+  async removeMember(userId, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -123,7 +117,7 @@ class FansubStore {
     }
   }
 
-  async fetchFansubProjects(userId) {
+  async fetchFansubProjects() {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -145,31 +139,8 @@ class FansubStore {
       });
     }
   }
-
-  async fetchFansubProjects(userId) {
-    this.rootStore.loading = true;
-    this.state = 'pending';
-
-    try {
-      const { data } = await api.fetchFansubProjects(this.fansub._id);
-      runInAction(() => {
-        this.projects = data;
-        this.state = 'done';
-      });
-    } catch (err) {
-      console.error(err.response);
-      runInAction(() => {
-        this.errors = err;
-        this.state = 'error';
-      });
-    } finally {
-      runInAction(() => {
-        this.rootStore.loading = false;
-      });
-    }
-  }
-
-  async addProject(newProject) {
+  
+  async addProject(newProject, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -192,7 +163,7 @@ class FansubStore {
     }
   }
 
-  async deleteProject(projectId) {
+  async deleteProject(projectId, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -215,7 +186,7 @@ class FansubStore {
     }
   }
 
-  async updateFansub(updatedFansub) {
+  async updateFansub(updatedFansub, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -238,7 +209,7 @@ class FansubStore {
     }
   }
 
-  async followFansub() {
+  async followFansub(onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -262,7 +233,7 @@ class FansubStore {
     }
   }
 
-  async unfollowFansub() {
+  async unfollowFansub(onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
 
@@ -272,12 +243,14 @@ class FansubStore {
         this.fansub.followers--;
         this.rootStore.userStore.unfollowFansub(this.fansub._id);
         this.state = 'done';
+        onSuccess()
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
         this.errors = err;
         this.state = 'error';
+        onError()
       });
     } finally {
       runInAction(() => {
