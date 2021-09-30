@@ -103,12 +103,14 @@ class FansubStore {
       runInAction(() => {
         this.members = this.members.filter((member) => member.user._id !== userId);
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -149,12 +151,14 @@ class FansubStore {
       runInAction(() => {
         this.projects.push(data);
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -172,12 +176,14 @@ class FansubStore {
       runInAction(() => {
         this.projects = this.projects.filter((project) => project._id !== projectId);
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -195,12 +201,14 @@ class FansubStore {
       runInAction(() => {
         this.fansub = data;
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -219,12 +227,14 @@ class FansubStore {
         this.fansub.followers++;
         this.rootStore.userStore.followFansub(this.fansub._id);
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -248,9 +258,9 @@ class FansubStore {
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
-        onError()
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {

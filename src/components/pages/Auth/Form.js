@@ -15,6 +15,7 @@ import useStyles from './style';
 import { useStore } from '../../../stores';
 import { observer } from 'mobx-react-lite';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { useSnackbar } from 'notistack';
 
 const initialState = { username: '', email: '', password: '', confirmPassword: '' };
 
@@ -22,6 +23,7 @@ function Form() {
     const [form, setForm] = useState(initialState);
     const { userStore } = useStore();
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
     let location = useLocation();
     const history = useHistory();
     const params = new URLSearchParams(location.search);
@@ -31,20 +33,32 @@ function Form() {
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
     
     useEffect(() => {
-        if(userStore.state === 'done') {
-            history.push(redirect || '/');
-            userStore.resetState();
-        }
         setIsRegister(location.pathname === '/register');
         setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email")?.focus();}} , 400);
-    }, [location.pathname, userStore.state]);
+    }, [location.pathname]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isRegister) {
-            userStore.register({email: form.email, username: form.username, password: form.password});
+            userStore.register({email: form.email, username: form.username, password: form.password},
+                () => {
+                    enqueueSnackbar('ברוכים הבאים!', {variant: 'success'});
+                    history.push('/');
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
         } else {
-            userStore.login({email: form.email, password: form.password});
+            userStore.login({email: form.email, password: form.password},
+                () => {
+                    enqueueSnackbar('טוב שחזרתם!', {variant: 'success'});
+                    history.push('/');
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
         }
     };
 

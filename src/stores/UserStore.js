@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction, toJS } from 'mobx';
 import { setLocalStorage, getLocalStorage, removeLocalStorage } from '../localStorage';
 import * as api from '../api';
+import errorMessage from '../errorMessage';
 
 class UserStore {
   rootStore = null;
@@ -34,7 +35,7 @@ class UserStore {
     setLocalStorage('user', user);
   };
 
-  login = async (formData) => {
+  login = async (formData, onSuccess, onError) => {
     runInAction(() => {
       this.rootStore.loading = true;
       this.state = 'pending';
@@ -45,12 +46,14 @@ class UserStore {
       this.setProfile(data);
       runInAction(() => {
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
@@ -59,7 +62,7 @@ class UserStore {
     }
   };
 
-  register = async (formData) => {
+  register = async (formData, onSuccess, onError) => {
     runInAction(() => {
       this.rootStore.loading = true;
       this.state = 'pending';
@@ -70,12 +73,14 @@ class UserStore {
       this.setProfile(data);
       runInAction(() => {
         this.state = 'done';
+        onSuccess();
       });
     } catch (err) {
       console.error(err.response);
       runInAction(() => {
-        this.errors = err;
+        this.errors = errorMessage(err);
         this.state = 'error';
+        onError(this.errors);
       });
     } finally {
       runInAction(() => {
