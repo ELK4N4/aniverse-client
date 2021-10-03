@@ -16,8 +16,11 @@ import { useStore } from '../../../stores';
 import { observer } from 'mobx-react-lite';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
+import { useFormik } from 'formik';
+import * as yup from "yup";
+import { registerScheme } from '@aniverse/utils';
 
-const initialState = { username: '', email: '', password: '', confirmPassword: '' };
+const initialState = { email: '', username: '', password: '', confirmPassword: '' };
 
 function Form() {
     const [form, setForm] = useState(initialState);
@@ -31,14 +34,8 @@ function Form() {
     const [isRegister, setIsRegister] = useState(location.pathname === '/register');
     const [isSlide, setIsSlide] = useState(true);
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
-    
-    useEffect(() => {
-        setIsRegister(location.pathname === '/register');
-        setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email")?.focus();}} , 400);
-    }, [location.pathname]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         if (isRegister) {
             userStore.register({email: form.email, username: form.username, password: form.password},
                 () => {
@@ -61,6 +58,17 @@ function Form() {
             );
         }
     };
+
+    const formik = useFormik({ initialValues: initialState,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: registerScheme
+    })
+
+    useEffect(() => {
+        setIsRegister(location.pathname === '/register');
+        setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email")?.focus();}} , 400);
+    }, [location.pathname]);
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -90,8 +98,11 @@ function Form() {
                     </Typography>
                 </Slide>
                 <Slide direction="left" in={isSlide}>
-                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <TextField
+                            error={formik.touched.email && formik.errors.email}
+                            helperText={formik.touched.email && formik.errors.email}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
@@ -101,11 +112,15 @@ function Form() {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
                         />
                         { isRegister && (
                         <>
                             <TextField
+                                error={formik.touched.username && formik.errors.username}
+                                helperText={formik.touched.username && formik.errors.username}
+                                onBlur={formik.handleBlur}
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -114,11 +129,15 @@ function Form() {
                                 label="שם משתמש"
                                 name="username"
                                 autoComplete="username"
-                                onChange={handleChange}
+                                onChange={formik.handleChange}
+                                value={formik.values.username}
                             />
                         </>
                         )}
                         <TextField
+                            error={formik.touched.password && formik.errors.password}
+                            helperText={formik.touched.password && formik.errors.password}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
@@ -128,21 +147,26 @@ function Form() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
                         />
                         { isRegister && (
                         <>
                             <TextField
+                                error={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                onBlur={formik.handleBlur}
                                 variant="outlined"
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="password"
+                                id="confirmPassword"
                                 label="אימות סיסמה"
-                                name="password"
+                                name="confirmPassword"
                                 type="password"
-                                autoComplete="password"
-                                onChange={handleChange}
+                                autoComplete="confirmPassword"
+                                onChange={formik.handleChange}
+                                value={formik.values.confirmPassword}
                             />
                         </>
                         )}
