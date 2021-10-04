@@ -17,6 +17,8 @@ import { observer } from 'mobx-react-lite';
 import { autorun, runInAction } from 'mobx';
 import * as api from '../../api';
 import { useSnackbar } from 'notistack';
+import { fansubScheme } from '@aniverse/utils';
+import { useFormik } from 'formik';
 
 
 const initFansub = {
@@ -28,32 +30,12 @@ function CreateFansubForm() {
     const store = useStore();
     const history = useHistory();
     const classes = useStyles();
-    const { funsubStore } = useStore();
     const { enqueueSnackbar } = useSnackbar();
-    const [Fansub, setFansub] = useState(initFansub);
 
-    useEffect(
-        () =>
-          autorun(() => {
-            if(funsubStore.state === 'done') {
-                history.push('/');
-                runInAction(() => {
-                    funsubStore.resetState();
-                });
-            }
-        })
-    ,[])
-    
-    const handleOnChange = (e) => {
-        setFansub({...Fansub, [e.target.name]: e.target.value});
-    };
-
-     const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.addFansub(Fansub);
+            const { data } = await api.addFansub(values);
             enqueueSnackbar('פאנסאב נוסף בהצלחה', {variant: 'success'});
             history.push('/fansubs/' + data._id);
         } catch (err) {
@@ -69,6 +51,11 @@ function CreateFansubForm() {
         }
     };
 
+    const formik = useFormik({ initialValues: initFansub,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: fansubScheme
+    });
 
     return (
         <Grow in>
@@ -81,8 +68,11 @@ function CreateFansubForm() {
                         </Typography>
                     </Slide>
                     <Slide direction="left" in timeout={300}>
-                        <form autoComplete="off" className={classes.form} noValidate onSubmit={handleSubmit}>
+                        <form autoComplete="off" className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                             <TextField
+                                error={formik.touched.name && formik.errors.name}
+                                helperText={formik.touched.name && formik.errors.name}
+                                onBlur={formik.handleBlur}
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -91,10 +81,13 @@ function CreateFansubForm() {
                                 label="שם הפאנסאב"
                                 name="name"
                                 autoFocus
-                                value={Fansub.name}
-                                onChange={handleOnChange}
+                                onChange={formik.handleChange}
+                                value={formik.values.name}
                             />
                             <TextField
+                                error={formik.touched.avatar && formik.errors.avatar}
+                                helperText={formik.touched.avatar && formik.errors.avatar}
+                                onBlur={formik.handleBlur}
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -103,8 +96,8 @@ function CreateFansubForm() {
                                 label="תמונה"
                                 name="avatar"
                                 autoComplete="off"
-                                value={Fansub.englishName}
-                                onChange={handleOnChange}
+                                onChange={formik.handleChange}
+                                value={formik.values.avatar}
                             />
                             
                             <Button
@@ -124,4 +117,4 @@ function CreateFansubForm() {
     );
 }
 
-export default observer(CreateFansubForm);
+export default CreateFansubForm;
