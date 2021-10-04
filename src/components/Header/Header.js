@@ -36,6 +36,7 @@ function Header({toggleTheme, themeIcon}) {
   const { userStore } = store;
   const classes = useStyles();
 
+
   const menuOptions = [
     {
       name: 'בית',

@@ -18,12 +18,11 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { registerScheme } from '@aniverse/utils';
+import { registerScheme, loginScheme } from '@aniverse/utils';
 
 const initialState = { email: '', username: '', password: '', confirmPassword: '' };
 
 function Form() {
-    const [form, setForm] = useState(initialState);
     const { userStore } = useStore();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
@@ -35,9 +34,10 @@ function Form() {
     const [isSlide, setIsSlide] = useState(true);
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
 
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
+        const { confirmPassword, ...data } = values;
         if (isRegister) {
-            userStore.register({email: form.email, username: form.username, password: form.password},
+            userStore.register(data,
                 () => {
                     enqueueSnackbar('ברוכים הבאים!', {variant: 'success'});
                     history.push('/');
@@ -47,7 +47,8 @@ function Form() {
                 }
             );
         } else {
-            userStore.login({email: form.email, password: form.password},
+            delete data.username;
+            userStore.login(data,
                 () => {
                     enqueueSnackbar('טוב שחזרתם!', {variant: 'success'});
                     history.push('/');
@@ -62,15 +63,13 @@ function Form() {
     const formik = useFormik({ initialValues: initialState,
         validateOnBlur: true,
         onSubmit: handleSubmit,
-        validationSchema: registerScheme
+        validationSchema: isRegister ? registerScheme : loginScheme
     })
 
     useEffect(() => {
         setIsRegister(location.pathname === '/register');
         setTimeout(() => {if(location.pathname === '/register' || location.pathname === '/login'){setIsSlide(true); changeTitle(); document.getElementById("email")?.focus();}} , 400);
     }, [location.pathname]);
-
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const changeTitle = () => {
         setTitle('כניסה');
