@@ -21,7 +21,7 @@ export default function FansubCards({ clickable, fansubs, keyword }) {
             container
             spacing={5}
             direction="row"
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             //align="center"
             //justify="flex-start"
