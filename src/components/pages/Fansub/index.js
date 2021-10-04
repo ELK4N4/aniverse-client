@@ -18,6 +18,7 @@ import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import FansubTabs from './FansubTabs';
 import { toJS } from 'mobx';
+import { useSnackbar } from 'notistack';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -36,6 +37,7 @@ function Fansubs() {
     const history = useHistory();
     const location = useLocation();
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(async () => {
         fansubStore.fetchFansub(fansubId);
@@ -61,7 +63,25 @@ function Fansubs() {
     
     const onFollowClick = () => {
         if(userStore.user) {
-            fansubStore.followFansub();
+            fansubStore.followFansub(
+                () => {},
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
+        } else {
+            history.push('/login?redirect=' + location.pathname);
+        }
+    }
+
+    const onUnfollowClick = () => {
+        if(userStore.user) {
+            fansubStore.unfollowFansub(
+                () => {},
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
         } else {
             history.push('/login?redirect=' + location.pathname);
         }
@@ -79,7 +99,7 @@ function Fansubs() {
                     </Typography>
                     <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
                         {userStore.user?.user?.followingFansubs.find((fansub => fansub === fansubId)) ? 
-                            <Button size="large" disableElevation variant="contained" className={classes.followingButton} onClick={() => fansubStore.unfollowFansub()}>
+                            <Button size="large" disableElevation variant="contained" className={classes.followingButton} onClick={onUnfollowClick}>
                                 בטל מעקב
                             </Button>
                         :
