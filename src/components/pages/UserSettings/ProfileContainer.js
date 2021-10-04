@@ -13,18 +13,40 @@ import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import AnimeCards from '../../Cards/AnimeCards';
-
+import { useSnackbar } from 'notistack';
+import { useFormik } from 'formik';
+import { profileUpdateScheme } from '@aniverse/utils';
 
 function ProfileContianer() {
     const store = useStore();
     const { userStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const initialState = { avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
     const classes = useStyles();
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleSubmit = (values) => {
+        userStore.updateCurrentUser(values,
+            () => {
+                enqueueSnackbar('פרופיל משתמש עודכן', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            }
+        );
+    };
+
+
+    const formik = useFormik({ initialValues: initialState,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: profileUpdateScheme
+    })
+
+    console.log(formik.errors)
+
 
     return (
         <>
@@ -32,30 +54,36 @@ function ProfileContianer() {
                 <Typography align="center" variant="h5" className={classes.contianerTitle}>
                     פרופיל
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <TextField
+                            error={formik.touched.avatar && formik.errors.avatar}
+                            helperText={formik.touched.avatar && formik.errors.avatar}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            value={form.avatar}
                             id="avatar"
                             label="תמונת פרופיל"
                             name="avatar"
                             autoComplete="avatar"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.avatar}
                         />
                         <TextField
+                            error={formik.touched.banner && formik.errors.banner}
+                            helperText={formik.touched.banner && formik.errors.banner}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            value={form.banner}
                             id="banner"
                             label="באנר"
                             name="banner"
                             autoComplete="banner"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.banner}
                         />
                         <br />
                         <br />
