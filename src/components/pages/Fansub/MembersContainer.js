@@ -43,7 +43,7 @@ function MembersContainer() {
                         // justify="center"
                         alignItems="center"
                         //align="center"
-                        justify="flex-start"
+                        justifyContent="flex-start"
                     >
                         {fansubStore.members.map((member) => (
                             <Grid item xs='auto' key={member.user._id}>
