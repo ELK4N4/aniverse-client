@@ -7,7 +7,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
 import PanelTabs from '../PanelTabs';
-import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, MenuItem, Select, Typography } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../../stores';
@@ -18,6 +18,8 @@ import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 
+
+const statusTypes = ['פעיל', 'מוקפא', 'הושלם', 'מתוכנן', 'ננטש'];
 
 function Projects() {
     const store = useStore();
@@ -37,6 +39,16 @@ function Projects() {
 
     function handleDialogClose() {
         setOpen(false);
+    }
+
+    async function onStatusChange(projectId, updatedStatus) {
+        fansubStore.updateProjectStatus(projectId, updatedStatus,
+            () => {
+                enqueueSnackbar('הסטטוס שונה בהצלחה', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            })
     }
 
     async function deleteProject(projectId) {
@@ -86,6 +98,22 @@ function Projects() {
                                     primary={project.anime.name.hebrew}
                                 />
                                 <ListItemSecondaryAction>
+                                    <FormControl size="small" variant="outlined">
+                                        <InputLabel id="select-fansub-label">סטטוס</InputLabel>
+                                        <Select
+                                            labelId="choosen-fansub-label"
+                                            id="choosen-fansub"
+                                            label="פאנסאב"
+                                            value={project.status}
+                                            onChange={(e) => onStatusChange(project._id, e.target.value)}
+                                        >
+                                        {statusTypes.map((status) => (
+                                            <MenuItem key={status} value={status}>
+                                                {status}
+                                            </MenuItem>
+                                        ))}
+                                        </Select>
+                                    </FormControl>
                                     <IconButton aria-label="delete" onClick={() => deleteProject(project._id)}>
                                         <DeleteIcon />
                                     </IconButton>

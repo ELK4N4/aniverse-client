@@ -34,6 +34,7 @@ export const unfollowFansub = (fansubId) => API.delete(`/fansubs/${fansubId}/fol
 export const fetchProject = (fansubId, projectId) => API.get('/fansubs/' + fansubId + '/projects/' + projectId);
 export const addProject = (fansubId, newProject) => API.post(`/fansubs/${fansubId}/projects`, newProject);
 export const deleteProject = (fansubId, projectId) => API.delete(`/fansubs/${fansubId}/projects/${projectId}`);
+export const updateProjectStatus = (fansubId, projectId, updatedStatus) => API.put(`/fansubs/${fansubId}/projects/${projectId}/status`, updatedStatus);
 
 export const fetchEpisodes = (animeId) => API.get(`/animes/${animeId}/episodes`);
 export const fetchEpisode = (animeId, episodeId) => API.get(`/animes/${animeId}/episodes/${episodeId}`);

@@ -192,6 +192,31 @@ class FansubStore {
     }
   }
 
+  async updateProjectStatus(projectId, updatedStatus, onSuccess, onError) {
+    this.rootStore.loading = true;
+    this.state = 'pending';
+    try {
+      const { data } = await api.updateProjectStatus(this.fansub._id, projectId, {status: updatedStatus});
+      runInAction(() => {
+        const index = this.projects.findIndex((project) => project._id === projectId);
+        this.projects[index] = data;
+        this.state = 'done';
+        onSuccess();
+      });
+    } catch (err) {
+      console.error(err.response);
+      runInAction(() => {
+        this.errors = errorMessage(err);
+        this.state = 'error';
+        onError(this.errors);
+      });
+    } finally {
+      runInAction(() => {
+        this.rootStore.loading = false;
+      });
+    }
+  }
+
   async updateFansub(updatedFansub, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';

@@ -1,9 +1,18 @@
 export default (error) => {
+    let finalError;
     if (error.response) {
-        return error.response.data;
+        finalError =  error.response.data;
     } else if (error.request) {
-        return error.request;
+        finalError = error.request;
     } else {
-        return error.message;
+        finalError = error.message;
+    }
+
+    console.log(finalError)
+
+    if(typeof finalError !== "string") {
+        return "שגיאה";
+    } else {
+        return finalError;
     }
 };
