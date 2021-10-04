@@ -54,15 +54,15 @@ function ManageAnimes() {
     }
 
     const deleteAnime = async (animeId) => {
-        // store.startLoading();
-        // try {
-        //     await api.deleteFansub(animeId)
-        //     setAnimes(animes.filter((anime) => anime._id !== animeId));
-        // } catch (err) {
-        //     console.error(err.response);
-        // } finally {
-        //     store.stopLoading();
-        // }
+        store.startLoading();
+        try {
+            await api.deleteAnime(animeId);
+            setAnimes(animes.filter((anime) => anime._id !== animeId));
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
     }
 
     const updateAnime = async (updatedAnime) => {
