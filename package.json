@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "preinstall": "npx only-allow npm && npm install",
+    "preinstall": "npm install && npx only-allow npm",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
