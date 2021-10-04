@@ -45,9 +45,6 @@ function ProfileContianer() {
         validationSchema: profileUpdateScheme
     })
 
-    console.log(formik.errors)
-
-
     return (
         <>
             <Paper elevation={5} className={classes.paper}>
