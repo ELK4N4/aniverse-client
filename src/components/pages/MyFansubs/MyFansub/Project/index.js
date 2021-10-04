@@ -4,6 +4,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import MovieIcon from '@material-ui/icons/Movie';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -178,10 +179,10 @@ function Project() {
                                     primary={episode.name}
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => editEpisode(episode)}>
+                                    <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteEpisode(episode._id)}>
+                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>

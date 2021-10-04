@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
 import EditIcon from '@material-ui/icons/Edit';
@@ -79,8 +80,11 @@ function ProjectsContainer() {
                                 <IconButton aria-label="edit" onClick={() => handleClickOpen(member)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton edge="end" aria-label="delete" onClick={() => removeMember(member.user._id)}>
+                                <IconButton aria-label="delete" onClick={() => removeMember(member.user._id)}>
                                     <DeleteIcon />
+                                </IconButton>
+                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + member.user._id, '_blank', 'noopener,noreferrer')}>
+                                    <LaunchIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>

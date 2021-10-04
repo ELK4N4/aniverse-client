@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
 import PanelTabs from '../PanelTabs';
@@ -85,8 +86,11 @@ function Projects() {
                                     primary={project.anime.name.hebrew}
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteProject(project._id)}>
+                                    <IconButton aria-label="delete" onClick={() => deleteProject(project._id)}>
                                         <DeleteIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="launch" onClick={() => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')}>
+                                        <LaunchIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>
                             </ListItem>

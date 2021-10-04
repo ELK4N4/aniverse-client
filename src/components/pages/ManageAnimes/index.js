@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
@@ -100,8 +101,11 @@ function ManageAnimes() {
                                 primary={anime.name.hebrew}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete" onClick={() => deleteAnime(anime._id)}>
+                                <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
                                     <DeleteIcon />
+                                </IconButton>
+                                <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
+                                    <LaunchIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
