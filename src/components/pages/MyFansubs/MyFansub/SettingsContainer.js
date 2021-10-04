@@ -16,11 +16,13 @@ import { Skeleton } from '@material-ui/lab';
 import AddMemberDialog from './AddMemberDialog';
 import { toJS } from 'mobx';
 import FansubCard from '../../../Cards/FansubCards/FansubCard';
+import { useSnackbar } from 'notistack';
 
 
 function SettingsContainer() {
     const store = useStore();
     const { fansubStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar });
 
@@ -32,11 +34,18 @@ function SettingsContainer() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fansubStore.updateFansub(form);
+        fansubStore.updateFansub(form,
+            () => {
+                enqueueSnackbar('פרטי פאנסאב עודכנו', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            }
+        );
     };
 
     const leaveFansub = () => {
-        alert('leaveFansub')
+        alert('leaveFansub');
     };
 
     const deleteFansub = () => {
