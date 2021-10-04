@@ -16,14 +16,12 @@ import { observer } from 'mobx-react-lite';
 import { FANSUB, permissionsTypes } from '../../../../constants/permissionsTypes';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
-import FansubStore from '../../../../stores/FansubStore';
-
-
-
+import { useSnackbar } from 'notistack';
 
 function EditMemberDialog({open, handleClose, member}) {
     const store = useStore();
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
     const { userStore } = store;
     const { fansubStore } = store;
     const { fansubId, projectId } = useParams();
@@ -44,8 +42,22 @@ function EditMemberDialog({open, handleClose, member}) {
     }, [member])
 
     const handleSubmit = async () => {
-        await api.updateMember(fansubId, member.user._id, {role: inputs.role, permissions})
-        handleClose();
+        store.startLoading();
+        try {
+            const { data } = await api.updateMember(fansubId, member.user._id, {role: inputs.role, permissions});
+            enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
+            handleClose();
+        } catch (err) {
+            if (err.response) {
+                enqueueSnackbar(err.response.data, {variant: 'error'});
+            } else if (err.request) {
+                enqueueSnackbar(err.request, {variant: 'error'});
+            } else {
+                enqueueSnackbar(err.message, {variant: 'error'});
+            }
+        } finally {
+            store.stopLoading();
+        }
     }
 
     const addPermission = () => {
@@ -60,7 +72,13 @@ function EditMemberDialog({open, handleClose, member}) {
     }
 
     const removeMember = (userId) => () => {
-        fansubStore.removeMember(userId);
+        fansubStore.removeMember(userId,
+            () => {
+                enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+        });
         handleClose();
     };
 

@@ -20,10 +20,10 @@ import { useSnackbar } from 'notistack';
 function ProjectsContainer() {
     const store = useStore();
     const { fansubStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
     const [editMember, setEditMember] = useState();
-    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = (member) => {
@@ -36,7 +36,14 @@ function ProjectsContainer() {
     };
 
     const removeMember = async (userId) => {
-        fansubStore.removeMember(userId)
+        fansubStore.removeMember(userId,
+            () => {
+                enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            }
+        );
     }
 
     return (
