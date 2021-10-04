@@ -20,6 +20,7 @@ import { Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../../../stores';
 import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -62,6 +63,7 @@ function ProjectsDialog({ open, filteredProjects, handleDialogClose }) {
     const { fansubId } = useParams();
     const store = useStore();
     const { fansubStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const [keyword, setKeyword] = useState('');
     const animes = useRef([]);
     const choosenAnimes = useRef([]);
@@ -110,7 +112,13 @@ function ProjectsDialog({ open, filteredProjects, handleDialogClose }) {
 
     const addProjects = () => {
         choosenAnimes.current.forEach(async project => {
-            fansubStore.addProject(project);
+            fansubStore.addProject(project,
+                () => {
+                    enqueueSnackbar('הפרוייקט נוסף', {variant: 'success'});
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                })
         });
         handleDialogClose();
         choosenAnimes.current = [];
