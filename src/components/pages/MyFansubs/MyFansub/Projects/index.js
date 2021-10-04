@@ -15,12 +15,14 @@ import ProjectsDialog from './ProjectsDialog';
 import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 
 
 function Projects() {
     const store = useStore();
     const { userStore } = store;
     const { fansubStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const location = useLocation();
     const { fansubId } = useParams();
@@ -37,7 +39,13 @@ function Projects() {
     }
 
     async function deleteProject(projectId) {
-        fansubStore.deleteProject(projectId)
+        fansubStore.deleteProject(projectId, 
+            () => {
+                enqueueSnackbar('הפרוייקט הוסר', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            })
     }
 
     const handleOnClick = (projectId) => {
