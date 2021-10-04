@@ -63,15 +63,13 @@ function MyFansubs() {
             <Container maxWidth="lg">
                 <Paper elevation={5} className={classes.paper}>
                     <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        ניהול
+                        ניהול פאנסאבים
                     </Typography>
                     <List >
                     {fansubs.map((fansub) => (
                         <ListItem button key={fansub._id} onClick={() => goToFansub(fansub._id)}>
                             <ListItemAvatar>
-                                <Avatar>
-                                    <PeopleAltRoundedIcon />
-                                </Avatar>
+                                <Avatar src={fansub.avatar} />
                             </ListItemAvatar>
                             <ListItemText
                                 primary={fansub.name}
