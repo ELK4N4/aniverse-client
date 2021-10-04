@@ -10,6 +10,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchCurrentUser = () => API.get('/user');
+export const updateCurrentUser = (updatedUser) => API.put('/user', updatedUser);
 export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 
 export const fetchAnimes = (keyword) => API.get('/animes', { params: {search: keyword} });

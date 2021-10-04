@@ -13,16 +13,36 @@ import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import AnimeCards from '../../Cards/AnimeCards';
-
+import { useSnackbar } from 'notistack';
+import { useFormik } from 'formik';
+import { userUpdateScheme } from '@aniverse/utils';
 
 function UserContainer() {
     const store = useStore();
     const { userStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: ''};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
     const classes = useStyles();
+
+    const handleSubmit = (values) => {
+        userStore.updateCurrentUser(values,
+            () => {
+                enqueueSnackbar('פרטי משתמש עודכנו', {variant: 'success'});
+            },
+            (error) => {
+                enqueueSnackbar(error, {variant: 'error'});
+            }
+        );
+    };
+
+    const formik = useFormik({ initialValues: initialState,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: userUpdateScheme
+    })
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -32,8 +52,11 @@ function UserContainer() {
                 <Typography align="center" variant="h5" className={classes.contianerTitle}>
                     פרטי משתמש
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <TextField
+                            error={formik.touched.email && formik.errors.email}
+                            helperText={formik.touched.email && formik.errors.email}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
@@ -43,9 +66,13 @@ function UserContainer() {
                             label="כתובת אימייל"
                             name="email"
                             autoComplete="email"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
                         />
                         <TextField
+                            error={formik.touched.username && formik.errors.username}
+                            helperText={formik.touched.username && formik.errors.username}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
@@ -55,9 +82,13 @@ function UserContainer() {
                             label="שם משתמש"
                             name="username"
                             autoComplete="username"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.username}
                         />
                         <TextField
+                            error={formik.touched.password && formik.errors.password}
+                            helperText={formik.touched.password && formik.errors.password}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             margin="normal"
                             required
@@ -68,7 +99,8 @@ function UserContainer() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={handleChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
                         />
                         <br />
                         <br />

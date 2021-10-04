@@ -89,6 +89,33 @@ class UserStore {
     }
   };
 
+  updateCurrentUser = async (formData, onSuccess, onError) => {
+    runInAction(() => {
+      this.rootStore.loading = true;
+      this.state = 'pending';
+    });
+
+    try {
+      const { data } = await api.updateCurrentUser(formData);
+      this.setProfile({...this.user, user: data});
+      runInAction(() => {
+        this.state = 'done';
+        onSuccess();
+      });
+    } catch (err) {
+      console.error(err.response);
+      runInAction(() => {
+        this.errors = errorMessage(err);
+        this.state = 'error';
+        onError(this.errors);
+      });
+    } finally {
+      runInAction(() => {
+        this.rootStore.loading = false;
+      });
+    }
+  };
+
   fetchCurrentUser = async () => {
     const user = getLocalStorage('user');
     if (!user) {
