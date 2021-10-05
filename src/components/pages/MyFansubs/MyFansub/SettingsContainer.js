@@ -17,6 +17,8 @@ import AddMemberDialog from './AddMemberDialog';
 import { toJS } from 'mobx';
 import FansubCard from '../../../Cards/FansubCards/FansubCard';
 import { useSnackbar } from 'notistack';
+import { useFormik } from 'formik';
+import { fansubScheme } from '@aniverse/utils/validations';
 
 
 function SettingsContainer() {
@@ -24,17 +26,11 @@ function SettingsContainer() {
     const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
-    const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar });
+    const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner });
+    const initFansub = { name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner }
 
-    useEffect(() => {
-        setForm({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar });
-    }, [store.loading])
-
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fansubStore.updateFansub(form,
+    const handleSubmit = (values) => {
+        fansubStore.updateFansub(values,
             () => {
                 enqueueSnackbar('פרטי פאנסאב עודכנו', {variant: 'success'});
             },
@@ -43,13 +39,24 @@ function SettingsContainer() {
             }
         );
     };
+    
+    const formik = useFormik({ initialValues: initFansub,
+        enableReinitialize: true,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: fansubScheme
+    });
 
     const leaveFansub = () => {
-        alert('leaveFansub');
+        if (window.confirm("לעזוב את הפאנסאב " + fansubStore.fansub.name + "?")) {
+            alert('leaveFansub');
+        }
     };
 
     const deleteFansub = () => {
-        alert('deleteFansub')
+        if (window.confirm("למחוק את הפאנסאב " + fansubStore.fansub.name + "?")) {
+            alert('leaveFansub');
+        }
     };
 
     return (
@@ -73,10 +80,13 @@ function SettingsContainer() {
                             </Typography>
                         </>
                         :
-                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <Grid container spacing={3} alignItems="center">
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    error={formik.touched.name && formik.errors.name}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     margin="normal"
                                     required
@@ -85,10 +95,13 @@ function SettingsContainer() {
                                     label="שם פאנסאב"
                                     name="name"
                                     autoComplete="name"
-                                    onChange={handleChange}
-                                    defaultValue={fansubStore.fansub.name}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.name || ''}
                                 />
                                 <TextField
+                                    error={formik.touched.avatar && formik.errors.avatar}
+                                    helperText={formik.touched.avatar && formik.errors.avatar}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     margin="normal"
                                     required
@@ -97,10 +110,13 @@ function SettingsContainer() {
                                     label="תמונת פאנסאב"
                                     name="avatar"
                                     autoComplete="avatar"
-                                    onChange={handleChange}
-                                    defaultValue={fansubStore.fansub.avatar}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.avatar || ''}
                                 />
                                 <TextField
+                                    error={formik.touched.banner && formik.errors.banner}
+                                    helperText={formik.touched.banner && formik.errors.banner}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -108,8 +124,8 @@ function SettingsContainer() {
                                     label="באנר"
                                     name="banner"
                                     autoComplete="banner"
-                                    onChange={handleChange}
-                                    defaultValue={fansubStore.fansub.banner}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.banner || ''}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -122,8 +138,8 @@ function SettingsContainer() {
                                     alignItems="center"
                                     >
                                     <FansubCard
-                                        name={form.name}
-                                        img={form.avatar ? form.avatar : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
+                                        name={formik.values.name}
+                                        img={formik.values.avatar ? formik.values.avatar : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
                                         showContent
                                         timeout={500}
                                     />
