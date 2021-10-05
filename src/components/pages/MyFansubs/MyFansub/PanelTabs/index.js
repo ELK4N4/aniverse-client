@@ -66,7 +66,7 @@ function PanelTabs({ selectedTab }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    history.push({
+    history.replace({
       search: `?tab=${newValue}`,
       pathname: `/my-fansubs/${fansubId}`
     })

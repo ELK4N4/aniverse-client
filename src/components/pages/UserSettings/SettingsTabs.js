@@ -67,7 +67,7 @@ function SettingsTabs({ selectedTab }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    history.push({
+    history.replcae({
       search: `?tab=${newValue}`,
       pathname: `/user/settings`
     })

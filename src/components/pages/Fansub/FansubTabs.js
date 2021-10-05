@@ -65,10 +65,10 @@ function FansubTabs({ selectedTab, tabsBackgroundColor }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    history.push({
+    history.replace({
       search: `?tab=${newValue}`,
       pathname: `/fansubs/${fansubId}`
-    })
+    });
   };
 
   const handleChangeIndex = (index) => {
