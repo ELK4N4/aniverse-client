@@ -13,7 +13,7 @@ import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, Inpu
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { observer } from 'mobx-react-lite';
-import { FANSUB, permissionsTypes } from '../../../../constants/permissionsTypes';
+import { permissionsTypes } from '@aniverse/utils/types';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';

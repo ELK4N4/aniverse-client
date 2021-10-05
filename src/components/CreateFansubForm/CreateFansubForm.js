@@ -17,7 +17,7 @@ import { observer } from 'mobx-react-lite';
 import { autorun, runInAction } from 'mobx';
 import * as api from '../../api';
 import { useSnackbar } from 'notistack';
-import { fansubScheme } from '@aniverse/utils';
+import { fansubScheme } from '@aniverse/utils/validations';
 import { useFormik } from 'formik';
 
 
