@@ -46,12 +46,12 @@ function MyFansubs() {
         history.push(`/my-fansubs/${fansubId}`);
     }
 
-    const deleteFansub = async (deletedFansub) => {
-        if (window.confirm("למחוק את הפאנסאב " + deletedFansub.name + "?")) {
+    const deleteFansub = async (fansubId, fansubName) => {
+        if (window.confirm("למחוק את הפאנסאב " + fansubName + "?")) {
             store.startLoading();
             try {
-                await api.deleteFansub(deletedFansub._id)
-                setFansubs(fansubs.filter((fansub) => fansub._id !== deletedFansub._id));
+                await api.deleteFansub(fansubId)
+                setFansubs(fansubs.filter((fansub) => fansub._id !== fansubId));
             } catch (err) {
                 console.error(err.response);
             } finally {
@@ -78,7 +78,7 @@ function MyFansubs() {
                                 primary={fansub.name}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton aria-label="delete" onClick={() => deleteFansub(fansub)}>
+                                <IconButton aria-label="delete" onClick={() => deleteFansub(fansub._id, fansub.name)}>
                                     <DeleteIcon />
                                 </IconButton>
                                 <IconButton aria-label="launch" onClick={() => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')}>
