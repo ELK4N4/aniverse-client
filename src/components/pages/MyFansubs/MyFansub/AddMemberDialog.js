@@ -32,7 +32,6 @@ export default function AddMemberDialog() {
     }
 
     const formik = useFormik({ initialValues: { username: ''},
-        enableReinitialize: true,
         validateOnBlur: true,
         onSubmit: handleSumbit,
         validationSchema: memberScheme

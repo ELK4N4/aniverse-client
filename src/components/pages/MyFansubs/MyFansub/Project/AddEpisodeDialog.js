@@ -8,28 +8,30 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as api from '../../../../../api';
 import { Container, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { episodeScheme } from '@aniverse/utils/validations';
 
 
-const initialState = { number: '', name: '', link: '' , post: '' };
+const initialState = { number: 1, name: '', link: '' };
 
 export default function AddEpisodeDialog({onSumbit}) {
     const [open, setOpen] = useState(false);
     const [episode, setEpisode] = useState(initialState);
-    const { fansubId, projectId } = useParams();
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleSumbit = async () => {
-        onSumbit(episode);
+    const handleSumbit = (values) => {
+        onSumbit(values);
         handleClose();
     }
 
-    const handleChange = (e) => {
-        setEpisode({ ...episode, [e.target.name]: e.target.value });
-    }
+    const formik = useFormik({ initialValues: initialState,
+        validateOnBlur: true,
+        onSubmit: handleSumbit,
+        validationSchema: episodeScheme
+    });
 
     const handleClose = () => {
         setOpen(false);
@@ -41,57 +43,61 @@ export default function AddEpisodeDialog({onSumbit}) {
                 הוסף פרק +
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">הוספת פרק</DialogTitle>
-                <Container maxWidth="sm">
-                    <DialogContent>
-                        <TextField
-                            margin="dense"
-                            id="number"
-                            label="מספר פרק"
-                            type="number"
-                            fullWidth
-                            autoFocus
-                            name="number"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="name"
-                            name="name"
-                            label="שם פרק"
-                            type="text"
-                            fullWidth
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="link"
-                            name="link"
-                            label="קישור לדרייב"
-                            type="link"
-                            fullWidth
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="post"
-                            name="post"
-                            label="פוסט"
-                            type="text"
-                            fullWidth
-                            multiline
-                            onChange={handleChange}
-                        />
-                    </DialogContent>
-                </Container>
-                <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    ביטול
-                </Button>
-                <Button onClick={handleSumbit} variant="contained" color="primary">
-                    הוסף +
-                </Button>
-                </DialogActions>
+                <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
+                    <DialogTitle id="form-dialog-title">הוספת פרק</DialogTitle>
+                    <Container maxWidth="sm">
+                        <DialogContent>
+                            <TextField
+                                error={formik.touched.number && formik.errors.number}
+                                helperText={formik.touched.number && formik.errors.number}
+                                onBlur={formik.handleBlur}
+                                margin="dense"
+                                id="number"
+                                label="מספר פרק"
+                                type="number"
+                                fullWidth
+                                autoFocus
+                                name="number"
+                                value={formik.values.number}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField
+                                error={formik.touched.name && formik.errors.name}
+                                helperText={formik.touched.name && formik.errors.name}
+                                onBlur={formik.handleBlur}
+                                margin="dense"
+                                id="name"
+                                name="name"
+                                label="שם פרק"
+                                type="text"
+                                fullWidth
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField
+                                error={formik.touched.link && formik.errors.link}
+                                helperText={formik.touched.link && formik.errors.link}
+                                onBlur={formik.handleBlur}
+                                margin="dense"
+                                id="link"
+                                name="link"
+                                label="קישור לדרייב"
+                                type="link"
+                                fullWidth
+                                value={formik.values.link}
+                                onChange={formik.handleChange}
+                            />
+                        </DialogContent>
+                    </Container>
+                    <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        ביטול
+                    </Button>
+                    <Button type="submit" variant="contained" color="primary">
+                        הוסף +
+                    </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </div>
     );

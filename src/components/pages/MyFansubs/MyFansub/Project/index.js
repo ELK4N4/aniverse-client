@@ -37,7 +37,6 @@ function Project() {
         try {
             const projectRes = await api.fetchProject(fansubId, projectId);
             const animeRes = await api.fetchAnime(projectRes.data.anime);
-            console.log(projectRes.data)
             setProject(projectRes.data);
             setAnime(animeRes.data);
         } catch (err) {
@@ -49,13 +48,13 @@ function Project() {
     }, []);
 
     async function updateEpisode(updatedEpisode) {
+        store.startLoading();
         try {
-            const episodeId = updatedEpisode._id;
-            delete updatedEpisode._id;
-            const { data } = await api.updateEpisode(fansubId, projectId, episodeId, updatedEpisode);
+            const {_id, ...episodeFields} = updatedEpisode;
+            const { data } = await api.updateEpisode(fansubId, projectId, _id, episodeFields);
             const newProject = {...project};
             project.episodes.forEach((episode, index) => {
-                if(episode._id === episodeId) {
+                if(episode._id === _id) {
                     newProject.episodes[index] = data;
                 }
             });
@@ -63,16 +62,19 @@ function Project() {
             enqueueSnackbar('הפרק עודכן', {variant: 'success'});
         } catch (err) {
             if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
+                // enqueueSnackbar(err.response.data, {variant: 'error'});
             } else if (err.request) {
                 enqueueSnackbar(err.request, {variant: 'error'});
             } else {
                 enqueueSnackbar(err.message, {variant: 'error'});
             }
+        } finally {
+            store.stopLoading();
         }
     }
 
     async function deleteEpisode(episodeId) {
+        store.startLoading();
         try {
             const { data } = await api.deleteEpisode(fansubId, projectId, episodeId);
             const projectEpisodes = project.episodes.filter(episode => episode._id !== episodeId);
@@ -88,6 +90,8 @@ function Project() {
             } else {
                 enqueueSnackbar(err.message, {variant: 'error'});
             }
+        } finally {
+            store.stopLoading();
         }
     }
 
