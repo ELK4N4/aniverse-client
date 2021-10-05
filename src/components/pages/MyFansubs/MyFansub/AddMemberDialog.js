@@ -10,6 +10,8 @@ import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { useSnackbar } from 'notistack';
+import { useFormik } from 'formik';
+import { memberScheme } from '@aniverse/utils/validations';
 
 
 
@@ -19,10 +21,9 @@ export default function AddMemberDialog() {
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
     const [username, setUserame] = useState('');
-    const { fansubId } = useParams();
 
-    const addMember = async (username) => {
-        fansubStore.addMember(username,
+    const handleSumbit = (values) => {
+        fansubStore.addMember(values.username,
             () => {
                 enqueueSnackbar('חבר צוות נוסף בהצלחה', {variant: 'success'});
                 handleClose();
@@ -33,48 +34,57 @@ export default function AddMemberDialog() {
         );
     }
 
+    const formik = useFormik({ initialValues: { username: ''},
+        enableReinitialize: true,
+        validateOnBlur: true,
+        onSubmit: handleSumbit,
+        validationSchema: memberScheme
+    });
+
     const handleOpen = () => {
         setOpen(true);
     };
-
-    const handleSumbit = async () => {
-        addMember(username);
-    }
 
     const handleChange = (e) => setUserame(e.target.value);
 
     const handleClose = () => {
         setOpen(false);
+        formik.resetForm();
     };
-
+    
     return (
         <div>
             <Button variant="outlined" color="primary" onClick={handleOpen}>
                 הוסף חבר +
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="שם משתמש"
-                        type="name"
-                        fullWidth
-                        value={username}
-                        autoFocus
-                        name="text"
-                        onChange={handleChange}
-                    />
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    ביטול
-                </Button>
-                <Button onClick={handleSumbit} variant="contained" color="primary">
-                    הוסף +
-                </Button>
-                </DialogActions>
+                <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
+                    <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            error={formik.touched.username && formik.errors.username}
+                            helperText={formik.touched.username && formik.errors.username}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            id="username"
+                            label="שם משתמש"
+                            type="username"
+                            fullWidth
+                            value={formik.values.username}
+                            autoFocus
+                            name="username"
+                            onChange={formik.handleChange}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            ביטול
+                        </Button>
+                        <Button type="submit" variant="contained" color="primary">
+                            הוסף +
+                        </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </div>
     );
