@@ -13,14 +13,11 @@ import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
 
-
-
 export default function AddMemberDialog() {
     const store = useStore();
     const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
-    const [username, setUserame] = useState('');
 
     const handleSumbit = (values) => {
         fansubStore.addMember(values.username,
@@ -44,8 +41,6 @@ export default function AddMemberDialog() {
     const handleOpen = () => {
         setOpen(true);
     };
-
-    const handleChange = (e) => setUserame(e.target.value);
 
     const handleClose = () => {
         setOpen(false);
