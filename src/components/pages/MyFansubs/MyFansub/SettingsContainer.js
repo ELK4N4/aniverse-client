@@ -24,6 +24,7 @@ import { fansubScheme } from '@aniverse/utils/validations';
 function SettingsContainer() {
     const store = useStore();
     const { fansubStore } = store;
+    const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner });
@@ -47,15 +48,23 @@ function SettingsContainer() {
         validationSchema: fansubScheme
     });
 
-    const leaveFansub = () => {
+    const leaveFansub = async () => {
         if (window.confirm("לעזוב את הפאנסאב " + fansubStore.fansub.name + "?")) {
             alert('leaveFansub');
         }
     };
 
-    const deleteFansub = () => {
+    const deleteFansub = async () => {
         if (window.confirm("למחוק את הפאנסאב " + fansubStore.fansub.name + "?")) {
-            alert('leaveFansub');
+            store.startLoading();
+            try {
+                await api.deleteFansub(fansubStore.fansub._id);
+                history.push('/my-fansubs');
+            } catch (err) {
+                console.error(err.response);
+            } finally {
+                store.stopLoading();
+            }
         }
     };
 
