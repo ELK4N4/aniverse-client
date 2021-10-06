@@ -73,25 +73,27 @@ function Project() {
         }
     }
 
-    async function deleteEpisode(episodeId) {
-        store.startLoading();
-        try {
-            const { data } = await api.deleteEpisode(fansubId, projectId, episodeId);
-            const projectEpisodes = project.episodes.filter(episode => episode._id !== episodeId);
-            const newProject = {...project};
-            newProject.episodes = projectEpisodes;
-            setProject(newProject);
-            enqueueSnackbar('הפרק נמחק', {variant: 'warning'});
-        } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
+    async function deleteEpisode(episodeId, episodeNumber) {
+        if (window.confirm("למחוק את פרק " + episodeNumber + "?")) {
+            store.startLoading();
+            try {
+                const { data } = await api.deleteEpisode(fansubId, projectId, episodeId);
+                const projectEpisodes = project.episodes.filter(episode => episode._id !== episodeId);
+                const newProject = {...project};
+                newProject.episodes = projectEpisodes;
+                setProject(newProject);
+                enqueueSnackbar('הפרק נמחק', {variant: 'warning'});
+            } catch (err) {
+                if (err.response) {
+                    enqueueSnackbar(err.response.data, {variant: 'error'});
+                } else if (err.request) {
+                    enqueueSnackbar(err.request, {variant: 'error'});
+                } else {
+                    enqueueSnackbar(err.message, {variant: 'error'});
+                }
+            } finally {
+                store.stopLoading();
             }
-        } finally {
-            store.stopLoading();
         }
     }
 
@@ -186,7 +188,7 @@ function Project() {
                                     <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id)}>
+                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id, episode.number)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>
