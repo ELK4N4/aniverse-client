@@ -17,12 +17,11 @@ export default makeStyles((theme) => ({
         paddingBottom: theme.spacing(0.5)
     },
     fab: {
-        position: 'fixed',
+        position: 'relative',
         bottom: theme.spacing(3),
         left: theme.spacing(3),
     },
     paper: {
-        marginTop: '30px',
         overflow: 'hidden'
     }
 }));

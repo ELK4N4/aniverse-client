@@ -16,8 +16,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import MovieIcon from '@material-ui/icons/Movie';
+import AdminPanelSettingsIcon from '@material-ui/icons/SupervisedUserCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SearchIcon from '@material-ui/icons/Search';
@@ -121,11 +120,11 @@ function Header({toggleTheme, themeIcon}) {
             <p>התראות</p>
           </MenuItem>
 
-          <MenuItem component={Link} to={'/manage-animes'} onClick={handleMenuClose}>
+          <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <MovieIcon/>
+              <AdminPanelSettingsIcon/>
             </IconButton>
-            <p>ניהול אנימות</p>
+            <p>אדמין פאנל</p>
           </MenuItem>
 
           <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>

@@ -87,35 +87,33 @@ function ManageAnimes() {
 
     return (
         <>
-            <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        ניהול אנימות
-                    </Typography>
-                    <List >
-                    {animes.map((anime) => (
-                        <ListItem button key={anime._id} onClick={() => onAnimeClick(anime)}>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <PeopleAltRoundedIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={anime.name.hebrew}
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
-                                    <LaunchIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                    </List>
-                </Paper>
-            </Container>
+            <Paper elevation={5} className={classes.paper}>
+                <Typography align="center" component="h1" variant="h5" className={classes.title}>
+                    ניהול אנימות
+                </Typography>
+                <List >
+                {animes.map((anime) => (
+                    <ListItem button key={anime._id} onClick={() => onAnimeClick(anime)}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <PeopleAltRoundedIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={anime.name.hebrew}
+                        />
+                        <ListItemSecondaryAction>
+                            <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                            <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
+                                <LaunchIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                ))}
+                </List>
+            </Paper>
 
             <Link to='/animes/add'>
                 <Fab size="large" color="primary" aria-label="add" className={classes.fab}>

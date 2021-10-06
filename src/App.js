@@ -26,10 +26,10 @@ import ManageAnimes from "./components/pages/ManageAnimes";
 import AddAnimeForm from './components/AddAnimeForm/AddAnimeForm';
 import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
 import Project from './components/pages/MyFansubs/MyFansub/Project';
-import Sandbox from './components/pages/Sandbox';
 import User from './components/pages/User';
 import Home from './components/pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Admin from './components/pages/Admin';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -133,8 +133,8 @@ export default function App() {
                 <Route exact path="/users/:userId">
                   <User />
                 </Route>
-                <Route exact path= {["/manage-animes/"]}>
-                  <ManageAnimes />
+                <Route exact path= {["/admin/"]}>
+                  <Admin />
                 </Route>
                 <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                   <MyFansub />
@@ -143,7 +143,7 @@ export default function App() {
                   <UserSettings />
                 </Route>
                 <Route exact path="/sandbox">
-                  <Sandbox />
+                  There is no Sandbox :(
                 </Route>
               </Switch>
           </StylesProvider>
