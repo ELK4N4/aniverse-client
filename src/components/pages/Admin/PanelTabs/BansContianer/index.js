@@ -5,30 +5,30 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
-import useStyles from './style';
+import useStyles from '../../style';
 import EditIcon from '@material-ui/icons/Edit';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useStore } from '../../../stores';
-import * as api from '../../../api';
-import EditAdminDialog from './EditAdminDialog';
+import { useStore } from '../../../../../stores';
+import * as api from '../../../../../api';
+import EditBanDialog from './EditBanDialog';
 import { Skeleton } from '@material-ui/lab';
-import AddAdminDialog from './AddAdminDialog';
+import AddBanDialog from './AddBanDialog';
 import { useSnackbar } from 'notistack';
 
 
-function ProjectsContainer() {
+export default function BansContainer() {
     const store = useStore();
     const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
-    const [editAdmin, setEditAdmin] = useState();
+    const [editBan, setEditBan] = useState();
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = (admin) => {
-        setEditAdmin(admin);
+    const handleClickOpen = (ban) => {
+        setEditBan(ban);
         setOpen(true);
     };
     
@@ -36,9 +36,9 @@ function ProjectsContainer() {
         setOpen(false);
     };
 
-    const removeAdmin = (userId, username) => {
+    const removeBan = (userId, username) => {
         if (window.confirm("להסיר את " + username + " מהפאנסאב?")) {
-            fansubStore.removeAdmin(userId,
+            fansubStore.removeBan(userId,
                 () => {
                     enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
                 },
@@ -54,7 +54,7 @@ function ProjectsContainer() {
             <Container maxWidth="lg">
                 <Paper elevation={5} className={classes.paper}>
                     <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        אדמינים
+                        באנים
                     </Typography>
                     {store.loading ?
                         <>
@@ -70,22 +70,22 @@ function ProjectsContainer() {
                         </>
                         :
                     <List >
-                    {fansubStore.members?.map((admin) => (
-                        <ListItem button key={admin.user._id}>
+                    {fansubStore.members?.map((ban) => (
+                        <ListItem button key={ban.user._id}>
                             <ListItemAvatar>
-                                <Avatar src={admin.user.avatar}/>
+                                <Avatar src={ban.user.avatar}/>
                             </ListItemAvatar>
                             <ListItemText
-                                primary={admin.user.username}
+                                primary={ban.user.username}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton aria-label="edit" onClick={() => handleClickOpen(admin)}>
+                                <IconButton aria-label="edit" onClick={() => handleClickOpen(ban)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" onClick={() => removeAdmin(admin.user._id, admin.user.username)}>
+                                <IconButton aria-label="delete" onClick={() => removeBan(ban.user._id, ban.user.username)}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin.user._id, '_blank', 'noopener,noreferrer')}>
+                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')}>
                                     <LaunchIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -94,17 +94,14 @@ function ProjectsContainer() {
                     </List>
                 }
 
-                    <AddAdminDialog />
-
+                    <AddBanDialog />
                 </Paper>
 
             </Container>
 
-            {editAdmin &&
-                <EditAdminDialog removeAdmin={removeAdmin} admin={editAdmin} open={open} handleClose={handleClose}/>
+            {editBan &&
+                <EditBanDialog removeBan={removeBan} ban={editBan} open={open} handleClose={handleClose}/>
             }
         </>
     )
 }
-
-export default observer(ProjectsContainer);

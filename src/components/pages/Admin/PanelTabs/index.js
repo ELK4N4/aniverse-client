@@ -7,11 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import BansContainer from '../BansContainer';
-import AdminsContainer from '../AdminsContainer';
+import BansContainer from './BansContianer';
+import AdminsContainer from './AdminsContianer';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import AnimesContainer from '../AnimesContainer';
+import AnimesContainer from './AnimesContainer';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
