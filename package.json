@@ -5,7 +5,7 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
-    "@aniverse/utils": "^1.1.6",
+    "@aniverse/utils": "^1.1.7",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",

@@ -69,6 +69,7 @@ function EditMemberDialog({open, handleClose, member}) {
             }
         }
         setAvailablePermissions(helperArr);
+        setInputs({...inputs, permission: ''});
     }
 
     const removeMember = (userId) => () => {
@@ -80,6 +81,7 @@ function EditMemberDialog({open, handleClose, member}) {
                 enqueueSnackbar(error, {variant: 'error'});
         });
         handleClose();
+        console.log(inputs.permission)
     };
 
     const removePermission = (permissionToRemove) => () => {
@@ -94,7 +96,7 @@ function EditMemberDialog({open, handleClose, member}) {
     };
 
     const handleChange = (e) => {
-        setInputs({...inputs, [e.target.name]: e.target.value})
+        setInputs({...inputs, [e.target.name]: e.target.value});
     };
 
     return (
@@ -145,7 +147,7 @@ function EditMemberDialog({open, handleClose, member}) {
 
                             </Select>
                         </Box>
-                        <Button type="submit" disabled={availablePermissions.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
+                        <Button type="submit" disabled={availablePermissions.length === 0 || inputs.permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
                                 הוסף +
                         </Button>
                     </from>
