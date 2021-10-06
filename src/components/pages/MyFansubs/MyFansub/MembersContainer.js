@@ -36,15 +36,17 @@ function ProjectsContainer() {
         setOpen(false);
     };
 
-    const removeMember = async (userId) => {
-        fansubStore.removeMember(userId,
-            () => {
-                enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
-            },
-            (error) => {
-                enqueueSnackbar(error, {variant: 'error'});
-            }
-        );
+    const removeMember = (userId, username) => {
+        if (window.confirm("להסיר את " + username + " מהפאנסאב?")) {
+            fansubStore.removeMember(userId,
+                () => {
+                    enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
+        }
     }
 
     return (
@@ -80,7 +82,7 @@ function ProjectsContainer() {
                                 <IconButton aria-label="edit" onClick={() => handleClickOpen(member)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" onClick={() => removeMember(member.user._id)}>
+                                <IconButton aria-label="delete" onClick={() => removeMember(member.user._id, member.user.username)}>
                                     <DeleteIcon />
                                 </IconButton>
                                 <IconButton aria-label="launch" onClick={() => window.open('/users/' + member.user._id, '_blank', 'noopener,noreferrer')}>
