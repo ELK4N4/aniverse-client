@@ -17,6 +17,7 @@ import { permissionsTypes } from '@aniverse/utils/types';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
+import errorMessage from '../../../../errorMessage';
 
 function EditMemberDialog({open, handleClose, member}) {
     const store = useStore();
@@ -48,13 +49,7 @@ function EditMemberDialog({open, handleClose, member}) {
             enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
             handleClose();
         } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }

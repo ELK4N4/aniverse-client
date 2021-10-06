@@ -17,6 +17,7 @@ import * as api from '../../../../../api';
 import AddEpisodeDialog from './AddEpisodeDialog';
 import EditEpisodeDialog from './EditEpisodeDialog';
 import { Skeleton } from '@material-ui/lab';
+import errorMessage from '../../../../../errorMessage';
 
 
 function Project() {
@@ -98,6 +99,7 @@ function Project() {
     }
 
     const addEpisode = async (episode) => {
+        store.startLoading();
         try {
             const { data } = await api.addEpisode(fansubId, projectId, episode);
             const newProject = {...project};
@@ -105,13 +107,9 @@ function Project() {
             setProject(newProject);
             enqueueSnackbar('הפרק נוסף', {variant: 'success'});
         } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
         }
     }
 

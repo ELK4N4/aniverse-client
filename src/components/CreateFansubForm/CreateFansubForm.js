@@ -19,6 +19,7 @@ import * as api from '../../api';
 import { useSnackbar } from 'notistack';
 import { fansubScheme } from '@aniverse/utils/validations';
 import { useFormik } from 'formik';
+import errorMessage from '../../errorMessage';
 
 
 const initFansub = {
@@ -39,13 +40,7 @@ function CreateFansubForm() {
             enqueueSnackbar('פאנסאב נוסף בהצלחה', {variant: 'success'});
             history.push('/fansubs/' + data._id);
         } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }

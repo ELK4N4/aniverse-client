@@ -20,6 +20,7 @@ import * as api from '../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { animeScheme } from '@aniverse/utils/validations';
+import errorMessage from '../../errorMessage';
 
 
 const initAnime = {
@@ -91,13 +92,7 @@ function AddAnimeForm() {
             enqueueSnackbar('האנימה נוספה בהצלחה', {variant: 'success'});
             history.push('/animes/' + data._id);
         } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }

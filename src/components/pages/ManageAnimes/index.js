@@ -20,6 +20,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import AnimeDialog from './AnimeDialog';
+import { useSnackbar } from 'notistack';
+import errorMessage from '../../../errorMessage';
 
 
 function ManageAnimes() {
@@ -30,7 +32,7 @@ function ManageAnimes() {
     const [animes, setAnimes] = useState([]);
     const [open, setOpen] = useState(false);
     const [choosenAnime, setChoosenAnime] = useState();
-    const [keyword, setKeyword] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(async () => {
         store.startLoading();
@@ -74,8 +76,9 @@ function ManageAnimes() {
             const animesTemp = [...animes];
             animesTemp[editAnimeIndex] = data;
             setAnimes(animesTemp);
+            enqueueSnackbar('האנימה עודכנה', {variant: 'success'});
         } catch (err) {
-            console.error(err.response);
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }
