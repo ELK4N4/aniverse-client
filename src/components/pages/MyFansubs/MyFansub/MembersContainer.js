@@ -82,7 +82,7 @@ function ProjectsContainer() {
                 fontWeight: 'bold',
                 textShadow: '0px 0px 20px #000000',
                 [theme.breakpoints.down('xs')]: {
-                    fontSize: theme.typography.h4.fontSize,
+                    fontSize: theme.typography.h5.fontSize,
                 },
             }
         },
@@ -128,12 +128,6 @@ function ProjectsContainer() {
                             <div className={classes.textMargin} />
                             <StyledItemText
                                 primary={member.user.username}
-                                style={{
-                                    '&>*': {
-                                        fontSize: 40
-                                    }}
-                                }
-
                             />
                             <ListItemSecondaryAction>
                                 <Box className={classes.sideButtons}>
