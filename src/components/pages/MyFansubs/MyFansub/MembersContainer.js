@@ -5,9 +5,10 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import EditIcon from '@material-ui/icons/Edit';
-import { Avatar, Box, Button, Container, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography, withStyles } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, Menu, MenuItem, Typography, withStyles } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../stores';
@@ -26,6 +27,30 @@ function ProjectsContainer() {
     const classes = useStyles();
     const [editMember, setEditMember] = useState();
     const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const openMenu = Boolean(anchorEl);
+
+    const onClickEdit = (member) => {
+        return () => handleClickOpen(member);
+        
+    }
+
+    const onClickDelete = (memberId, username) => {
+        return () => removeMember(memberId, username);
+    }
+
+    const onClickLaunch = (memberId) => {
+        return () => window.open('/users/' + memberId, '_blank', 'noopener,noreferrer')
+    }
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = (callback) => {
+        setAnchorEl(null);
+        callback();
+    };
 
     const handleClickOpen = (member) => {
         setEditMember(member);
@@ -56,6 +81,9 @@ function ProjectsContainer() {
                 fontSize: theme.typography.h3.fontSize,
                 fontWeight: 'bold',
                 textShadow: '0px 0px 20px #000000',
+                [theme.breakpoints.down('xs')]: {
+                    fontSize: theme.typography.h4.fontSize,
+                },
             }
         },
     }))(ListItemText);
@@ -63,7 +91,7 @@ function ProjectsContainer() {
     const listItemBannerStyle = (image) => {
         if(image) {
             return {
-                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('${image}')`,
+                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url('${image}')`,
             };
         } else {
             return null;
@@ -97,7 +125,7 @@ function ProjectsContainer() {
                             <ListItemAvatar>
                                 <Avatar src={member.user.avatar} className={classes.avatar}/>
                             </ListItemAvatar>
-                            <div className="text-margin" style={{ marginLeft: 20, transition: '.3s' }} />
+                            <div className={classes.textMargin} />
                             <StyledItemText
                                 primary={member.user.username}
                                 style={{
@@ -109,15 +137,60 @@ function ProjectsContainer() {
                             />
                             <ListItemSecondaryAction>
                                 <Box className={classes.sideButtons}>
-                                    <IconButton color="primary" aria-label="edit" onClick={() => handleClickOpen(member)}>
+                                    <IconButton color="primary" aria-label="edit" onClick={onClickEdit(member)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton color="primary" aria-label="delete" onClick={() => removeMember(member.user._id, member.user.username)}>
+                                    <IconButton color="primary" aria-label="delete" onClick={onClickDelete(member.user._id, member.user.username)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                    <IconButton color="primary" aria-label="launch" onClick={() => window.open('/users/' + member.user._id, '_blank', 'noopener,noreferrer')}>
+                                    <IconButton color="primary" aria-label="launch" onClick={onClickLaunch(member.user._id)}>
                                         <LaunchIcon />
                                     </IconButton>
+                                </Box>
+                                <Box className={classes.moreButton}>
+                                    <IconButton
+                                        id="demo-positioned-button"
+                                        aria-controls="demo-positioned-menu"
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleMenuClick} color="primary" aria-label="launch">
+                                        <MoreVertIcon />
+                                    </IconButton>
+
+                                    <Menu
+                                        id="demo-positioned-menu"
+                                        aria-labelledby="demo-positioned-button"
+                                        anchorEl={anchorEl}
+                                        open={openMenu}
+                                        onClose={handleMenuClose}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                    >
+                                        <MenuItem onClick={() => handleMenuClose(onClickEdit(member))}>
+                                            <IconButton aria-label="show 4 new mails" color="inherit">
+                                                <EditIcon />
+                                            </IconButton>
+                                            <p>ערוך</p>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => handleMenuClose(onClickDelete(member.user._id, member.user.username))}>
+                                            <IconButton aria-label="show 4 new mails" color="inherit">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                            <p>מחק</p>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => handleMenuClose(onClickLaunch(member.user._id))}>
+                                            <IconButton aria-label="show 4 new mails" color="inherit">
+                                                <LaunchIcon />
+                                            </IconButton>
+                                            <p>צפייה</p>
+                                        </MenuItem>
+                                    </Menu>
                                 </Box>
                             </ListItemSecondaryAction>
                         </ListItem>
