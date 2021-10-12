@@ -63,7 +63,7 @@ function ProjectsContainer() {
     const listItemBannerStyle = (image) => {
         if(image) {
             return {
-                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('${image}')`
+                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('${image}')`,
             };
         } else {
             return null;
