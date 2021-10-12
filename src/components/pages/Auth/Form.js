@@ -17,7 +17,7 @@ import { observer } from 'mobx-react-lite';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { registerScheme, loginScheme } from '@aniverse/utils';
+import { registerScheme, loginScheme } from '@aniverse/utils/validations';
 
 const initialState = { email: '', username: '', password: '', confirmPassword: '' };
 

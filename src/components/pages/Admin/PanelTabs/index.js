@@ -7,11 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import BansContainer from './BansContianer';
+import AdminsContainer from './AdminsContianer';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import UserContainer from './UserContainer';
-import ProfileContainer from './ProfileContainer';
-import { Container } from '@material-ui/core';
+import AnimesContainer from './AnimesContainer';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,9 +26,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3} overflow="hidden">
-          <Container maxWidth="md">
-            {children}
-          </Container>
+          {children}
         </Box>
       )}
     </div>
@@ -52,11 +50,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SettingsTabs({ selectedTab }) {
+function PanelTabs({ selectedTab }) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const location = useLocation();
+  const { fansubId } = useParams();
   const params = new URLSearchParams(location.search);
   const tabIndex = params.get('tab');
   const [value, setValue] = useState(parseInt(tabIndex) || 0);
@@ -69,7 +68,6 @@ function SettingsTabs({ selectedTab }) {
     setValue(newValue);
     history.replace({
       search: `?tab=${newValue}`,
-      pathname: `/user/settings`
     })
   };
 
@@ -88,9 +86,9 @@ function SettingsTabs({ selectedTab }) {
           }}
           variant="fullWidth"
         >
-          <Tab label="משתמש" id="1" />
-          <Tab label="פרופיל" id="2" />
-          <Tab label="התראות" id="3" />
+          <Tab label="אדמינים" id="1" />
+          <Tab label="באנים" id="2" />
+          <Tab label="אנימות" id="3" />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -99,17 +97,17 @@ function SettingsTabs({ selectedTab }) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserContainer />
+          <AdminsContainer />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <ProfileContainer />
+          <BansContainer />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-            sdf
+          <AnimesContainer />
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
 
-export default observer(SettingsTabs);
+export default PanelTabs;

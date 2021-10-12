@@ -17,6 +17,7 @@ import * as api from '../../../../../api';
 import AddEpisodeDialog from './AddEpisodeDialog';
 import EditEpisodeDialog from './EditEpisodeDialog';
 import { Skeleton } from '@material-ui/lab';
+import errorMessage from '../../../../../errorMessage';
 
 
 function Project() {
@@ -37,7 +38,6 @@ function Project() {
         try {
             const projectRes = await api.fetchProject(fansubId, projectId);
             const animeRes = await api.fetchAnime(projectRes.data.anime);
-            console.log(projectRes.data)
             setProject(projectRes.data);
             setAnime(animeRes.data);
         } catch (err) {
@@ -49,13 +49,13 @@ function Project() {
     }, []);
 
     async function updateEpisode(updatedEpisode) {
+        store.startLoading();
         try {
-            const episodeId = updatedEpisode._id;
-            delete updatedEpisode._id;
-            const { data } = await api.updateEpisode(fansubId, projectId, episodeId, updatedEpisode);
+            const {_id, ...episodeFields} = updatedEpisode;
+            const { data } = await api.updateEpisode(fansubId, projectId, _id, episodeFields);
             const newProject = {...project};
             project.episodes.forEach((episode, index) => {
-                if(episode._id === episodeId) {
+                if(episode._id === _id) {
                     newProject.episodes[index] = data;
                 }
             });
@@ -63,35 +63,43 @@ function Project() {
             enqueueSnackbar('הפרק עודכן', {variant: 'success'});
         } catch (err) {
             if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
+                // enqueueSnackbar(err.response.data, {variant: 'error'});
             } else if (err.request) {
                 enqueueSnackbar(err.request, {variant: 'error'});
             } else {
                 enqueueSnackbar(err.message, {variant: 'error'});
             }
+        } finally {
+            store.stopLoading();
         }
     }
 
-    async function deleteEpisode(episodeId) {
-        try {
-            const { data } = await api.deleteEpisode(fansubId, projectId, episodeId);
-            const projectEpisodes = project.episodes.filter(episode => episode._id !== episodeId);
-            const newProject = {...project};
-            newProject.episodes = projectEpisodes;
-            setProject(newProject);
-            enqueueSnackbar('הפרק נמחק', {variant: 'warning'});
-        } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
+    async function deleteEpisode(episodeId, episodeNumber) {
+        if (window.confirm("למחוק את פרק " + episodeNumber + "?")) {
+            store.startLoading();
+            try {
+                const { data } = await api.deleteEpisode(fansubId, projectId, episodeId);
+                const projectEpisodes = project.episodes.filter(episode => episode._id !== episodeId);
+                const newProject = {...project};
+                newProject.episodes = projectEpisodes;
+                setProject(newProject);
+                enqueueSnackbar('הפרק נמחק', {variant: 'warning'});
+            } catch (err) {
+                if (err.response) {
+                    enqueueSnackbar(err.response.data, {variant: 'error'});
+                } else if (err.request) {
+                    enqueueSnackbar(err.request, {variant: 'error'});
+                } else {
+                    enqueueSnackbar(err.message, {variant: 'error'});
+                }
+            } finally {
+                store.stopLoading();
             }
         }
     }
 
     const addEpisode = async (episode) => {
+        store.startLoading();
         try {
             const { data } = await api.addEpisode(fansubId, projectId, episode);
             const newProject = {...project};
@@ -99,13 +107,9 @@ function Project() {
             setProject(newProject);
             enqueueSnackbar('הפרק נוסף', {variant: 'success'});
         } catch (err) {
-            if (err.response) {
-                enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
         }
     }
 
@@ -182,7 +186,7 @@ function Project() {
                                     <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id)}>
+                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id, episode.number)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>

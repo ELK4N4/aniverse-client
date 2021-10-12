@@ -2,22 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-import useStyles from './style';
+import useStyles from '../style';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import AddIcon from '@material-ui/icons/Add';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import * as api from '../../../../api';
+import * as api from '../../../../../api';
 import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../../../stores';
+import { useStore } from '../../../../../stores';
 import { observer } from 'mobx-react-lite';
 import { permissionsTypes } from '@aniverse/utils/types';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
-import errorMessage from '../../../../errorMessage';
+import errorMessage from '../../../../../errorMessage';
 
 function EditMemberDialog({open, handleClose, member}) {
     const store = useStore();

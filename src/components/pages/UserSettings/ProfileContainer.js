@@ -15,7 +15,7 @@ import { Slide } from '@material-ui/core';
 import AnimeCards from '../../Cards/AnimeCards';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { profileUpdateScheme } from '@aniverse/utils';
+import { profileUpdateScheme } from '@aniverse/utils/validations';
 
 function ProfileContianer() {
     const store = useStore();

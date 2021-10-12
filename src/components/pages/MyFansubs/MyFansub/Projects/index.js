@@ -48,17 +48,21 @@ function Projects() {
             },
             (error) => {
                 enqueueSnackbar(error, {variant: 'error'});
-            })
+            }
+        )
     }
 
-    async function deleteProject(projectId) {
-        fansubStore.deleteProject(projectId, 
-            () => {
-                enqueueSnackbar('הפרוייקט הוסר', {variant: 'success'});
-            },
-            (error) => {
-                enqueueSnackbar(error, {variant: 'error'});
-            })
+    async function deleteProject(projectId, projectName) {
+        if (window.confirm("למחוק את הפרוייקט " + projectName + "?")) {
+            fansubStore.deleteProject(projectId, 
+                () => {
+                    enqueueSnackbar('הפרוייקט הוסר', {variant: 'success'});
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            )
+        }
     }
 
     const handleOnClick = (projectId) => {
@@ -114,7 +118,7 @@ function Projects() {
                                         ))}
                                         </Select>
                                     </FormControl>
-                                    <IconButton aria-label="delete" onClick={() => deleteProject(project._id)}>
+                                    <IconButton aria-label="delete" onClick={() => deleteProject(project._id, project.anime.name.hebrew)}>
                                         <DeleteIcon />
                                     </IconButton>
                                     <IconButton aria-label="launch" onClick={() => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')}>

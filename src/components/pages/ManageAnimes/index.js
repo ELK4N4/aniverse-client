@@ -20,6 +20,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import AnimeDialog from './AnimeDialog';
+import { useSnackbar } from 'notistack';
+import errorMessage from '../../../errorMessage';
 
 
 function ManageAnimes() {
@@ -30,7 +32,7 @@ function ManageAnimes() {
     const [animes, setAnimes] = useState([]);
     const [open, setOpen] = useState(false);
     const [choosenAnime, setChoosenAnime] = useState();
-    const [keyword, setKeyword] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(async () => {
         store.startLoading();
@@ -74,8 +76,9 @@ function ManageAnimes() {
             const animesTemp = [...animes];
             animesTemp[editAnimeIndex] = data;
             setAnimes(animesTemp);
+            enqueueSnackbar('האנימה עודכנה', {variant: 'success'});
         } catch (err) {
-            console.error(err.response);
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }
@@ -84,35 +87,33 @@ function ManageAnimes() {
 
     return (
         <>
-            <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        ניהול אנימות
-                    </Typography>
-                    <List >
-                    {animes.map((anime) => (
-                        <ListItem button key={anime._id} onClick={() => onAnimeClick(anime)}>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <PeopleAltRoundedIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={anime.name.hebrew}
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
-                                    <LaunchIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                    </List>
-                </Paper>
-            </Container>
+            <Paper elevation={5} className={classes.paper}>
+                <Typography align="center" component="h1" variant="h5" className={classes.title}>
+                    ניהול אנימות
+                </Typography>
+                <List >
+                {animes.map((anime) => (
+                    <ListItem button key={anime._id} onClick={() => onAnimeClick(anime)}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <PeopleAltRoundedIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={anime.name.hebrew}
+                        />
+                        <ListItemSecondaryAction>
+                            <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                            <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
+                                <LaunchIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                ))}
+                </List>
+            </Paper>
 
             <Link to='/animes/add'>
                 <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
