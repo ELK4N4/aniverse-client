@@ -9,8 +9,8 @@ export default makeStyles((theme) => ({
         width: '100%',
     },
     searchBar: {
-        marginTop: theme.spacing(7),
-        marginBottom: theme.spacing(7),
+        marginTop: theme.spacing(8),
+        marginBottom: theme.spacing(8),
     },
     title: {
         padding: theme.spacing(2),
@@ -69,5 +69,38 @@ export default makeStyles((theme) => ({
     permissionControl: {
         flexGrow: 1,
         borderRadius: theme.shape.borderRadius
+    },
+    listItem: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+        borderRadius: 30,
+        padding: theme.spacing(2),
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        '&:hover $avatar': {
+            transform: 'scale(1.1)',
+        },
+        '&:hover .text-margin': {
+            transition: '.3s',
+            margin: 8
+        }
+    },
+
+    sideButtons: {
+        '& > *': {
+            backgroundColor: 'white',
+            marginRight: theme.spacing(.6),
+            marginLeft: theme.spacing(.6),
+        }
+    },
+
+    avatar: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+        fontSize: theme.spacing(4),
+        cursor: 'pointer',
+        backgroundColor: theme.palette.primary.main,
+        transition: '.3s',
     }
 }));
