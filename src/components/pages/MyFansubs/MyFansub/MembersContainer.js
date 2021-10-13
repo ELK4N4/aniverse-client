@@ -156,7 +156,7 @@ function ProjectsContainer() {
                                         aria-labelledby="demo-positioned-button"
                                         anchorEl={anchorEl}
                                         open={openMenu}
-                                        onClose={handleMenuClose}
+                                        onClose={() => setAnchorEl(null)}
                                         anchorOrigin={{
                                             vertical: 'top',
                                             horizontal: 'left',
