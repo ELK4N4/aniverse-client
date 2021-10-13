@@ -17,6 +17,7 @@ import EditMemberDialog from './EditMemberDialog';
 import { Skeleton } from '@material-ui/lab';
 import AddMemberDialog from './AddMemberDialog';
 import { useSnackbar } from 'notistack';
+import StyledListItem from '../../../StyledListItem';
 
 
 function ProjectsContainer() {
@@ -119,76 +120,32 @@ function ProjectsContainer() {
                         </>
                         :
                     <List >
-                    {fansubStore.members?.map((member) => (
-                        <ListItem button key={member.user._id} className={classes.listItem} style={listItemBannerStyle(member.user.banner)}>
-                            <div style={{marginLeft: 10}} />
-                            <ListItemAvatar>
-                                <Avatar src={member.user.avatar} className={classes.avatar}/>
-                            </ListItemAvatar>
-                            <div className={classes.textMargin} />
-                            <StyledItemText
-                                primary={member.user.username}
+                        {fansubStore.members?.map((member) => (
+                            <StyledListItem
+                                key={member.user._id}
+                                text={member.user.username}
+                                avatar={member.user.avatar}
+                                banner={member.user.banner}
+                                onClick={onClickEdit(member)}
+                                controls={[
+                                    {
+                                        icon: <EditIcon />,
+                                        text: 'ערוך',
+                                        onClick: onClickEdit(member)
+                                    },
+                                    {
+                                        icon: <DeleteIcon />,
+                                        text: 'מחק',
+                                        onClick: onClickDelete(member.user._id, member.user.username)
+                                    },
+                                    {
+                                        icon: <LaunchIcon />,
+                                        text: 'צפייה',
+                                        onClick: onClickLaunch(member.user._id)
+                                    },
+                                ]}
                             />
-                            <ListItemSecondaryAction>
-                                <Box className={classes.sideButtons}>
-                                    <IconButton color="primary" aria-label="edit" onClick={onClickEdit(member)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton color="primary" aria-label="delete" onClick={onClickDelete(member.user._id, member.user.username)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                    <IconButton color="primary" aria-label="launch" onClick={onClickLaunch(member.user._id)}>
-                                        <LaunchIcon />
-                                    </IconButton>
-                                </Box>
-                                <Box className={classes.moreButton}>
-                                    <IconButton
-                                        id="demo-positioned-button"
-                                        aria-controls="demo-positioned-menu"
-                                        aria-haspopup="true"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={handleMenuClick} color="primary" aria-label="launch">
-                                        <MoreVertIcon />
-                                    </IconButton>
-
-                                    <Menu
-                                        id="demo-positioned-menu"
-                                        aria-labelledby="demo-positioned-button"
-                                        anchorEl={anchorEl}
-                                        open={openMenu}
-                                        onClose={() => setAnchorEl(null)}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                    >
-                                        <MenuItem onClick={() => handleMenuClose(onClickEdit(member))}>
-                                            <IconButton aria-label="show 4 new mails" color="inherit">
-                                                <EditIcon />
-                                            </IconButton>
-                                            <p>ערוך</p>
-                                        </MenuItem>
-                                        <MenuItem onClick={() => handleMenuClose(onClickDelete(member.user._id, member.user.username))}>
-                                            <IconButton aria-label="show 4 new mails" color="inherit">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                            <p>מחק</p>
-                                        </MenuItem>
-                                        <MenuItem onClick={() => handleMenuClose(onClickLaunch(member.user._id))}>
-                                            <IconButton aria-label="show 4 new mails" color="inherit">
-                                                <LaunchIcon />
-                                            </IconButton>
-                                            <p>צפייה</p>
-                                        </MenuItem>
-                                    </Menu>
-                                </Box>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
+                        ))}
                     </List>
                 }
 

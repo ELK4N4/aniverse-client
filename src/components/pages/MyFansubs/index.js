@@ -19,6 +19,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
+import StyledListItem from '../../StyledListItem';
 
 
 function MyFansubs() {
@@ -65,28 +66,31 @@ function MyFansubs() {
         <>
             <Container maxWidth="lg">
                 <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
+                    <Typography align="center" variant="h4" className={classes.title}>
                         ניהול פאנסאבים
                     </Typography>
-                    <List >
-                    {fansubs.map((fansub) => (
-                        <ListItem button key={fansub._id} onClick={() => goToFansub(fansub._id)}>
-                            <ListItemAvatar>
-                                <Avatar src={fansub.avatar} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={fansub.name}
+                    <List>
+                        {fansubs.map((fansub) => (
+                            <StyledListItem
+                                key={fansub._id}
+                                text={fansub.name}
+                                avatar={fansub.avatar}
+                                banner={fansub.banner}
+                                onClick={() => goToFansub(fansub._id)}
+                                controls={[
+                                    {
+                                        icon: <DeleteIcon />,
+                                        text: 'מחק',
+                                        onClick: () => deleteFansub(fansub._id, fansub.name)
+                                    },
+                                    {
+                                        icon: <LaunchIcon />,
+                                        text: 'צפייה',
+                                        onClick: () => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')
+                                    },
+                                ]}
                             />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="delete" onClick={() => deleteFansub(fansub._id, fansub.name)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')}>
-                                    <LaunchIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
+                        ))}
                     </List>
                 </Paper>
             </Container>

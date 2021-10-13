@@ -23,6 +23,7 @@ export default makeStyles((theme) => ({
     },
     paper: {
         marginTop: '30px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        padding: theme.spacing(2),
     }
 }));
