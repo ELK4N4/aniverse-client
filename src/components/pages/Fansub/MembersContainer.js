@@ -38,29 +38,25 @@ function MembersContainer() {
                 <Grid
                         className={classes.root}
                         container
-                        spacing={8}
                         direction="row"
-                        // justify="center"
                         alignItems="center"
-                        //align="center"
-                        justifyContent="flex-start"
+                        justifyContent="center"
                     >
                         {fansubStore.members.map((member) => (
                             <Grid item xs='auto' key={member.user._id}>
                                 <Paper elevation={0} className={classes.memberPaper} onClick={() => handleClick(member.user._id)}>
-                                    <Box display="flex" alignItems="center">
+                                    <Box alignItems="center">
                                         <Avatar
                                             src={member.user.avatar}
                                             className={classes.userAvatar}
                                         />
-                                        <div style={{marginRight: 30}}>
-                                            <Typography gutterBottom variant="h5">
-                                                { member.user.username }
-                                            </Typography>
-                                            <Typography gutterBottom variant="body1">
-                                                { member.role }
-                                            </Typography>
-                                        </div>
+                                        <div style={{marginTop: 15}} />
+                                        <Typography align="center" variant="h5" style={{fontWeight: 'bold'}}>
+                                            { member.user.username }
+                                        </Typography>
+                                        <Typography align="center" variant="body1">
+                                            { member.role }
+                                        </Typography>
                                     </Box>
                                 </Paper>
                             {member.userId}
