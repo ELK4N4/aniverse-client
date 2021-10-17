@@ -39,7 +39,7 @@ function Form() {
             userStore.register(data,
                 () => {
                     enqueueSnackbar('ברוכים הבאים!', {variant: 'success'});
-                    history.push('/');
+                    history.push(redirect ?? '/');
                 },
                 (error) => {
                     enqueueSnackbar(error, {variant: 'error'});
@@ -50,7 +50,7 @@ function Form() {
             userStore.login(data,
                 () => {
                     enqueueSnackbar('טוב שחזרתם!', {variant: 'success'});
-                    history.push('/');
+                    history.push(redirect ?? '/');
                 },
                 (error) => {
                     enqueueSnackbar(error, {variant: 'error'});
