@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, MenuItem, Select, Typography } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../stores';
@@ -14,9 +14,11 @@ import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import AnimeCards from '../../Cards/AnimeCards';
 
+const statusTypes = ['הכל', 'פעיל', 'מוקפא', 'הושלם', 'מתוכנן', 'ננטש'];
 
 function ProjectsContainer() {
     const store = useStore();
+    const [status, setStatus] = useState('הכל');
     const { userStore } = store;
     const { fansubStore } = store;
     const history = useHistory();
@@ -28,10 +30,29 @@ function ProjectsContainer() {
     return (
         <>
             <Paper elevation={5} className={classes.paper}>
-                <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                    פרוייקטים
-                </Typography>
-                <AnimeCards clickable animes={fansubStore.fansubAnimes} />
+                <Box display="flex" justifyContent="center">
+                    <Typography align="center" variant="h4" className={classes.title}>
+                        פרוייקטים
+                    </Typography>
+                    <div style={{marginRight: 10}} />
+                    <FormControl size="large" variant="outlined">
+                        <InputLabel id="select-fansub-label">סטטוס</InputLabel>
+                        <Select
+                            labelId="choosen-fansub-label"
+                            id="choosen-fansub"
+                            label="פאנסאב"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                        {statusTypes.map((status) => (
+                            <MenuItem key={status} value={status}>
+                                {status}
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+                <AnimeCards clickable animes={fansubStore.fansubAnimesByStatus(status)} />
             </Paper>
         </>
     )
