@@ -46,6 +46,9 @@ export const fetchComments = (animeId, episodeId) => API.get(`/animes/${animeId}
 export const addComment = (animeId, episodeId, comment) => API.post(`/animes/${animeId}/episodes/${episodeId}/comments`, comment);
 export const removeComment = (animeId, episodeId, commentId) => API.delete(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`);
 export const updateComment = (animeId, episodeId, commentId, updatedComment) => API.put(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`, updatedComment);
+export const addRating = (animeId, score) => API.post(`/animes/${animeId}/rating`, {score: score});
+export const updateRating = (animeId, ratingId, score) => API.put(`/animes/${animeId}/rating/${ratingId}`, {score});
+export const deleteRating = (animeId, ratingId) => API.delete(`/animes/${animeId}/rating/${ratingId}`);
 
 
 export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/${username}`);

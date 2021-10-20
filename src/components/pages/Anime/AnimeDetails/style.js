@@ -55,6 +55,10 @@ export default makeStyles((theme) => ({
             margin: 'auto',
         }
     },
+    metadataText: {
+        fontWeight: 'bold',
+        display: 'block',
+    },
     animeImage: {
         borderRadius: '40px',
         objectFit: 'cover',
@@ -91,6 +95,12 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         display: 'block',
         color: theme.palette.primary.main
+    },
+    detailsRatingNumber: {
+        fontWeight: 'bold',
+        marginLeft: theme.spacing(1),
+        display: 'block',
+        color: '#ffb400'
     },
     episodesBtnsContainer: {
         marginTop: theme.spacing(1),
