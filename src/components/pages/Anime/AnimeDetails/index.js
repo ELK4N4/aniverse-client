@@ -9,6 +9,8 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { Rating } from '@material-ui/lab';
 import * as api from '../../../../api';
+import { useSnackbar } from 'notistack';
+import errorMessage from '../../../../errorMessage';
 
 
 
@@ -20,8 +22,8 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const params = new URLSearchParams(location.search);
     const fansubId = choosenFansub;
     const { userStore } = store;
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
-    console.log(anime)
     const [rating, setRating] = useState({
         avg: anime.rating?.avg,
         userRating: anime.rating?.userRating
@@ -37,22 +39,30 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
 
     const onRatingChange = async (event, newValue) => {
         let ratingRes;
-        if(newValue == null) {
-            if(rating.userRating?.score) {
-                ratingRes = await api.deleteRating(animeId, rating.userRating._id);
+        store.startLoading();
+        try {
+            if(newValue == null) {
+                if(rating.userRating?.score) {
+                    ratingRes = await api.deleteRating(animeId, rating.userRating._id);
+                } else {
+                    ratingRes = await api.addRating(animeId, rating.avg);
+                }
             } else {
-                ratingRes = await api.addRating(animeId, rating.avg);
+                if(rating.userRating?.score) {
+                    ratingRes = await api.updateRating(animeId, rating.userRating._id, newValue);
+                } else {
+                    ratingRes = await api.addRating(animeId, newValue);
+                }
             }
-        } else {
-            if(rating.userRating?.score) {
-                ratingRes = await api.updateRating(animeId, rating.userRating._id, newValue);
-            } else {
-                ratingRes = await api.addRating(animeId, newValue);
-            }
+    
+            const { data } = ratingRes;
+            setRating(data);
+            enqueueSnackbar('הדירוג עודכן', {variant: 'success'});
+        } catch (err) {
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
         }
-
-        const { data } = ratingRes;
-        setRating(data);
     }
     
     const ratingStyle = () => {
