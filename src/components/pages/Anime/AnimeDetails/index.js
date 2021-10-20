@@ -22,8 +22,8 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const { userStore } = store;
     const classes = useStyles();
     const [rating, setRating] = useState({
-        avg: anime.rating.avg,
-        userRating: anime.rating.userRating
+        avg: anime.rating?.avg,
+        userRating: anime.rating?.userRating
     });
     const [ratingHover, setRatingHover] = useState(false);
     const ratingDisplay = useMemo(() => {
@@ -82,7 +82,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                 />
                                 <Tooltip title="דירוג כללי" interactive TransitionComponent={Zoom} placement="buttom">
                                     <Typography variant="h6" className={classes.detailsRatingNumber}>
-                                        ({Math.round(rating.avg * 10) / 10 || 0})
+                                        ({Math.round(rating.avg * 10) / 10 || 'ללא'})
                                     </Typography>
                                 </Tooltip>
                             </Box>
