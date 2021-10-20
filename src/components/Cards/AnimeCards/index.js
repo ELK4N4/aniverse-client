@@ -33,6 +33,7 @@ export default function AnimeCards({ clickable, animes }) {
                         img={anime.image}
                         showContent
                         timeout={500}
+                        rating={anime.rating.avg}
                     />
                 </Grid>
             ))}

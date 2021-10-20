@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import useStyles from './style';
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Tooltip, Typography, Zoom } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
+import { Rating } from '@material-ui/lab';
+import * as api from '../../../../api';
 
 
 
@@ -19,9 +21,45 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const fansubId = choosenFansub;
     const { userStore } = store;
     const classes = useStyles();
+    const [rating, setRating] = useState({
+        avg: anime.rating.avg,
+        userRating: anime.rating.userRating
+    });
+    const [ratingHover, setRatingHover] = useState(false);
+    const ratingDisplay = useMemo(() => {
+        return rating.userRating?.score || rating.avg;
+    }, [rating]);
 
     const onEpisodeClick = (episodeId) => {
         history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episodeId);
+    }
+
+    const onRatingChange = async (event, newValue) => {
+        let ratingRes;
+        if(newValue == null) {
+            if(rating.userRating?.score) {
+                ratingRes = await api.deleteRating(animeId, rating.userRating._id);
+            } else {
+                ratingRes = await api.addRating(animeId, rating.avg);
+            }
+        } else {
+            if(rating.userRating?.score) {
+                ratingRes = await api.updateRating(animeId, rating.userRating._id, newValue);
+            } else {
+                ratingRes = await api.addRating(animeId, newValue);
+            }
+        }
+
+        const { data } = ratingRes;
+        setRating(data);
+    }
+    
+    const ratingStyle = () => {
+        if(rating.userRating != null || ratingHover) {
+            return {color: '#E23D28'};
+        } else {
+            return {};
+        }
     }
 
     return (
@@ -31,11 +69,28 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                     <Box className={classes.metadataBox}>
                         <div>
                             <img src={anime.image} width="200" height="300" className={classes.animeImage} />
-                            <div>
+                            <Box display="flex" alignItems="center">
+                                <Rating
+                                    style={ratingStyle()}
+                                    name="simple-controlled"
+                                    size="large"
+                                    value={ratingDisplay}
+                                    onChange={onRatingChange}
+                                    onMouseOver={() => setRatingHover(true)}
+                                    onMouseLeave={() => setRatingHover(false)}
+                                    disabled={!userStore.user}
+                                />
+                                <Tooltip title="דירוג כללי" interactive TransitionComponent={Zoom} placement="buttom">
+                                    <Typography variant="h6" className={classes.detailsRatingNumber}>
+                                        ({Math.round(rating.avg * 10) / 10 || 0})
+                                    </Typography>
+                                </Tooltip>
+                            </Box>
+                            <Typography variant="body1" className={classes.metadataText}>
                                 מספר פרקים:
                                 &nbsp;
                                 {anime.episodesNumber}
-                            </div>
+                            </Typography>
                         </div>
                     </Box>
                     <div>
@@ -94,4 +149,4 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     )
 }
 
-export default AnimeDetails;
+export default observer(AnimeDetails);

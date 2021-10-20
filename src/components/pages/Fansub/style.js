@@ -3,10 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     root: {
-        padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+        '&>*': {
+            margin: 15
+        }
     },
     logo: {
         width: theme.spacing(24),
@@ -52,15 +54,19 @@ export default makeStyles((theme) => ({
     userAvatar: {
         width: theme.spacing(15),
         height: theme.spacing(15),
+        transition: '.5s'
     },
     memberPaper: {
         cursor: 'pointer',
-        backgroundColor: alpha(theme.palette.primary.main, 0.15),
+        backgroundColor: alpha(theme.palette.primary.main, 0.2),
         padding: theme.spacing(2),
-        width: theme.spacing(30),
-        transition: '.2s',
+        transition: '.5s',
         '&:hover': {
-            backgroundColor: alpha(theme.palette.primary.main, 0.25),
-        }
+            backgroundColor: alpha(theme.palette.primary.main, 0.35),
+            boxShadow: '0px 0px 50px black',
+        },
+        '&:hover $userAvatar': {
+            transform: 'scale(1.05)',
+        },
     },
 }));

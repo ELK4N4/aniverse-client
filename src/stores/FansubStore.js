@@ -305,6 +305,17 @@ class FansubStore {
   get followers() {
     return this.fansub.followers;
   }
+
+  fansubAnimesByStatus(status) {
+    const animes = [];
+    this.projects.forEach(project => {
+      if(status === 'הכל' || project.status === status) {
+        animes.push(project.anime);
+      }
+    })
+    return animes;
+  }
+
 }
 
 export default FansubStore;
