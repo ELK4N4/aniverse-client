@@ -21,6 +21,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const fansubId = choosenFansub;
     const { userStore } = store;
     const classes = useStyles();
+    console.log(anime)
     const [rating, setRating] = useState({
         avg: anime.rating?.avg,
         userRating: anime.rating?.userRating
