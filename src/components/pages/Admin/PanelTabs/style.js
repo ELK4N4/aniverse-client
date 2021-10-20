@@ -39,7 +39,6 @@ export default makeStyles((theme) => ({
     chip: {
         margin: theme.spacing(0.5),
     },
-
     searchPaper: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),

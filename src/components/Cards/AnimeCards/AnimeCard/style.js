@@ -29,5 +29,21 @@ export default makeStyles((theme) => ({
       },
       padding: {
         padding: theme.spacing(1),
+      },
+      tinyDetials: {
+        position: 'absolute',
+        bottom: '10px',
+        paddingRight: '10px',
+        paddingLeft: '10px',
+        width: '100%',
+      },
+      ratingPaper: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(1),
+      },
+      ratingText: {
+        marginRight: theme.spacing(.5),
+        marginLeft: theme.spacing(.5),
       }
 }));

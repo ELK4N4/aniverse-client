@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grow from '@material-ui/core/Grow';
 import Typography from '@material-ui/core/Typography';
-import { Paper, Slide, Zoom } from '@material-ui/core';
+import { Box, Chip, Paper, Slide, Zoom } from '@material-ui/core';
+import StarIcon from '@material-ui/icons/Star';
 import useStyles from './style';
+import { Rating } from '@material-ui/lab';
 
 
-export default function AnimeCard({ img, name, summary, showContent, timeout, width, height }) {
+export default function AnimeCard({ img, name, summary, rating, showContent, timeout, width, height }) {
   const classes = useStyles();
-
   const [hover, setHover] = useState(false);
 
   const toggleHover = () => setHover(!hover);
@@ -32,13 +33,14 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
                     style={{height}}
                 />
                 <Slide in={!hover && showContent} direction="down">
-                    <Paper square className={classes.title}>
-                        <div className={classes.padding}>
-                            <Typography align="center" variant="h5" component="h2">
-                                { name }
-                            </Typography>
-                        </div>
-                    </Paper>
+                        <Paper square className={classes.title}>
+                            <div className={classes.padding}>
+                                <Typography align="center" variant="h5" component="h2">
+                                    { name }
+                                </Typography>
+                            </div>
+                        </Paper>
+                        
                 </Slide>
                 <Slide in={hover && showContent} direction="up">
                     <Paper square className={classes.content}>
@@ -52,6 +54,12 @@ export default function AnimeCard({ img, name, summary, showContent, timeout, wi
                         </div>
                     </Paper>
                 </Slide>
+                <Box display="flex" className={classes.tinyDetials} justifyContent="end">
+                    <Paper className={classes.ratingPaper} >
+                        <Typography className={classes.ratingText} align="center" variant="body1">{rating || 'ללא'}</Typography>
+                        <StarIcon color="primary" style={{color: '#ffb400'}}/>
+                    </Paper>
+                </Box>
             </CardActionArea>
         </Card>
     </Grow>
