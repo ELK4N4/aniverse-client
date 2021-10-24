@@ -16,7 +16,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 function Animes() {
@@ -27,13 +27,18 @@ function Animes() {
     const params = new URLSearchParams(location.search);
     const search = params.get('search') || '';
     const [animes, setAnimes] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
     const [keyword, setKeyword] = useState(search);
+    const limit = 1;
+    const [skip, setSkip] = useState(0);
 
     useEffect( async () => {
+        window.scrollTo(0, 0);
         setKeyword(search)
         store.startLoading();
         try {
-            const { data } = await api.fetchAnimes(search);
+            const { data } = await api.fetchAnimes(search, skip, limit);
+            setSkip(skip + limit);
             setAnimes(data);
         } catch (err) {
             console.error(err.response);
@@ -53,6 +58,24 @@ function Animes() {
         })
     }
 
+    const fetchMoreData = async () => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchAnimes(search, skip, limit);
+            console.log([...animes, ...data])
+            if(data.length === 0) {
+                setHasMore(false);
+            } else {
+                setAnimes([...animes, ...data]);
+                setSkip(skip + limit);
+            }
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
     return (
         <>
             <div className={classes.showcase} >
@@ -66,7 +89,19 @@ function Animes() {
                 <div className={classes.searchBar}>
                     <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
                 </div>
-                <AnimeCards clickable animes={animes} keyword={keyword}/>
+                <InfiniteScroll
+                    dataLength={animes.length} //This is important field to render the next data
+                    next={fetchMoreData}
+                    hasMore={hasMore}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                        <b>Yay! You have seen it all</b>
+                        </p>
+                    }
+                    >
+                    <AnimeCards clickable animes={animes} keyword={keyword}/>
+                </InfiniteScroll>
             </Container>
         </>
     )
