@@ -6,8 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
 import * as api from '../../../../../api';
-import { Container, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Container, FormControl, IconButton, InputLabel, MenuItem, Select, withStyles } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { episodeScheme } from '@aniverse/utils/validations';
 
@@ -37,11 +38,27 @@ export default function AddEpisodeDialog({onSumbit}) {
         setOpen(false);
     };
 
+    const AddIconButton = withStyles((theme) => ({
+        root: {
+            borderStyle: 'solid',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.background.paper,
+            transition: '.2s',
+            "&:hover": {
+                backgroundColor: theme.palette.primary.contrastText,
+                color: theme.palette.primary.main,
+            },
+        }
+    }))(IconButton);
+
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                הוסף פרק +
-            </Button>
+            <AddIconButton
+                aria-label="open drawer"
+                onClick={handleClickOpen}
+            >
+                <AddIcon/>
+            </AddIconButton>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
                     <DialogTitle id="form-dialog-title">הוספת פרק</DialogTitle>

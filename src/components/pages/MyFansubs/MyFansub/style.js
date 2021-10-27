@@ -39,7 +39,17 @@ export default makeStyles((theme) => ({
     chip: {
         margin: theme.spacing(0.5),
     },
-
+    header: {
+        display: 'grid',
+        gridTemplateAreas: `'left center right'`,
+        gridTemplateColumns: '30% 1fr 30%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        paddingRight: theme.spacing(1.5),
+        paddingLeft: theme.spacing(1.5),
+        paddingBottom: theme.spacing(1),
+    },
     searchPaper: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),

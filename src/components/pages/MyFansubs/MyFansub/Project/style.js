@@ -12,10 +12,6 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(7),
         marginBottom: theme.spacing(7),
     },
-    title: {
-        padding: theme.spacing(2),
-        width: '100%'
-    },
     fab: {
         position: 'fixed',
         bottom: theme.spacing(3),

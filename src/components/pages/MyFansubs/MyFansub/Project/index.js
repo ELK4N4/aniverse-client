@@ -9,7 +9,7 @@ import MovieIcon from '@material-ui/icons/Movie';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import useStyles from './style';
-import { AppBar, Avatar, Box, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Slide, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Slide, Toolbar, Typography, withStyles } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../../stores';
@@ -18,7 +18,7 @@ import AddEpisodeDialog from './AddEpisodeDialog';
 import EditEpisodeDialog from './EditEpisodeDialog';
 import { Skeleton } from '@material-ui/lab';
 import errorMessage from '../../../../../errorMessage';
-
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
 
 function Project() {
     const store = useStore();
@@ -129,37 +129,20 @@ function Project() {
     return (
         <>
             <Slide direction="down" in>
-                <Container maxWidth="lg">
-                    <Paper elevation={5} className={classes.paper}>
-                        
-                        
-                        {loading ?
-                            <>
-                                <Typography variant="h2">
-                                    <Skeleton />
-                                </Typography>
-                                <Typography variant="h2">
-                                    <Skeleton />
-                                </Typography>
-                                <Typography variant="h2">
-                                    <Skeleton />
-                                </Typography>
-                            </>
-                            :
-                        <List >
-
-                        <Grid container className={classes.root} spacing={5}>
-                            <Grid item xs={1}>
+            <Container maxWidth="lg">
+                    <PaperWithHeader >
+                        <PaperHeader divider>
+                            <PaperHeaderSection align="right" justify="start">
                                 <IconButton
-                                    edge="end"
-                                    aria-label="open drawer"
-                                    onClick={backToProjectsPage}
-                                >
-                                    <ArrowForwardIosIcon />
+                                        edge="end"
+                                        aria-label="open drawer"
+                                        onClick={backToProjectsPage}
+                                    >
+                                        <ArrowForwardIosIcon />
                                 </IconButton>
-                            </Grid>
-                            <Grid item xs={10}>
-                                <Box  className={classes.title} >
+                            </PaperHeaderSection>
+                            <PaperHeaderSection align="center" justify="center">
+                                <Box>
                                     <Typography align="center" variant="h5">
                                         פרקים
                                     </Typography>
@@ -167,39 +150,40 @@ function Project() {
                                         {anime?.name?.hebrew}
                                     </Typography>
                                 </Box>
-                            </Grid>
-                        </Grid>
-                        <Divider />
-
-
-                        {project.episodes?.map((episode) => (
-                            <ListItem button key={episode._id}>
-                                <ListItemAvatar>
-                                    <Avatar className={classes.episodeAvatar}>
-                                        {episode.number}
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={episode.name}
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id, episode.number)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                        </List>
-                    }
-
-                        <AddEpisodeDialog onSumbit={addEpisode} />
-                        {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} ></EditEpisodeDialog> }
-                    </Paper>
+                            </PaperHeaderSection>
+                            <PaperHeaderSection align="left" justify="end">
+                                <AddEpisodeDialog onSumbit={addEpisode} />
+                            </PaperHeaderSection>
+                        </PaperHeader>
+                        <PaperBody loading={loading}>
+                            <List >
+                                {project.episodes?.map((episode) => (
+                                    <ListItem button key={episode._id}>
+                                        <ListItemAvatar>
+                                            <Avatar className={classes.episodeAvatar}>
+                                                {episode.number}
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={episode.name}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id, episode.number)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </PaperBody>
+                    </PaperWithHeader>
                 </Container>
             </ Slide>
+
+            {open && <EditEpisodeDialog open={open} handleClose={handleClose} currentEditedEpisode={currentEditedEpisode} onSumbit={updateEpisode} ></EditEpisodeDialog> }
         </>
     )
 }

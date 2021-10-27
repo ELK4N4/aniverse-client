@@ -4,10 +4,11 @@ import { observer } from 'mobx-react-lite';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LaunchIcon from '@material-ui/icons/Launch';
+import AddIcon from '@material-ui/icons/Add';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
 import PanelTabs from '../PanelTabs';
-import { Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, MenuItem, Select, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, MenuItem, Select, Typography, withStyles } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../../stores';
@@ -17,7 +18,7 @@ import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
-
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
 
 const statusTypes = ['פעיל', 'מוקפא', 'הושלם', 'מתוכנן', 'ננטש'];
 
@@ -69,72 +70,80 @@ function Projects() {
         history.push(`/my-fansubs/${fansubId}/project/${projectId}/`);
     }
 
+    const AddIconButton = withStyles((theme) => ({
+        root: {
+            borderStyle: 'solid',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.background.paper,
+            transition: '.2s',
+            "&:hover": {
+                backgroundColor: theme.palette.primary.contrastText,
+                color: theme.palette.primary.main,
+            },
+        }
+    }))(IconButton);
+
     return (
         <>
             <Slide direction="up" in>
                 <Container maxWidth="lg">
-                    <Paper elevation={5} className={classes.paper}>
-                        <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                            פרוייקטים
-                        </Typography>
-                        {store.loading ?
-                            <>
-                                <Typography variant="h4">
-                                    <Skeleton />
+                    <PaperWithHeader >
+                        <PaperHeader divider>
+                            <PaperHeaderSection align="center" justify="center">
+                                <Typography align="center" variant="h5">
+                                    פרוייקטים
                                 </Typography>
-                                <Typography variant="h4">
-                                    <Skeleton />
-                                </Typography>
-                                <Typography variant="h4">
-                                    <Skeleton />
-                                </Typography>
-                            </>
-                            :
-                        <List >
-                        {fansubStore.projects?.map((project) => (
-                            <ListItem button key={project._id} onClick={() => handleOnClick(project._id)}>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <TheatersIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={project.anime.name.hebrew}
-                                />
-                                <ListItemSecondaryAction>
-                                    <FormControl size="small" variant="outlined">
-                                        <InputLabel id="select-fansub-label">סטטוס</InputLabel>
-                                        <Select
-                                            labelId="choosen-fansub-label"
-                                            id="choosen-fansub"
-                                            label="פאנסאב"
-                                            value={project.status}
-                                            onChange={(e) => onStatusChange(project._id, e.target.value)}
-                                        >
-                                        {statusTypes.map((status) => (
-                                            <MenuItem key={status} value={status}>
-                                                {status}
-                                            </MenuItem>
-                                        ))}
-                                        </Select>
-                                    </FormControl>
-                                    <IconButton aria-label="delete" onClick={() => deleteProject(project._id, project.anime.name.hebrew)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="launch" onClick={() => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')}>
-                                        <LaunchIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                        </List>
-                    }
-
-                        <Button variant="outlined" color="primary" onClick={openProjectDialog} disabled={store.loading}>
-                            הוסף פרוייקטים +
-                        </Button>
-
-                    </Paper>
+                            </PaperHeaderSection>
+                            <PaperHeaderSection align="left" justify="end">
+                                <AddIconButton
+                                    aria-label="open drawer"
+                                    onClick={openProjectDialog}
+                                >
+                                    <AddIcon/>
+                                </AddIconButton>
+                            </PaperHeaderSection>
+                        </PaperHeader>
+                        <PaperBody loading={store.loading}>
+                            <List >
+                            {fansubStore.projects?.map((project) => (
+                                <ListItem button key={project._id} onClick={() => handleOnClick(project._id)}>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <TheatersIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={project.anime.name.hebrew}
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <FormControl size="small" variant="outlined">
+                                            <InputLabel id="select-fansub-label">סטטוס</InputLabel>
+                                            <Select
+                                                labelId="choosen-fansub-label"
+                                                id="choosen-fansub"
+                                                label="פאנסאב"
+                                                value={project.status}
+                                                onChange={(e) => onStatusChange(project._id, e.target.value)}
+                                            >
+                                            {statusTypes.map((status) => (
+                                                <MenuItem key={status} value={status}>
+                                                    {status}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                        <IconButton aria-label="delete" onClick={() => deleteProject(project._id, project.anime.name.hebrew)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="launch" onClick={() => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')}>
+                                            <LaunchIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                            </List>
+                        </PaperBody>
+                    </PaperWithHeader>
                 </Container>
             </ Slide>
             <ProjectsDialog open={open} filteredProjects={fansubStore.projects} handleDialogClose={handleDialogClose}/>
