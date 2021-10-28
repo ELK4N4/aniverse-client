@@ -16,16 +16,29 @@ import EditAdminDialog from './EditAdminDialog';
 import { Skeleton } from '@material-ui/lab';
 import AddAdminDialog from './AddAdminDialog';
 import { useSnackbar } from 'notistack';
+import errorMessage from '../../../../../errorMessage';
 
 
 function ProjectsContainer() {
     const store = useStore();
-    const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
+    const [admins, setAdmins] = useState([]);
     const [editAdmin, setEditAdmin] = useState();
     const [open, setOpen] = useState(false);
+
+    useEffect(async () => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchAdmins();
+            setAdmins(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }, []);
 
     const handleClickOpen = (admin) => {
         setEditAdmin(admin);
@@ -36,16 +49,22 @@ function ProjectsContainer() {
         setOpen(false);
     };
 
-    const removeAdmin = (userId, username) => {
-        if (window.confirm("להסיר את " + username + " מהפאנסאב?")) {
-            fansubStore.removeAdmin(userId,
-                () => {
-                    enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
-                },
-                (error) => {
-                    enqueueSnackbar(error, {variant: 'error'});
-                }
-            );
+    const addAdminToArr = async (admin) => {
+        setAdmins([...admins, admin]);
+    }
+
+    const removeAdmin = async (userId, username) => {
+        if (window.confirm("להסיר את " + username + " ?")) {
+            store.startLoading();
+            try {
+                const { data } = await api.deleteAdmin(userId);
+                setAdmins(admins.filter((admin) => admin._id !== userId));
+                enqueueSnackbar('האדמין הוסר בהצלחה', {variant: 'success'});
+            } catch (err) {
+                enqueueSnackbar(errorMessage(err), {variant: 'error'});
+            } finally {
+                store.stopLoading();
+            }
         }
     }
 
@@ -70,22 +89,22 @@ function ProjectsContainer() {
                         </>
                         :
                     <List >
-                    {fansubStore.members?.map((admin) => (
-                        <ListItem button key={admin.user._id}>
+                    {admins?.map((admin) => (
+                        <ListItem button key={admin._id}>
                             <ListItemAvatar>
-                                <Avatar src={admin.user.avatar}/>
+                                <Avatar src={admin.avatar}/>
                             </ListItemAvatar>
                             <ListItemText
-                                primary={admin.user.username}
+                                primary={admin.username}
                             />
                             <ListItemSecondaryAction>
                                 <IconButton aria-label="edit" onClick={() => handleClickOpen(admin)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" onClick={() => removeAdmin(admin.user._id, admin.user.username)}>
+                                <IconButton aria-label="delete" onClick={() => removeAdmin(admin._id, admin.username)}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin.user._id, '_blank', 'noopener,noreferrer')}>
+                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')}>
                                     <LaunchIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -94,7 +113,7 @@ function ProjectsContainer() {
                     </List>
                 }
 
-                    <AddAdminDialog />
+                    <AddAdminDialog addAdminToArr={addAdminToArr}/>
 
                 </Paper>
 

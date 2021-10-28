@@ -13,39 +13,37 @@ import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, Inpu
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../../stores';
 import { observer } from 'mobx-react-lite';
-import { permissionsTypes } from '@aniverse/utils/types';
+import {adminPermissionsTypes} from '../../../../../constants/adminPermissionsTypes';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
 
-function EditMemberDialog({open, handleClose, member}) {
+function EditAdminDialog({removeAdmin, open, handleClose, admin}) {
     const store = useStore();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const { userStore } = store;
-    const { fansubStore } = store;
-    const { fansubId, projectId } = useParams();
-    const [inputs, setInputs] = useState({role: member.role, permission: ''});
-    const [permissions, setPermissions] = useState(member.permissions);
+    const [inputs, setInputs] = useState({role: admin.role, permission: ''});
+    const [permissions, setPermissions] = useState(admin.permissions);
     const [availablePermissions, setAvailablePermissions] = useState([]);
 
     useEffect(() => {
-        setInputs({...inputs, role: member.role});
-        setPermissions(member.permissions);
+        setInputs({...inputs, role: admin.role});
+        setPermissions(admin.permissions);
         const helperArr = [];
-        for (const type in permissionsTypes) {
-            if(!member.permissions.includes(type.toLowerCase())) {
+        for (const type in adminPermissionsTypes) {
+            if(!admin.permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
         setAvailablePermissions(helperArr);
-    }, [member])
+    }, [admin])
 
     const handleSubmit = async () => {
         store.startLoading();
         try {
-            const { data } = await api.updateMember(fansubId, member.user._id, {role: inputs.role, permissions});
+            const { data } = await api.updateAdmin(admin._id, {role: inputs.role, permissions});
             enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
             handleClose();
         } catch (err) {
@@ -58,7 +56,7 @@ function EditMemberDialog({open, handleClose, member}) {
     const addPermission = () => {
         setPermissions([...permissions, inputs.permission]);
         let helperArr = [];
-        for (const type in permissionsTypes) {
+        for (const type in adminPermissionsTypes) {
             if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -67,22 +65,10 @@ function EditMemberDialog({open, handleClose, member}) {
         setInputs({...inputs, permission: ''});
     }
 
-    const removeMember = (userId) => () => {
-        fansubStore.removeMember(userId,
-            () => {
-                enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
-            },
-            (error) => {
-                enqueueSnackbar(error, {variant: 'error'});
-        });
-        handleClose();
-        console.log(inputs.permission)
-    };
-
     const removePermission = (permissionToRemove) => () => {
         setPermissions((permissions) => permissions.filter((permission) => permission !== permissionToRemove));
         let helperArr = [];
-        for (const type in permissionsTypes) {
+        for (const type in adminPermissionsTypes) {
             if(!permissions.filter((permission) => permission !== permissionToRemove).includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -99,7 +85,7 @@ function EditMemberDialog({open, handleClose, member}) {
             <DialogTitle id="form-dialog-title">ערוך פרטי חבר צוות</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    חבר צוות - {member.user?.username}
+                    אדמין - {admin?.username}
                 </DialogContentText>
                 
                 <Typography variant="h6">
@@ -137,7 +123,7 @@ function EditMemberDialog({open, handleClose, member}) {
                                 disabled={availablePermissions.length === 0}
                             >
                                 {availablePermissions.map(permission => (
-                                    <MenuItem value={permission}>{permissionsTypes[permission.toUpperCase()].text}</MenuItem>
+                                    <MenuItem value={permission}>{adminPermissionsTypes[permission.toUpperCase()].text}</MenuItem>
                                 ))}
 
                             </Select>
@@ -147,9 +133,9 @@ function EditMemberDialog({open, handleClose, member}) {
                         </Button>
                     </from>
                     {permissions?.map(permission => (
-                        <Tooltip title={permissionsTypes[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
+                        <Tooltip title={adminPermissionsTypes[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
                             <Chip
-                                label={permissionsTypes[permission.toUpperCase()].text}
+                                label={adminPermissionsTypes[permission.toUpperCase()].text}
                                 className={classes.chip}
                                 onDelete={removePermission(permission)}
                             />
@@ -162,9 +148,9 @@ function EditMemberDialog({open, handleClose, member}) {
                     <Button onClick={handleClose} color="primary">
                             ביטול
                     </Button>
-                    {member?.user?.username !== toJS(userStore.user.user.username) &&
-                            <Button fullWidth onClick={removeMember(member.user._id)} variant="outlined" >
-                                הסר את {member?.user?.username} מהפאנסאב
+                    {admin?.username !== toJS(userStore.user.user.username) &&
+                            <Button fullWidth onClick={removeAdmin(admin._id)} variant="outlined" >
+                                הסר את {admin?.username}
                             </Button>
                     }
                     
@@ -177,4 +163,4 @@ function EditMemberDialog({open, handleClose, member}) {
     );
 }
 
-export default observer(EditMemberDialog);
+export default EditAdminDialog;
