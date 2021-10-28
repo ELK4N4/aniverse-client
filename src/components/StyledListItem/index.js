@@ -23,6 +23,18 @@ const CustomItemText = withStyles((theme) => ({
             },
         }
     },
+    secondary: {
+        color: 'white',
+        fontSize: theme.typography.body1.fontSize,
+        fontWeight: 'normal',
+        textShadow: '0px 0px 20px #000000',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: theme.typography.body1.fontSize,
+        },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: theme.typography.body2.fontSize,
+        },
+    }
 }))(ListItemText);
 
 const listItemBannerStyle = (image) => {
@@ -35,7 +47,7 @@ const listItemBannerStyle = (image) => {
     }
 }
 
-export default function StyledListItem({ text, avatar, banner, onClick, controls }) {
+export default function StyledListItem({ text, secondaryText, avatar, banner, onClick, controls }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -58,6 +70,8 @@ export default function StyledListItem({ text, avatar, banner, onClick, controls
             <div className={classes.textMargin} />
             <CustomItemText
                 primary={text}
+                primaryTypographyProps
+                secondary={secondaryText}
             />
             <ListItemSecondaryAction>
                 <Box className={classes.controls}>

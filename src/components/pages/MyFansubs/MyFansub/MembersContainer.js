@@ -78,30 +78,6 @@ function ProjectsContainer() {
         }
     }
 
-    const StyledItemText = withStyles((theme) => ({
-        root: {
-            color: 'white',
-            '&>*': {
-                fontSize: theme.typography.h3.fontSize,
-                fontWeight: 'bold',
-                textShadow: '0px 0px 20px #000000',
-                [theme.breakpoints.down('xs')]: {
-                    fontSize: theme.typography.h5.fontSize,
-                },
-            }
-        },
-    }))(ListItemText);
-
-    const listItemBannerStyle = (image) => {
-        if(image) {
-            return {
-                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url('${image}')`,
-            };
-        } else {
-            return null;
-        }
-    }
-
     return (
         <>
             <Container maxWidth="lg">
@@ -122,6 +98,7 @@ function ProjectsContainer() {
                                 <StyledListItem
                                     key={member.user._id}
                                     text={member.user.username}
+                                    secondaryText={member.role}
                                     avatar={member.user.avatar}
                                     banner={member.user.banner}
                                     onClick={onClickEdit(member)}
