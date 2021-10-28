@@ -13,6 +13,7 @@ import { useStore } from '../../../../stores';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
+import AddIconButton from '../../../AddIconButton';
 
 export default function AddMemberDialog() {
     const store = useStore();
@@ -47,27 +48,12 @@ export default function AddMemberDialog() {
         formik.resetForm();
     };
 
-    const AddIconButton = withStyles((theme) => ({
-        root: {
-            borderStyle: 'solid',
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.background.paper,
-            transition: '.2s',
-            "&:hover": {
-                backgroundColor: theme.palette.primary.contrastText,
-                color: theme.palette.primary.main,
-            },
-        }
-    }))(IconButton);
-    
     return (
         <div>
             <AddIconButton
                 aria-label="open drawer"
                 onClick={handleOpen}
-            >
-                <AddIcon/>
-            </AddIconButton>
+            />
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
                     <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>

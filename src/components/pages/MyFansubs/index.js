@@ -20,7 +20,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import StyledListItem from '../../StyledListItem';
-
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../PaperWithHeader';
+import AddIconButton from '../../AddIconButton';
 
 function MyFansubs() {
     const store = useStore();
@@ -64,42 +65,48 @@ function MyFansubs() {
 
     return (
         <>
-            <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" variant="h4" className={classes.title}>
-                        ניהול פאנסאבים
-                    </Typography>
-                    <List>
-                        {fansubs.map((fansub) => (
-                            <StyledListItem
-                                key={fansub._id}
-                                text={fansub.name}
-                                avatar={fansub.avatar}
-                                banner={fansub.banner}
-                                onClick={() => goToFansub(fansub._id)}
-                                controls={[
-                                    {
-                                        icon: <DeleteIcon />,
-                                        text: 'מחק',
-                                        onClick: () => deleteFansub(fansub._id, fansub.name)
-                                    },
-                                    {
-                                        icon: <LaunchIcon />,
-                                        text: 'צפייה',
-                                        onClick: () => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')
-                                    },
-                                ]}
+            <Container maxWidth="lg" className={classes.paper}>
+                <PaperWithHeader >
+                    <PaperHeader>
+                        <PaperHeaderSection align="center" justify="center">
+                            <Typography align="center" variant="h5">
+                                ניהול פאנסאבים
+                            </Typography>
+                        </PaperHeaderSection>
+                        <PaperHeaderSection align="left" justify="end">
+                            <AddIconButton
+                                aria-label="open drawer"
+                                onClick={() => history.push('/fansubs/add')}
                             />
-                        ))}
-                    </List>
-                </Paper>
+                        </PaperHeaderSection>
+                    </PaperHeader>
+                    <PaperBody loading={!fansubs}>
+                        <List>
+                            {fansubs.map((fansub) => (
+                                <StyledListItem
+                                    key={fansub._id}
+                                    text={fansub.name}
+                                    avatar={fansub.avatar}
+                                    banner={fansub.banner}
+                                    onClick={() => goToFansub(fansub._id)}
+                                    controls={[
+                                        {
+                                            icon: <DeleteIcon />,
+                                            text: 'מחק',
+                                            onClick: () => deleteFansub(fansub._id, fansub.name)
+                                        },
+                                        {
+                                            icon: <LaunchIcon />,
+                                            text: 'צפייה',
+                                            onClick: () => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')
+                                        },
+                                    ]}
+                                />
+                            ))}
+                        </List>
+                    </PaperBody>
+                </PaperWithHeader>
             </Container>
-
-            <Link to='/fansubs/add'>
-                <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
-                    <AddIcon />
-                </Fab>
-            </Link>
         </>
     )
 }

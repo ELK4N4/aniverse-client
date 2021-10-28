@@ -102,19 +102,6 @@ function ProjectsContainer() {
         }
     }
 
-    const AddIconButton = withStyles((theme) => ({
-        root: {
-            borderStyle: 'solid',
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.background.paper,
-            transition: '.2s',
-            "&:hover": {
-                backgroundColor: theme.palette.primary.contrastText,
-                color: theme.palette.primary.main,
-            },
-        }
-      }))(IconButton);
-
     return (
         <>
             <Container maxWidth="lg">

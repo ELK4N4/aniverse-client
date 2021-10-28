@@ -14,6 +14,7 @@ import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
 import errorMessage from '../../../../../errorMessage';
+import AddIconButton from '../../../../AddIconButton';
 
 export default function AddAdminDialog({ addAdminToArr }) {
     const store = useStore();
@@ -52,9 +53,10 @@ export default function AddAdminDialog({ addAdminToArr }) {
     
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>
-                הוסף אדמין +
-            </Button>
+            <AddIconButton
+                aria-label="open drawer"
+                onClick={handleOpen}
+            />
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
                     <DialogTitle id="form-dialog-title">הוספת אדמין</DialogTitle>

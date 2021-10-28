@@ -17,9 +17,10 @@ import { Skeleton } from '@material-ui/lab';
 import AddAdminDialog from './AddAdminDialog';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
 
 
-function ProjectsContainer() {
+function AdminsContainer() {
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
@@ -71,52 +72,43 @@ function ProjectsContainer() {
     return (
         <>
             <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        אדמינים
-                    </Typography>
-                    {store.loading ?
-                        <>
-                            <Typography variant="h4">
-                                <Skeleton />
+                <PaperWithHeader>
+                    <PaperHeader divider>
+                        <PaperHeaderSection align="center" justify="center">
+                            <Typography align="center"variant="h5">
+                                אדמינים
                             </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                        </>
-                        :
-                    <List >
-                    {admins?.map((admin) => (
-                        <ListItem button key={admin._id}>
-                            <ListItemAvatar>
-                                <Avatar src={admin.avatar}/>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={admin.username}
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="edit" onClick={() => handleClickOpen(admin)}>
-                                    <EditIcon />
-                                </IconButton>
-                                <IconButton aria-label="delete" onClick={() => removeAdmin(admin._id, admin.username)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')}>
-                                    <LaunchIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                    </List>
-                }
-
-                    <AddAdminDialog addAdminToArr={addAdminToArr}/>
-
-                </Paper>
-
+                        </PaperHeaderSection>
+                        <PaperHeaderSection align="left" justify="end">
+                            <AddAdminDialog addAdminToArr={addAdminToArr}/>
+                        </PaperHeaderSection>
+                    </PaperHeader>
+                    <PaperBody loading={!admins}>
+                        <List >
+                            {admins?.map((admin) => (
+                                <ListItem button key={admin._id}>
+                                    <ListItemAvatar>
+                                        <Avatar src={admin.avatar}/>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={admin.username}
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="edit" onClick={() => handleClickOpen(admin)}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="delete" onClick={() => removeAdmin(admin._id, admin.username)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')}>
+                                            <LaunchIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </PaperBody>
+                </PaperWithHeader>
             </Container>
 
             {editAdmin &&
@@ -126,4 +118,4 @@ function ProjectsContainer() {
     )
 }
 
-export default observer(ProjectsContainer);
+export default AdminsContainer;

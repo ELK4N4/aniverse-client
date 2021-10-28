@@ -19,6 +19,7 @@ import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
+import AddIconButton from '../../../../AddIconButton';
 
 const statusTypes = ['פעיל', 'מוקפא', 'הושלם', 'מתוכנן', 'ננטש'];
 
@@ -70,19 +71,6 @@ function Projects() {
         history.push(`/my-fansubs/${fansubId}/project/${projectId}/`);
     }
 
-    const AddIconButton = withStyles((theme) => ({
-        root: {
-            borderStyle: 'solid',
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.background.paper,
-            transition: '.2s',
-            "&:hover": {
-                backgroundColor: theme.palette.primary.contrastText,
-                color: theme.palette.primary.main,
-            },
-        }
-    }))(IconButton);
-
     return (
         <>
             <Slide direction="up" in>
@@ -98,9 +86,7 @@ function Projects() {
                                 <AddIconButton
                                     aria-label="open drawer"
                                     onClick={openProjectDialog}
-                                >
-                                    <AddIcon/>
-                                </AddIconButton>
+                                />
                             </PaperHeaderSection>
                         </PaperHeader>
                         <PaperBody loading={store.loading}>

@@ -16,16 +16,30 @@ import EditBanDialog from './EditBanDialog';
 import { Skeleton } from '@material-ui/lab';
 import AddBanDialog from './AddBanDialog';
 import { useSnackbar } from 'notistack';
+import errorMessage from '../../../../../errorMessage';
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
 
 
-export default function BansContainer() {
+function BansContainer() {
     const store = useStore();
-    const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
+    const [bans, setBans] = useState([]);
     const [editBan, setEditBan] = useState();
     const [open, setOpen] = useState(false);
+
+    useEffect(async () => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchBans();
+            setBans(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }, []);
 
     const handleClickOpen = (ban) => {
         setEditBan(ban);
@@ -36,67 +50,65 @@ export default function BansContainer() {
         setOpen(false);
     };
 
-    const removeBan = (userId, username) => {
-        if (window.confirm("להסיר את " + username + " מהפאנסאב?")) {
-            fansubStore.removeBan(userId,
-                () => {
-                    enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
-                },
-                (error) => {
-                    enqueueSnackbar(error, {variant: 'error'});
-                }
-            );
+    const addBanToArr = async (ban) => {
+        setBans([...bans, ban]);
+    }
+
+    const removeBan = async (banId, username) => {
+        if (window.confirm("להסיר את הבאן של " + username + " ?")) {
+            store.startLoading();
+            try {
+                const { data } = await api.deleteBan(banId);
+                setBans(bans.filter((ban) => ban._id !== banId));
+                enqueueSnackbar('באן הוסר בהצלחה', {variant: 'success'});
+            } catch (err) {
+                enqueueSnackbar(errorMessage(err), {variant: 'error'});
+            } finally {
+                store.stopLoading();
+            }
         }
     }
 
     return (
         <>
             <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        באנים
-                    </Typography>
-                    {store.loading ?
-                        <>
-                            <Typography variant="h4">
-                                <Skeleton />
+                <PaperWithHeader>
+                    <PaperHeader divider>
+                        <PaperHeaderSection align="center" justify="center">
+                            <Typography align="center"variant="h5">
+                                באנים
                             </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                        </>
-                        :
-                    <List >
-                    {fansubStore.members?.map((ban) => (
-                        <ListItem button key={ban.user._id}>
-                            <ListItemAvatar>
-                                <Avatar src={ban.user.avatar}/>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={ban.user.username}
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="edit" onClick={() => handleClickOpen(ban)}>
-                                    <EditIcon />
-                                </IconButton>
-                                <IconButton aria-label="delete" onClick={() => removeBan(ban.user._id, ban.user.username)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton aria-label="launch" onClick={() => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')}>
-                                    <LaunchIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                    </List>
-                }
-
-                    <AddBanDialog />
-                </Paper>
-
+                        </PaperHeaderSection>
+                        <PaperHeaderSection align="left" justify="end">
+                            <AddBanDialog addBanToArr={addBanToArr}/>
+                        </PaperHeaderSection>
+                    </PaperHeader>
+                    <PaperBody loading={!bans}>
+                        <List >
+                            {bans?.map((ban) => (
+                                <ListItem button key={ban.user._id}>
+                                    <ListItemAvatar>
+                                        <Avatar src={ban.user.avatar}/>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={ban.user.username}
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="edit" onClick={() => handleClickOpen(ban)}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="delete" onClick={() => removeBan(ban._id, ban.user.username)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="launch" onClick={() => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')}>
+                                            <LaunchIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </PaperBody>
+                </PaperWithHeader>
             </Container>
 
             {editBan &&
@@ -105,3 +117,5 @@ export default function BansContainer() {
         </>
     )
 }
+
+export default BansContainer;

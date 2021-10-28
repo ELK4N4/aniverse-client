@@ -5,7 +5,6 @@ import Dialog from '@material-ui/core/Dialog';
 import useStyles from '../style';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import AddIcon from '@material-ui/icons/Add';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as api from '../../../../../api';
@@ -87,7 +86,6 @@ function EditAdminDialog({removeAdmin, open, handleClose, admin}) {
                 <DialogContentText>
                     אדמין - {admin?.username}
                 </DialogContentText>
-                
                 <Typography variant="h6">
                     תפקיד
                 </Typography>
