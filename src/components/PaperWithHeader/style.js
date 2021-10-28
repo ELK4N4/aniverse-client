@@ -7,7 +7,7 @@ export default makeStyles((theme) => ({
     },
     header: {
         display: 'grid',
-        gridTemplateAreas: `'left center right'`,
+        gridTemplateAreas: `'right center left'`,
         gridTemplateColumns: '30% 1fr 30%',
         alignItems: 'center',
         justifyContent: 'center',

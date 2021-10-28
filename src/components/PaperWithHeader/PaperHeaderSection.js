@@ -12,11 +12,7 @@ function PaperHeaderSection({ children, align, justify }) {
     }
     return child;
   });
-  if(align === "left") {
-    align = "right";
-  } else if(align === "right") {
-    align = "left";
-  }
+
   return (
     <div style={{gridArea: align, justifySelf: justify}} >
       {childrenWithProps}
