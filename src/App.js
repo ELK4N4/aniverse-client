@@ -21,7 +21,6 @@ import Fansubs from "./components/pages/Fansubs";
 import Fansub from "./components/pages/Fansub";
 import MyFansubs from "./components/pages/MyFansubs";
 import MyFansub from "./components/pages/MyFansubs/MyFansub";
-import ManageAnimes from "./components/pages/ManageAnimes";
 
 import AddAnimeForm from './components/AddAnimeForm/AddAnimeForm';
 import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
