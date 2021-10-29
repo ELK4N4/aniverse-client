@@ -13,7 +13,10 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import { Skeleton } from '@material-ui/lab';
 import ProjectsContainer from './ProjectsContainer';
-import { toJS } from 'mobx';
+import MembersContainer from './MembersContainer';
+import SettingsContainer from './SettingsContainer';
+import TabsGroup, { TabContainer } from '../../../TabsGroup';
+
 
 
 function MyFansub() {
@@ -36,7 +39,17 @@ function MyFansub() {
                             {fansubStore.fansub.name}
                         </Typography>
 
-                        <PanelTabs />
+                        <TabsGroup >
+                            <TabContainer label="פרוייקטים" path="projects">
+                                <ProjectsContainer />
+                            </TabContainer>
+                            <TabContainer label="צוות" path="team">
+                                <MembersContainer />
+                            </TabContainer>
+                            <TabContainer label="הגדרות" path="settings">
+                                <SettingsContainer />
+                            </TabContainer>
+                        </TabsGroup>
                     </ Paper>
             </Container>
 
