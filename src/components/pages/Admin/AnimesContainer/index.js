@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import useStyles from './style';
+import useStyles from '../style';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import { Avatar, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
@@ -11,14 +11,14 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LaunchIcon from '@material-ui/icons/Launch';
-import { useStore } from '../../../../../stores';
-import * as api from '../../../../../api';
+import { useStore } from '../../../../stores';
+import * as api from '../../../../api';
 import AnimeDialog from './AnimeDialog';
 import { useSnackbar } from 'notistack';
-import errorMessage from '../../../../../errorMessage';
-import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
-import AddIconButton from '../../../../AddIconButton';
-import StyledListItem from '../../../../StyledListItem';
+import errorMessage from '../../../../errorMessage';
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../PaperWithHeader';
+import AddIconButton from '../../../AddIconButton';
+import StyledListItem from '../../../StyledListItem';
 
 
 function ManageAnimes() {

@@ -8,13 +8,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../../../../stores';
-import * as api from '../../../../../api';
+import { useStore } from '../../../../stores';
+import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
-import errorMessage from '../../../../../errorMessage';
-import AddIconButton from '../../../../AddIconButton';
+import errorMessage from '../../../../errorMessage';
+import AddIconButton from '../../../AddIconButton';
 
 export default function AddAdminDialog({ addAdminToArr }) {
     const store = useStore();

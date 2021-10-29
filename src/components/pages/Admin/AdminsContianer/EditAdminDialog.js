@@ -7,16 +7,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import * as api from '../../../../../api';
+import * as api from '../../../../api';
 import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../../../../stores';
+import { useStore } from '../../../../stores';
 import { observer } from 'mobx-react-lite';
-import {adminPermissionsTypes} from '../../../../../constants/adminPermissionsTypes';
+import {adminPermissionsTypes} from '../../../../constants/adminPermissionsTypes';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
-import errorMessage from '../../../../../errorMessage';
+import errorMessage from '../../../../errorMessage';
 
 function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admin}) {
     const store = useStore();

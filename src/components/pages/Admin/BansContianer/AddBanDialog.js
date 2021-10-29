@@ -17,13 +17,13 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../../../../stores';
-import * as api from '../../../../../api';
+import { useStore } from '../../../../stores';
+import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
-import errorMessage from '../../../../../errorMessage';
-import AddIconButton from '../../../../../components/AddIconButton';
+import errorMessage from '../../../../errorMessage';
+import AddIconButton from '../../../../components/AddIconButton';
 
 export default function AddBanDialog({ addBanToArr }) {
     const store = useStore();

@@ -5,16 +5,17 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import PanelTabs from './PanelTabs';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import { Skeleton } from '@material-ui/lab';
-import ProjectsContainer from './ProjectsContainer';
 import { toJS } from 'mobx';
-
+import TabsGroup, { TabContainer } from '../../TabsGroup';
+import AdminsContainer from './AdminsContianer';
+import BansContainer from './BansContianer';
+import AnimesContainer from './AnimesContainer';
 
 export default function AdminPanel() {
     const store = useStore();
@@ -29,7 +30,17 @@ export default function AdminPanel() {
                         <Typography variant="h3" align="center" className={classes.panelTitle}>
                             אדמין פאנל
                         </Typography>
-                        <PanelTabs />
+                        <TabsGroup >
+                            <TabContainer label="אדמינים" path="admins">
+                                <AdminsContainer />
+                            </TabContainer>
+                            <TabContainer label="באנים" path="bans">
+                                <BansContainer />
+                            </TabContainer>
+                            <TabContainer label="אנימות" path="animes">
+                                <AnimesContainer />
+                            </TabContainer>
+                        </TabsGroup>
                     </ Paper>
             </Container>
 

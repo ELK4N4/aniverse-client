@@ -13,9 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Grow, Slide, Paper } from '@material-ui/core';
-import AnimeCard from '../../../../Cards/AnimeCards/AnimeCard'
-import useStyles from './style';
-import { useStore } from '../../../../../stores';
+import AnimeCard from '../../../Cards/AnimeCards/AnimeCard'
+import useStyles from '../style';
 import { observer } from 'mobx-react-lite';
 import { autorun, runInAction } from 'mobx';
 import { useSnackbar } from 'notistack';
