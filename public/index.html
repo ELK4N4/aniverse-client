@@ -33,6 +33,12 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
+          ///////////////
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister()
+          } })
+          ///////////////
           navigator.serviceWorker.register('worker.js').then(function(registration) {
             console.log('Worker registration successful', registration.scope);
           }, function(err) {
