@@ -74,28 +74,35 @@ function Anime() {
                 store.stopLoading();
             }
         } else {
-            let currentProject;
-            if(anime.projects.length === 1) {
-                currentProject = anime.projects[0];
-            } else if(anime.projects.length > 1) {
-                if(fansubId) {
-                    currentProject = anime.projects.find(project => project.fansub._id === fansubId);
-                } else {
-                    currentProject= anime.projects[0];
+            store.startLoading();
+            try {
+                let currentProject;
+                if(anime.projects.length === 1) {
+                    currentProject = anime.projects[0];
+                } else if(anime.projects.length > 1) {
+                    if(fansubId) {
+                        currentProject = anime.projects.find(project => project.fansub._id === fansubId);
+                    } else {
+                        currentProject= anime.projects[0];
+                    }
                 }
-            }
-            setChoosenFansub(currentProject.fansub._id);
-            setEpisodes(currentProject.episodes);
-            if(episodeId) {
-                setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
-                const episodeRes = await api.fetchEpisode(animeId, episodeId);
-                setCurrentEpisode(episodeRes.data);
-                const commentsRes = await api.fetchComments(animeId, episodeId);
-                setComments(commentsRes.data);
-            } else {
-                setClickedEpisode(null)
-                setCurrentEpisode(null);
-                setComments([]);
+                setChoosenFansub(currentProject.fansub._id);
+                setEpisodes(currentProject.episodes);
+                if(episodeId) {
+                    setClickedEpisode(currentProject.episodes.find(episode => episode._id === episodeId))
+                    const episodeRes = await api.fetchEpisode(animeId, episodeId);
+                    setCurrentEpisode(episodeRes.data);
+                    const commentsRes = await api.fetchComments(animeId, episodeId);
+                    setComments(commentsRes.data);
+                } else {
+                    setClickedEpisode(null)
+                    setCurrentEpisode(null);
+                    setComments([]);
+                }
+            } catch (err) {
+                console.error(err.response);
+            } finally {
+                store.stopLoading();
             }
         }
     }, [episodeId, fansubId]);
