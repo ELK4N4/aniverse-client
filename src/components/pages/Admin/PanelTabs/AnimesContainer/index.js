@@ -8,6 +8,7 @@ import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import { Avatar, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { useStore } from '../../../../../stores';
@@ -17,6 +18,7 @@ import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
 import AddIconButton from '../../../../AddIconButton';
+import StyledListItem from '../../../../StyledListItem';
 
 
 function ManageAnimes() {
@@ -100,24 +102,30 @@ function ManageAnimes() {
                     <PaperBody loading={!animes}>
                         <List >
                             {animes.map((anime) => (
-                                <ListItem button key={anime._id} onClick={() => onAnimeClick(anime)}>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <PeopleAltRoundedIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={anime.name.hebrew}
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="delete" onClick={() => deleteAnime(anime._id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="launch" onClick={() => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')}>
-                                            <LaunchIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
+                                <StyledListItem
+                                    key={anime._id}
+                                    text={anime.name.hebrew}
+                                    avatar={anime.image}
+                                    banner={anime.image}
+                                    onClick={() => onAnimeClick(anime)}
+                                    controls={[
+                                        {
+                                            icon: <EditIcon />,
+                                            text: 'ערוך',
+                                            onClick: () => onAnimeClick(anime)
+                                        },
+                                        {
+                                            icon: <DeleteIcon />,
+                                            text: 'מחק',
+                                            onClick: () => deleteAnime(anime._id)
+                                        },
+                                        {
+                                            icon: <LaunchIcon />,
+                                            text: 'צפייה',
+                                            onClick: () => window.open('/animes/' + anime._id, '_blank', 'noopener,noreferrer')
+                                        },
+                                    ]}
+                                />
                             ))}
                         </List>
                     </PaperBody>
