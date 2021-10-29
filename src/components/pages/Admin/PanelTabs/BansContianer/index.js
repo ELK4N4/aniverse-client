@@ -18,6 +18,7 @@ import AddBanDialog from './AddBanDialog';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
+import StyledListItem from '../../../../StyledListItem';
 
 
 function BansContainer() {
@@ -86,25 +87,30 @@ function BansContainer() {
                     <PaperBody loading={!bans}>
                         <List >
                             {bans?.map((ban) => (
-                                <ListItem button key={ban.user._id}>
-                                    <ListItemAvatar>
-                                        <Avatar src={ban.user.avatar}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={ban.user.username}
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="edit" onClick={() => handleClickOpen(ban)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="delete" onClick={() => removeBan(ban._id, ban.user.username)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="launch" onClick={() => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')}>
-                                            <LaunchIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
+                                <StyledListItem
+                                    key={ban.user._id}
+                                    text={ban.user.username}
+                                    avatar={ban.user.avatar}
+                                    banner={ban.user.banner}
+                                    onClick={() => handleClickOpen(ban)}
+                                    controls={[
+                                        {
+                                            icon: <EditIcon />,
+                                            text: 'ערוך',
+                                            onClick: () => handleClickOpen(ban)
+                                        },
+                                        {
+                                            icon: <DeleteIcon />,
+                                            text: 'מחק',
+                                            onClick: () => removeBan(ban._id, ban.user.username)
+                                        },
+                                        {
+                                            icon: <LaunchIcon />,
+                                            text: 'צפייה',
+                                            onClick: () => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')
+                                        },
+                                    ]}
+                                />
                             ))}
                         </List>
                     </PaperBody>
