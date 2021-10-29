@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
@@ -41,6 +41,7 @@ function Anime() {
     const [updatedComment, setUpdatedComment] = useState();
     const [open, setOpen] = useState(false);
     const isMount = useIsMount();
+    const episodeRef = useRef(null);
     
 
     useEffect(async () => {
@@ -67,6 +68,7 @@ function Anime() {
                     setCurrentEpisode(episodeRes.data);
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
+                    episodeRef.current.scrollIntoView({ behavior: 'smooth' });
                 }
             } catch (err) {
                 console.error(err.response);
@@ -94,6 +96,7 @@ function Anime() {
                     setCurrentEpisode(episodeRes.data);
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
+                    episodeRef.current.scrollIntoView({ behavior: 'smooth' });
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);
@@ -192,7 +195,9 @@ function Anime() {
                         <AnimeDetails anime={anime} projects={anime.projects} episodes={episodes} choosenFansub={choosenFansub} changeFansub={changeFansub} clickedEpisode={clickedEpisode}/>
                         {currentEpisode && (
                             <>
-                                <Episode anime={anime} episode={currentEpisode}/>
+                                <div ref={episodeRef}>
+                                    <Episode anime={anime} episode={currentEpisode}/>
+                                </div>
                                 <Box display="flex">
                                     <Typography variant="h5" className={classes.commentsTitle}>
                                         {`תגובות (${comments.length})`}
