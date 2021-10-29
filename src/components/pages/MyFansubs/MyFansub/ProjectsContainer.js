@@ -7,7 +7,6 @@ import Project from './Project';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import PanelTabs from './PanelTabs';
 import { Grow, Slide } from '@material-ui/core';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';

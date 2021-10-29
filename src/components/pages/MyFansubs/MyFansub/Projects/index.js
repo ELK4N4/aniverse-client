@@ -7,7 +7,6 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import AddIcon from '@material-ui/icons/Add';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import PanelTabs from '../PanelTabs';
 import { Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, MenuItem, Select, Typography, withStyles } from '@material-ui/core';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
