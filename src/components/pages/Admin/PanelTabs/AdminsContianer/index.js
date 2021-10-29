@@ -117,7 +117,7 @@ function AdminsContainer() {
                                             text: 'צפייה',
                                             onClick: () => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')
                                         },
-                                        ]}
+                                    ]}
                                 />
                             ))}
                         </List>
