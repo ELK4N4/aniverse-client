@@ -1,7 +1,7 @@
-var CACHE_NAME = 'aniverse-pwa';
+var CACHE_NAME = 'pwa-aniverse';
 var urlsToCache = [
   '/',
-  '/index.html',
+  '/index.js'
 ];
 
 // Install a service worker
