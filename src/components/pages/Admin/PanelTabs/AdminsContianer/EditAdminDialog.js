@@ -18,7 +18,7 @@ import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
 
-function EditAdminDialog({removeAdmin, open, handleClose, admin}) {
+function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admin}) {
     const store = useStore();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
@@ -45,6 +45,7 @@ function EditAdminDialog({removeAdmin, open, handleClose, admin}) {
             const { data } = await api.updateAdmin(admin._id, {role: inputs.role, permissions});
             enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
             handleClose();
+            updateAdminInArr(admin._id, data);
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {

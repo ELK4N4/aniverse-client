@@ -18,6 +18,7 @@ import AddAdminDialog from './AddAdminDialog';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../PaperWithHeader';
+import StyledListItem from '../../../../StyledListItem';
 
 
 function AdminsContainer() {
@@ -54,6 +55,13 @@ function AdminsContainer() {
         setAdmins([...admins, admin]);
     }
 
+    const updateAdminInArr = async (userId, updatedAdmin) => {
+        const adminIndex = admins.findIndex((admin) => admin._id === userId);
+        const helper = [...admins];
+        helper[adminIndex] = updatedAdmin;
+        setAdmins(helper);
+    }
+
     const removeAdmin = async (userId, username) => {
         if (window.confirm("להסיר את " + username + " ?")) {
             store.startLoading();
@@ -86,25 +94,31 @@ function AdminsContainer() {
                     <PaperBody loading={!admins}>
                         <List >
                             {admins?.map((admin) => (
-                                <ListItem button key={admin._id}>
-                                    <ListItemAvatar>
-                                        <Avatar src={admin.avatar}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={admin.username}
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="edit" onClick={() => handleClickOpen(admin)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="delete" onClick={() => removeAdmin(admin._id, admin.username)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="launch" onClick={() => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')}>
-                                            <LaunchIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
+                                <StyledListItem
+                                    key={admin._id}
+                                    text={admin.username}
+                                    secondaryText={admin.role}
+                                    avatar={admin.avatar}
+                                    banner={admin.banner}
+                                    onClick={() => handleClickOpen(admin)}
+                                    controls={[
+                                        {
+                                            icon: <EditIcon />,
+                                            text: 'ערוך',
+                                            onClick: () => handleClickOpen(admin)
+                                        },
+                                        {
+                                            icon: <DeleteIcon />,
+                                            text: 'מחק',
+                                            onClick: () => removeAdmin(admin._id, admin.username)
+                                        },
+                                        {
+                                            icon: <LaunchIcon />,
+                                            text: 'צפייה',
+                                            onClick: () => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')
+                                        },
+                                        ]}
+                                />
                             ))}
                         </List>
                     </PaperBody>
@@ -112,7 +126,7 @@ function AdminsContainer() {
             </Container>
 
             {editAdmin &&
-                <EditAdminDialog removeAdmin={removeAdmin} admin={editAdmin} open={open} handleClose={handleClose}/>
+                <EditAdminDialog removeAdmin={removeAdmin} updateAdminInArr={updateAdminInArr} admin={editAdmin} open={open} handleClose={handleClose}/>
             }
         </>
     )
