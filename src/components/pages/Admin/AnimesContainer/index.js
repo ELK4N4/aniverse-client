@@ -53,15 +53,17 @@ function ManageAnimes() {
         setOpen(false);
     }
 
-    const deleteAnime = async (animeId) => {
-        store.startLoading();
-        try {
-            await api.deleteAnime(animeId);
-            setAnimes(animes.filter((anime) => anime._id !== animeId));
-        } catch (err) {
-            console.error(err.response);
-        } finally {
-            store.stopLoading();
+    const deleteAnime = async (animeId, name) => {
+        if (window.confirm("למחוק את האנימה " + name + " ?")) {
+            store.startLoading();
+            try {
+                await api.deleteAnime(animeId);
+                setAnimes(animes.filter((anime) => anime._id !== animeId));
+            } catch (err) {
+                console.error(err.response);
+            } finally {
+                store.stopLoading();
+            }
         }
     }
 
@@ -117,7 +119,7 @@ function ManageAnimes() {
                                         {
                                             icon: <DeleteIcon />,
                                             text: 'מחק',
-                                            onClick: () => deleteAnime(anime._id)
+                                            onClick: () => deleteAnime(anime._id, anime.name.hebrew)
                                         },
                                         {
                                             icon: <LaunchIcon />,
