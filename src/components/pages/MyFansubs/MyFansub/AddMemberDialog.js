@@ -6,12 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { FormControl, IconButton, InputLabel, MenuItem, Select, withStyles } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
+import AddIconButton from '../../../AddIconButton';
 
 export default function AddMemberDialog() {
     const store = useStore();
@@ -45,12 +47,13 @@ export default function AddMemberDialog() {
         setOpen(false);
         formik.resetForm();
     };
-    
+
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>
-                הוסף חבר +
-            </Button>
+            <AddIconButton
+                aria-label="open drawer"
+                onClick={handleOpen}
+            />
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
                     <DialogTitle id="form-dialog-title">הוספת חבר צוות</DialogTitle>

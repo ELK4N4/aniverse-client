@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
-import PanelTabs from './PanelTabs';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -13,7 +12,10 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import { Skeleton } from '@material-ui/lab';
 import ProjectsContainer from './ProjectsContainer';
-import { toJS } from 'mobx';
+import MembersContainer from './MembersContainer';
+import SettingsContainer from './SettingsContainer';
+import TabsGroup, { TabContainer } from '../../../TabsGroup';
+
 
 
 function MyFansub() {
@@ -36,7 +38,17 @@ function MyFansub() {
                             {fansubStore.fansub.name}
                         </Typography>
 
-                        <PanelTabs />
+                        <TabsGroup >
+                            <TabContainer label="פרוייקטים" path="projects">
+                                <ProjectsContainer />
+                            </TabContainer>
+                            <TabContainer label="צוות" path="team">
+                                <MembersContainer />
+                            </TabContainer>
+                            <TabContainer label="הגדרות" path="settings">
+                                <SettingsContainer />
+                            </TabContainer>
+                        </TabsGroup>
                     </ Paper>
             </Container>
 

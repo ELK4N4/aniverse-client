@@ -13,7 +13,19 @@ export const fetchCurrentUser = () => API.get('/user');
 export const updateCurrentUser = (updatedUser) => API.put('/user', updatedUser);
 export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 
-export const fetchAnimes = (keyword) => API.get('/animes', { params: {search: keyword} });
+export const fetchAdmins = (keyword, skip, limit) => API.get('/admins', { params: {search: keyword, skip, limit} });
+export const fetchAdmin = (userId) => API.get('/admins/' + userId);
+export const addAdmin = (username) => API.post('/admins/' + username);
+export const updateAdmin = (userId, updatedAdmin) => API.put('/admins/' + userId, updatedAdmin);
+export const deleteAdmin = (userId) => API.delete('/admins/' + userId);
+
+export const fetchBans = (keyword, skip, limit) => API.get('/bans', { params: {search: keyword, skip, limit} });
+export const fetchBan = (userId) => API.get('/bans/' + userId);
+export const addBan = (username, ban) => API.post('/bans/' + username, ban);
+export const updateBan = (userId, updatedBan) => API.put('/bans/' + userId, updatedBan);
+export const deleteBan = (userId) => API.delete('/bans/' + userId);
+
+export const fetchAnimes = (keyword, skip, limit) => API.get('/animes', { params: {search: keyword, skip, limit} });
 export const fetchAnime = (animeId) => API.get('/animes/' + animeId);
 export const addAnime = (newAnime) => API.post('/animes', newAnime);
 export const updateAnime = (animeId, updatedAnime) => API.put('/animes/' + animeId, updatedAnime);

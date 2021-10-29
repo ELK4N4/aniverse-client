@@ -8,7 +8,7 @@ import TheatersIcon from '@material-ui/icons/Theaters';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import EditIcon from '@material-ui/icons/Edit';
-import { Avatar, Box, Button, Container, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, Menu, MenuItem, Typography, withStyles } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, Menu, MenuItem, Typography, withStyles } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../stores';
@@ -17,7 +17,10 @@ import EditMemberDialog from './EditMemberDialog';
 import { Skeleton } from '@material-ui/lab';
 import AddMemberDialog from './AddMemberDialog';
 import { useSnackbar } from 'notistack';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import StyledListItem from '../../../StyledListItem';
+import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../PaperWithHeader';
 
 
 function ProjectsContainer() {
@@ -75,84 +78,52 @@ function ProjectsContainer() {
         }
     }
 
-    const StyledItemText = withStyles((theme) => ({
-        root: {
-            color: 'white',
-            '&>*': {
-                fontSize: theme.typography.h3.fontSize,
-                fontWeight: 'bold',
-                textShadow: '0px 0px 20px #000000',
-                [theme.breakpoints.down('xs')]: {
-                    fontSize: theme.typography.h5.fontSize,
-                },
-            }
-        },
-    }))(ListItemText);
-
-    const listItemBannerStyle = (image) => {
-        if(image) {
-            return {
-                backgroundImage: `linear-gradient(to right ,rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url('${image}')`,
-            };
-        } else {
-            return null;
-        }
-    }
-
     return (
         <>
             <Container maxWidth="lg">
-                <Paper elevation={5} className={classes.paper}>
-                    <Typography align="center" component="h1" variant="h5" className={classes.title}>
-                        חברי צוות
-                    </Typography>
-                    {store.loading ?
-                        <>
-                            <Typography variant="h4">
-                                <Skeleton />
+                <PaperWithHeader >
+                    <PaperHeader>
+                        <PaperHeaderSection align="center" justify="center">
+                            <Typography align="center" variant="h5">
+                                חברי צוות
                             </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                            <Typography variant="h4">
-                                <Skeleton />
-                            </Typography>
-                        </>
-                        :
-                    <List >
-                        {fansubStore.members?.map((member) => (
-                            <StyledListItem
-                                key={member.user._id}
-                                text={member.user.username}
-                                avatar={member.user.avatar}
-                                banner={member.user.banner}
-                                onClick={onClickEdit(member)}
-                                controls={[
-                                    {
-                                        icon: <EditIcon />,
-                                        text: 'ערוך',
-                                        onClick: onClickEdit(member)
-                                    },
-                                    {
-                                        icon: <DeleteIcon />,
-                                        text: 'מחק',
-                                        onClick: onClickDelete(member.user._id, member.user.username)
-                                    },
-                                    {
-                                        icon: <LaunchIcon />,
-                                        text: 'צפייה',
-                                        onClick: onClickLaunch(member.user._id)
-                                    },
-                                ]}
-                            />
-                        ))}
-                    </List>
-                }
-
-                    <AddMemberDialog />
-
-                </Paper>
-
+                        </PaperHeaderSection>
+                        <PaperHeaderSection align="left" justify="end">
+                            <AddMemberDialog />
+                        </PaperHeaderSection>
+                    </PaperHeader>
+                    <PaperBody loading={store.loading}>
+                        <List >
+                            {fansubStore.members?.map((member) => (
+                                <StyledListItem
+                                    key={member.user._id}
+                                    text={member.user.username}
+                                    secondaryText={member.role}
+                                    avatar={member.user.avatar}
+                                    banner={member.user.banner}
+                                    onClick={onClickEdit(member)}
+                                    controls={[
+                                        {
+                                            icon: <EditIcon />,
+                                            text: 'ערוך',
+                                            onClick: onClickEdit(member)
+                                        },
+                                        {
+                                            icon: <DeleteIcon />,
+                                            text: 'מחק',
+                                            onClick: onClickDelete(member.user._id, member.user.username)
+                                        },
+                                        {
+                                            icon: <LaunchIcon />,
+                                            text: 'צפייה',
+                                            onClick: onClickLaunch(member.user._id)
+                                        },
+                                    ]}
+                                />
+                            ))}
+                        </List>
+                    </PaperBody>
+                </PaperWithHeader>
             </Container>
 
             {editMember &&

@@ -12,7 +12,6 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import Comment from '../../../Comment';

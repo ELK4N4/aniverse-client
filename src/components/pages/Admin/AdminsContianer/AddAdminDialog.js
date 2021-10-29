@@ -8,27 +8,32 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../../../../stores';
+import { useStore } from '../../../../stores';
+import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { memberScheme } from '@aniverse/utils/validations';
+import errorMessage from '../../../../errorMessage';
+import AddIconButton from '../../../AddIconButton';
 
-export default function AddBanDialog() {
+export default function AddAdminDialog({ addAdminToArr }) {
     const store = useStore();
-    const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
 
-    const handleSumbit = (values) => {
-        fansubStore.addMember(values.username,
-            () => {
-                enqueueSnackbar('חבר צוות נוסף בהצלחה', {variant: 'success'});
-                handleClose();
-            },
-            (error) => {
-                enqueueSnackbar(error, {variant: 'error'});
-            },
-        );
+    const handleSumbit = async (values) => {
+        
+        store.startLoading();
+        try {
+            const { data } = await api.addAdmin(values.username);
+            enqueueSnackbar('אדמין נוסף בהצלחה', {variant: 'success'});
+            addAdminToArr(data);
+            handleClose();
+        } catch (err) {
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
+        }
     }
 
     const formik = useFormik({ initialValues: { username: ''},
@@ -48,12 +53,13 @@ export default function AddBanDialog() {
     
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>
-                באן חדש +
-            </Button>
+            <AddIconButton
+                aria-label="open drawer"
+                onClick={handleOpen}
+            />
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
-                    <DialogTitle id="form-dialog-title">באן למשתמש</DialogTitle>
+                    <DialogTitle id="form-dialog-title">הוספת אדמין</DialogTitle>
                     <DialogContent>
                         <TextField
                             error={formik.touched.username && formik.errors.username}
