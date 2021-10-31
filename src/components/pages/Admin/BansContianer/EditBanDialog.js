@@ -30,7 +30,7 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
     const handleSumbit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.updateBan(ban._id, {expired: values.expired, reason: values.reason});
+            const { data } = await api.updateBan(ban._id, {expire: values.expire, reason: values.reason});
             enqueueSnackbar('באן עודכן בהצלחה', {variant: 'success'});
             handleClose();
         } catch (err) {
@@ -40,7 +40,7 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
         }
     }
 
-    const formik = useFormik({ initialValues: { username: ban.user.username, expired: ban.expired, reason: ban.reason},
+    const formik = useFormik({ initialValues: { username: ban.user.username, expire: ban.expire, reason: ban.reason},
         validateOnBlur: true,
         onSubmit: handleSumbit,
     });
@@ -56,16 +56,16 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
                         </DialogContentText>
                         <MuiPickersUtilsProvider locale={he} utils={DateFnsUtils}>
                             <KeyboardDatePicker
-                                error={formik.touched.expired && formik.errors.expired}
-                                helperText={formik.touched.expired && formik.errors.expired}
+                                error={formik.touched.expire && formik.errors.expire}
+                                helperText={formik.touched.expire && formik.errors.expire}
                                 fullWidth
                                 margin="dense"
                                 id="date-picker-dialog"
                                 label="תאריך תפוגה"
                                 format="MM/dd/yyyy"
-                                name="expired"
-                                value={formik.values.expired}
-                                onChange={date => formik.setFieldValue('expired', date)}
+                                name="expire"
+                                value={formik.values.expire}
+                                onChange={date => formik.setFieldValue('expire', date)}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
