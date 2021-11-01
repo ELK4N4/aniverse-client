@@ -20,7 +20,7 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { memberScheme } from '@aniverse/utils/validations';
+import { banScheme } from '@aniverse/utils/validations';
 import errorMessage from '../../../../errorMessage';
 
 export default function EditBanDialog({removeBan, open, handleClose, ban}) {
@@ -43,6 +43,7 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
     const formik = useFormik({ initialValues: { username: ban.user.username, expire: ban.expire, reason: ban.reason},
         validateOnBlur: true,
         onSubmit: handleSumbit,
+        validationSchema: banScheme
     });
 
     return (
