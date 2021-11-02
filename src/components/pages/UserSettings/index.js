@@ -40,14 +40,10 @@ function UserSettings() {
             </Box>
             <TabsGroup >
                 <TabContainer label="משתמש" path="user">
-                    <Container maxWidth="md">
-                        <UserContainer />
-                    </Container>
+                    <UserContainer />
                 </TabContainer>
                 <TabContainer label="פרופיל" path="profile">
-                    <Container maxWidth="md">
-                        <ProfileContainer />
-                    </Container>
+                    <ProfileContainer />
                 </TabContainer>
                 <TabContainer label="התראות" path="notifications">
                     התראות

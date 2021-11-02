@@ -16,6 +16,7 @@ import AnimeCards from '../../Cards/AnimeCards';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { userUpdateScheme } from '@aniverse/utils/validations';
+import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../../PaperWithHeader';
 
 function UserContainer() {
     const store = useStore();
@@ -47,12 +48,17 @@ function UserContainer() {
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     return (
-        <>
-            <Paper elevation={5} className={classes.paper}>
-                <Typography align="center" variant="h5" className={classes.contianerTitle}>
-                    פרטי משתמש
-                </Typography>
-                <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+        <Container maxWidth="md">
+            <PaperWithHeader>
+                <PaperHeader>
+                    <PaperHeaderSection align="center" justify="center">
+                        <Typography align="center"variant="h5">
+                            פרטי משתמש
+                        </Typography>
+                    </PaperHeaderSection>
+                </PaperHeader>
+                <PaperBody>
+                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <TextField
                             error={formik.touched.email && formik.errors.email}
                             helperText={formik.touched.email && formik.errors.email}
@@ -113,8 +119,9 @@ function UserContainer() {
                             שמור
                         </Button>
                     </form>
-            </Paper>
-        </>
+                </PaperBody>
+            </PaperWithHeader>
+        </Container>
     )
 }
 
