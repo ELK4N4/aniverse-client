@@ -8,15 +8,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as api from '../../../../api';
-import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
+import { Box, Chip, Container, Divider, FormControl, FormHelperText, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { observer } from 'mobx-react-lite';
-import {adminPermissionsTypes} from '../../../../constants/adminPermissionsTypes';
+import { permissionsTypes } from '@aniverse/utils/types';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../errorMessage';
+import { roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
 
 function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admin}) {
     const store = useStore();
@@ -25,38 +26,57 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     const { userStore } = store;
     const [inputs, setInputs] = useState({role: admin.role, permission: ''});
     const [permissions, setPermissions] = useState(admin.permissions);
+    const [inputErrors, setInputErrors] = useState(false);
     const [availablePermissions, setAvailablePermissions] = useState([]);
 
     useEffect(() => {
         setInputs({...inputs, role: admin.role});
         setPermissions(admin.permissions);
         const helperArr = [];
-        for (const type in adminPermissionsTypes) {
+        for (const type in permissionsTypes.admin) {
             if(!admin.permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
         setAvailablePermissions(helperArr);
-    }, [admin])
+    }, [admin]);
 
     const handleSubmit = async () => {
-        store.startLoading();
-        try {
-            const { data } = await api.updateAdmin(admin._id, {role: inputs.role, permissions});
-            enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
-            handleClose();
-            updateAdminInArr(admin._id, data);
-        } catch (err) {
-            enqueueSnackbar(errorMessage(err), {variant: 'error'});
-        } finally {
-            store.stopLoading();
-        }
+        roleAndPermissionsUpdateScheme
+            .validate(inputs)
+            .then(async function(value) {
+                store.startLoading();
+                try {
+                    const { data } = await api.updateAdmin(admin._id, {role: inputs.role, permissions});
+                    enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
+                    handleClose();
+                    updateAdminInArr(admin._id, data);
+                } catch (err) {
+                    enqueueSnackbar(errorMessage(err), {variant: 'error'});
+                } finally {
+                    store.stopLoading();
+                }
+            })
+            .catch(function(err) {
+                setInputErrors(err.errors)
+            });
+    }
+
+    const handleBlur = async () => {
+        roleAndPermissionsUpdateScheme
+            .validate(inputs)
+            .then(async function(value) {
+                setInputErrors(false);
+            })
+            .catch(function(err) {
+                setInputErrors(err.errors);
+            });
     }
 
     const addPermission = () => {
         setPermissions([...permissions, inputs.permission]);
         let helperArr = [];
-        for (const type in adminPermissionsTypes) {
+        for (const type in permissionsTypes.admin) {
             if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -68,7 +88,7 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     const removePermission = (permissionToRemove) => () => {
         setPermissions((permissions) => permissions.filter((permission) => permission !== permissionToRemove));
         let helperArr = [];
-        for (const type in adminPermissionsTypes) {
+        for (const type in permissionsTypes.admin) {
             if(!permissions.filter((permission) => permission !== permissionToRemove).includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -77,6 +97,14 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     };
 
     const handleChange = (e) => {
+        roleAndPermissionsUpdateScheme
+            .validate(inputs)
+            .then(async function(value) {
+                setInputErrors(false);
+            })
+            .catch(function(err) {
+                setInputErrors(err.errors);
+            });
         setInputs({...inputs, [e.target.name]: e.target.value});
     };
 
@@ -93,6 +121,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                 <Divider />
                 <Container style={{marginBottom: "10px"}}>
                     <TextField
+                        error={inputErrors}
+                        helperText={inputErrors}
+                        onBlur={handleBlur}
                         variant="outlined"
                         margin="normal"
                         required
@@ -122,9 +153,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                                 disabled={availablePermissions.length === 0}
                             >
                                 {availablePermissions.map(permission => (
-                                    <MenuItem value={permission}>{adminPermissionsTypes[permission.toUpperCase()].text}</MenuItem>
+                                    <MenuItem value={permission}>{permissionsTypes.admin[permission.toUpperCase()].text}</MenuItem>
                                 ))}
-
+                            <FormHelperText>{}</FormHelperText>
                             </Select>
                         </Box>
                         <Button type="submit" disabled={availablePermissions.length === 0 || inputs.permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
@@ -132,9 +163,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                         </Button>
                     </from>
                     {permissions?.map(permission => (
-                        <Tooltip title={adminPermissionsTypes[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
+                        <Tooltip title={permissionsTypes.admin[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
                             <Chip
-                                label={adminPermissionsTypes[permission.toUpperCase()].text}
+                                label={permissionsTypes.admin[permission.toUpperCase()].text}
                                 className={classes.chip}
                                 onDelete={removePermission(permission)}
                             />

@@ -34,7 +34,7 @@ function EditMemberDialog({open, handleClose, member}) {
         setInputs({...inputs, role: member.role});
         setPermissions(member.permissions);
         const helperArr = [];
-        for (const type in permissionsTypes) {
+        for (const type in permissionsTypes.fansub) {
             if(!member.permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -58,7 +58,7 @@ function EditMemberDialog({open, handleClose, member}) {
     const addPermission = () => {
         setPermissions([...permissions, inputs.permission]);
         let helperArr = [];
-        for (const type in permissionsTypes) {
+        for (const type in permissionsTypes.fansub) {
             if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -82,7 +82,7 @@ function EditMemberDialog({open, handleClose, member}) {
     const removePermission = (permissionToRemove) => () => {
         setPermissions((permissions) => permissions.filter((permission) => permission !== permissionToRemove));
         let helperArr = [];
-        for (const type in permissionsTypes) {
+        for (const type in permissionsTypes.fansub) {
             if(!permissions.filter((permission) => permission !== permissionToRemove).includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
@@ -137,7 +137,7 @@ function EditMemberDialog({open, handleClose, member}) {
                                 disabled={availablePermissions.length === 0}
                             >
                                 {availablePermissions.map(permission => (
-                                    <MenuItem value={permission}>{permissionsTypes[permission.toUpperCase()].text}</MenuItem>
+                                    <MenuItem value={permission}>{permissionsTypes.fansub[permission.toUpperCase()].text}</MenuItem>
                                 ))}
 
                             </Select>
@@ -147,9 +147,9 @@ function EditMemberDialog({open, handleClose, member}) {
                         </Button>
                     </from>
                     {permissions?.map(permission => (
-                        <Tooltip title={permissionsTypes[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
+                        <Tooltip title={permissionsTypes.fansub[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
                             <Chip
-                                label={permissionsTypes[permission.toUpperCase()].text}
+                                label={permissionsTypes.fansub[permission.toUpperCase()].text}
                                 className={classes.chip}
                                 onDelete={removePermission(permission)}
                             />
