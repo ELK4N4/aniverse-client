@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,42 +8,43 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as api from '../../../../api';
-import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
+import { Box, Chip, Container, Divider, FormControl, FormHelperText, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { observer } from 'mobx-react-lite';
-import {adminPermissionsTypes} from '../../../../constants/adminPermissionsTypes';
+import { permissionsTypes } from '@aniverse/utils/types';
 import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../errorMessage';
+import { useFormik } from 'formik';
+import { roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
 
 function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admin}) {
     const store = useStore();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const { userStore } = store;
-    const [inputs, setInputs] = useState({role: admin.role, permission: ''});
+    const initialValues = { role: admin.role, permissions: admin.permissions };
     const [permissions, setPermissions] = useState(admin.permissions);
-    const [availablePermissions, setAvailablePermissions] = useState([]);
+    const [permission, setPermission] = useState('');
 
-    useEffect(() => {
-        setInputs({...inputs, role: admin.role});
-        setPermissions(admin.permissions);
+    const availablePermissions = useMemo(() => {
         const helperArr = [];
-        for (const type in adminPermissionsTypes) {
-            if(!admin.permissions.includes(type.toLowerCase())) {
+        for (const type in permissionsTypes.admin) {
+            if(!permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
-    }, [admin])
+        return helperArr
+    }, [permissions]);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.updateAdmin(admin._id, {role: inputs.role, permissions});
+            const { data } = await api.updateAdmin(admin._id, values);
             enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
+            setPermission('');
             handleClose();
             updateAdminInArr(admin._id, data);
         } catch (err) {
@@ -53,35 +54,50 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
         }
     }
 
+    const formik = useFormik({ initialValues,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: roleAndPermissionsUpdateScheme
+    });
+
+    const handleDialogClose = () => {
+        formik.resetForm();
+        setPermissions(admin.permissions);
+        setPermission('');
+        handleClose();
+    };
+
     const addPermission = () => {
-        setPermissions([...permissions, inputs.permission]);
+        const newArr = [...permissions, permission];
+        setPermissions(newArr);
+        formik.setFieldValue('permissions', newArr);
         let helperArr = [];
-        for (const type in adminPermissionsTypes) {
-            if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
+        for (const type in permissionsTypes.admin) {
+            if(!newArr.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
-        setInputs({...inputs, permission: ''});
+        setPermission('');
     }
 
     const removePermission = (permissionToRemove) => () => {
-        setPermissions((permissions) => permissions.filter((permission) => permission !== permissionToRemove));
+        const newArr = permissions.filter((permission) => permission !== permissionToRemove);
+        setPermissions(newArr);
+        formik.setFieldValue('permissions', newArr);
         let helperArr = [];
-        for (const type in adminPermissionsTypes) {
+        for (const type in permissionsTypes.admin) {
             if(!permissions.filter((permission) => permission !== permissionToRemove).includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
     };
 
-    const handleChange = (e) => {
-        setInputs({...inputs, [e.target.name]: e.target.value});
+    const handleSelectChange = (e) => {
+        setPermission(e.target.value)
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">ערוך פרטי חבר צוות</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -93,6 +109,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                 <Divider />
                 <Container style={{marginBottom: "10px"}}>
                     <TextField
+                        error={formik.touched.role && formik.errors.role}
+                        helperText={formik.touched.role && formik.errors.role}
+                        onBlur={formik.handleBlur}
                         variant="outlined"
                         margin="normal"
                         required
@@ -100,8 +119,8 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                         id="role"
                         label="תפקיד"
                         name="role"
-                        value={inputs.role}
-                        onChange={handleChange}
+                        value={formik.values.role}
+                        onChange={formik.handleChange}
                     />
                 </Container>
 
@@ -116,25 +135,24 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={handleChange}
+                                onChange={handleSelectChange}
                                 name="permission"
-                                value={inputs.permission}
+                                value={permission}
                                 disabled={availablePermissions.length === 0}
                             >
                                 {availablePermissions.map(permission => (
-                                    <MenuItem value={permission}>{adminPermissionsTypes[permission.toUpperCase()].text}</MenuItem>
+                                    <MenuItem value={permission}>{permissionsTypes.admin[permission.toUpperCase()].text}</MenuItem>
                                 ))}
-
                             </Select>
                         </Box>
-                        <Button type="submit" disabled={availablePermissions.length === 0 || inputs.permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
+                        <Button type="submit" disabled={availablePermissions.length === 0 || permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
                                 הוסף +
                         </Button>
                     </from>
-                    {permissions?.map(permission => (
-                        <Tooltip title={adminPermissionsTypes[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
+                    {formik.values.permissions?.map(permission => (
+                        <Tooltip title={permissionsTypes.admin[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
                             <Chip
-                                label={adminPermissionsTypes[permission.toUpperCase()].text}
+                                label={permissionsTypes.admin[permission.toUpperCase()].text}
                                 className={classes.chip}
                                 onDelete={removePermission(permission)}
                             />
@@ -144,7 +162,7 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
 
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleDialogClose} color="primary">
                             ביטול
                     </Button>
                     {admin?.username !== toJS(userStore.user.user.username) &&
@@ -153,7 +171,7 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                             </Button>
                     }
                     
-                    <Button onClick={handleSubmit} variant="contained" color="primary">
+                    <Button type="submit" onClick={formik.handleSubmit} variant="contained" color="primary">
                             שמור
                     </Button>
                 </DialogActions>

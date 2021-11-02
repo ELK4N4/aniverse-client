@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { memberScheme } from '@aniverse/utils/validations';
+import { usernameScheme } from '@aniverse/utils/validations';
 import AddIconButton from '../../../AddIconButton';
 
 export default function AddMemberDialog() {
@@ -36,7 +36,7 @@ export default function AddMemberDialog() {
     const formik = useFormik({ initialValues: { username: ''},
         validateOnBlur: true,
         onSubmit: handleSumbit,
-        validationSchema: memberScheme
+        validationSchema: usernameScheme
     });
 
     const handleOpen = () => {

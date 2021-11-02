@@ -12,7 +12,7 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { memberScheme } from '@aniverse/utils/validations';
+import { usernameScheme } from '@aniverse/utils/validations';
 import errorMessage from '../../../../errorMessage';
 import AddIconButton from '../../../AddIconButton';
 
@@ -39,7 +39,7 @@ export default function AddAdminDialog({ addAdminToArr }) {
     const formik = useFormik({ initialValues: { username: ''},
         validateOnBlur: true,
         onSubmit: handleSumbit,
-        validationSchema: memberScheme
+        validationSchema: usernameScheme
     });
 
     const handleOpen = () => {

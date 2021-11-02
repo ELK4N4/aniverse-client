@@ -23,7 +23,7 @@ import StyledListItem from '../../../StyledListItem';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../PaperWithHeader';
 
 
-function ProjectsContainer() {
+function MembersContainer() {
     const store = useStore();
     const { fansubStore } = store;
     const { enqueueSnackbar } = useSnackbar();
@@ -133,4 +133,4 @@ function ProjectsContainer() {
     )
 }
 
-export default observer(ProjectsContainer);
+export default observer(MembersContainer);

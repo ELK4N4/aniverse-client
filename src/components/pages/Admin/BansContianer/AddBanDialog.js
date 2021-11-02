@@ -21,7 +21,7 @@ import { useStore } from '../../../../stores';
 import * as api from '../../../../api';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { memberScheme } from '@aniverse/utils/validations';
+import { banScheme } from '@aniverse/utils/validations';
 import errorMessage from '../../../../errorMessage';
 import AddIconButton from '../../../../components/AddIconButton';
 
@@ -53,6 +53,7 @@ export default function AddBanDialog({ addBanToArr }) {
     const formik = useFormik({ initialValues: { username: '', expire: new Date(), reason: ''},
         validateOnBlur: true,
         onSubmit: handleSumbit,
+        validationSchema: banScheme
     });
 
     const handleOpen = () => {
