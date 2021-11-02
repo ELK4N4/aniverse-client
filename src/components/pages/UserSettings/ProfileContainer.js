@@ -16,6 +16,7 @@ import AnimeCards from '../../Cards/AnimeCards';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { profileUpdateScheme } from '@aniverse/utils/validations';
+import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../../PaperWithHeader';
 
 function ProfileContianer() {
     const store = useStore();
@@ -46,12 +47,17 @@ function ProfileContianer() {
     })
 
     return (
-        <>
-            <Paper elevation={5} className={classes.paper}>
-                <Typography align="center" variant="h5" className={classes.contianerTitle}>
-                    פרופיל
-                </Typography>
-                <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+        <Container maxWidth="md">
+            <PaperWithHeader>
+                <PaperHeader>
+                    <PaperHeaderSection align="center" justify="center">
+                        <Typography align="center"variant="h5">
+                            פרופיל
+                        </Typography>
+                    </PaperHeaderSection>
+                </PaperHeader>
+                <PaperBody>
+                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <TextField
                             error={formik.touched.avatar && formik.errors.avatar}
                             helperText={formik.touched.avatar && formik.errors.avatar}
@@ -93,8 +99,9 @@ function ProfileContianer() {
                             שמור
                         </Button>
                     </form>
-            </Paper>
-        </>
+                </PaperBody>
+            </PaperWithHeader>
+        </Container>
     )
 }
 
