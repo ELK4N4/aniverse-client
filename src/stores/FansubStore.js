@@ -316,6 +316,16 @@ class FansubStore {
     return animes;
   }
 
+  updateMember(userId, updatedMember) {
+    console.log(updatedMember)
+    const memberIndex = this.members.findIndex((member) => member.user._id === userId);
+    const helper = [...this.members];
+    helper[memberIndex] = updatedMember;
+    runInAction(() => {
+      this.members = helper;
+    });
+  }
+
 }
 
 export default FansubStore;

@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import useStyles from './style';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import AddIcon from '@material-ui/icons/Add';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as api from '../../../../api';
-import { Box, Chip, Container, Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
+import { Box, Chip, Container, Divider, FormControl, FormHelperText, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Tooltip, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../stores';
 import { observer } from 'mobx-react-lite';
@@ -18,36 +17,37 @@ import Zoom from '@material-ui/core/Zoom';
 import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../errorMessage';
+import { useFormik } from 'formik';
+import { fansubScheme, roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
 
-function EditMemberDialog({open, handleClose, member}) {
+function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, member}) {
     const store = useStore();
     const classes = useStyles();
+    const { fansubId } = useParams();
     const { enqueueSnackbar } = useSnackbar();
-    const { userStore } = store;
-    const { fansubStore } = store;
-    const { fansubId, projectId } = useParams();
-    const [inputs, setInputs] = useState({role: member.role, permission: ''});
+    const { userStore, fansubStore } = store;
+    const initialValues = { role: member.role, permissions: member.permissions };
     const [permissions, setPermissions] = useState(member.permissions);
-    const [availablePermissions, setAvailablePermissions] = useState([]);
+    const [permission, setPermission] = useState('');
 
-    useEffect(() => {
-        setInputs({...inputs, role: member.role});
-        setPermissions(member.permissions);
+    const availablePermissions = useMemo(() => {
         const helperArr = [];
         for (const type in permissionsTypes.fansub) {
-            if(!member.permissions.includes(type.toLowerCase())) {
+            if(!permissions.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
-    }, [member])
+        return helperArr
+    }, [permissions]);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.updateMember(fansubId, member.user._id, {role: inputs.role, permissions});
+            const { data } = await api.updateMember(fansubId, member.user._id, values);
             enqueueSnackbar('חבר צוות עודכן', {variant: 'success'});
+            setPermission('');
             handleClose();
+            fansubStore.updateMember(data.user._id, data);
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
@@ -55,59 +55,64 @@ function EditMemberDialog({open, handleClose, member}) {
         }
     }
 
+    const formik = useFormik({ initialValues,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: roleAndPermissionsUpdateScheme
+    });
+
+    const handleDialogClose = () => {
+        formik.resetForm();
+        setPermissions(member.permissions);
+        setPermission('');
+        handleClose();
+    };
+
     const addPermission = () => {
-        setPermissions([...permissions, inputs.permission]);
+        const newArr = [...permissions, permission];
+        setPermissions(newArr);
+        formik.setFieldValue('permissions', newArr);
         let helperArr = [];
         for (const type in permissionsTypes.fansub) {
-            if(![...permissions, inputs.permission].includes(type.toLowerCase())) {
+            if(!newArr.includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
-        setInputs({...inputs, permission: ''});
+        setPermission('');
     }
 
-    const removeMember = (userId) => () => {
-        fansubStore.removeMember(userId,
-            () => {
-                enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
-            },
-            (error) => {
-                enqueueSnackbar(error, {variant: 'error'});
-        });
-        handleClose();
-        console.log(inputs.permission)
-    };
-
     const removePermission = (permissionToRemove) => () => {
-        setPermissions((permissions) => permissions.filter((permission) => permission !== permissionToRemove));
+        const newArr = permissions.filter((permission) => permission !== permissionToRemove);
+        setPermissions(newArr);
+        formik.setFieldValue('permissions', newArr);
         let helperArr = [];
         for (const type in permissionsTypes.fansub) {
             if(!permissions.filter((permission) => permission !== permissionToRemove).includes(type.toLowerCase())) {
                 helperArr.push(type.toLowerCase());
             }
         }
-        setAvailablePermissions(helperArr);
     };
 
-    const handleChange = (e) => {
-        setInputs({...inputs, [e.target.name]: e.target.value});
+    const handleSelectChange = (e) => {
+        setPermission(e.target.value)
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">ערוך פרטי חבר צוות</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    חבר צוות - {member.user?.username}
+                    אדמין - {member?.user.username}
                 </DialogContentText>
-                
                 <Typography variant="h6">
                     תפקיד
                 </Typography>
                 <Divider />
                 <Container style={{marginBottom: "10px"}}>
                     <TextField
+                        error={formik.touched.role && formik.errors.role}
+                        helperText={formik.touched.role && formik.errors.role}
+                        onBlur={formik.handleBlur}
                         variant="outlined"
                         margin="normal"
                         required
@@ -115,8 +120,8 @@ function EditMemberDialog({open, handleClose, member}) {
                         id="role"
                         label="תפקיד"
                         name="role"
-                        value={inputs.role}
-                        onChange={handleChange}
+                        value={formik.values.role}
+                        onChange={formik.handleChange}
                     />
                 </Container>
 
@@ -131,22 +136,21 @@ function EditMemberDialog({open, handleClose, member}) {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={handleChange}
+                                onChange={handleSelectChange}
                                 name="permission"
-                                value={inputs.permission}
+                                value={permission}
                                 disabled={availablePermissions.length === 0}
                             >
                                 {availablePermissions.map(permission => (
                                     <MenuItem value={permission}>{permissionsTypes.fansub[permission.toUpperCase()].text}</MenuItem>
                                 ))}
-
                             </Select>
                         </Box>
-                        <Button type="submit" disabled={availablePermissions.length === 0 || inputs.permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
+                        <Button type="submit" disabled={availablePermissions.length === 0 || permission.length === 0} className={classes.permissionButton} onClick={addPermission} variant="contained" color="primary">
                                 הוסף +
                         </Button>
                     </from>
-                    {permissions?.map(permission => (
+                    {formik.values.permissions?.map(permission => (
                         <Tooltip title={permissionsTypes.fansub[permission.toUpperCase()].tooltip} interactive arrow TransitionComponent={Zoom} placement="top">
                             <Chip
                                 label={permissionsTypes.fansub[permission.toUpperCase()].text}
@@ -159,16 +163,16 @@ function EditMemberDialog({open, handleClose, member}) {
 
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleDialogClose} color="primary">
                             ביטול
                     </Button>
-                    {member?.user?.username !== toJS(userStore.user.user.username) &&
-                            <Button fullWidth onClick={removeMember(member.user._id)} variant="outlined" >
-                                הסר את {member?.user?.username} מהפאנסאב
+                    {member?.user.username !== toJS(userStore.user.user.username) &&
+                            <Button fullWidth onClick={removeMember(member._id)} variant="outlined" >
+                                הסר את {member?.user.username}
                             </Button>
                     }
                     
-                    <Button onClick={handleSubmit} variant="contained" color="primary">
+                    <Button type="submit" onClick={formik.handleSubmit} variant="contained" color="primary">
                             שמור
                     </Button>
                 </DialogActions>
@@ -177,4 +181,4 @@ function EditMemberDialog({open, handleClose, member}) {
     );
 }
 
-export default observer(EditMemberDialog);
+export default EditMemberDialog;

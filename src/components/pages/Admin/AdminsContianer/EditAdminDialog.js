@@ -25,10 +25,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const { userStore } = store;
-    const [inputs, setInputs] = useState({role: admin.role, permission: ''});
+    const initialValues = { role: admin.role, permissions: admin.permissions };
     const [permissions, setPermissions] = useState(admin.permissions);
     const [permission, setPermission] = useState('');
-    const initialValues = { role: inputs.role, permissions };
 
     const availablePermissions = useMemo(() => {
         const helperArr = [];
