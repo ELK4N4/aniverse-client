@@ -16,6 +16,9 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import SettingsTabs from './SettingsTabs';
+import TabsGroup, { TabContainer } from '../../TabsGroup';
+import UserContainer from './UserContainer';
+import ProfileContainer from './ProfileContainer';
 
 
 function UserSettings() {
@@ -35,7 +38,21 @@ function UserSettings() {
                     הגדרות
                 </Typography>
             </Box>
-            <SettingsTabs />
+            <TabsGroup >
+                <TabContainer label="משתמש" path="user">
+                    <Container maxWidth="md">
+                        <UserContainer />
+                    </Container>
+                </TabContainer>
+                <TabContainer label="פרופיל" path="profile">
+                    <Container maxWidth="md">
+                        <ProfileContainer />
+                    </Container>
+                </TabContainer>
+                <TabContainer label="התראות" path="notifications">
+                    התראות
+                </TabContainer>
+            </TabsGroup>
         </>
     )
 }
