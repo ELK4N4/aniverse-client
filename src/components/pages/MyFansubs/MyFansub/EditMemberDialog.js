@@ -102,7 +102,7 @@ function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, m
             <DialogTitle id="form-dialog-title">ערוך פרטי חבר צוות</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    אדמין - {member?.user.username}
+                    חבר בפאנסאב - {member?.user.username}
                 </DialogContentText>
                 <Typography variant="h6">
                     תפקיד
