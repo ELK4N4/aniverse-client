@@ -3,9 +3,6 @@ import { AppBar, makeStyles, Tab, Tabs, useTheme } from "@material-ui/core";
 import SwipeableViews from 'react-swipeable-views';
 import TabContainer from './TabContainer';
 import { useHistory, useLocation, useParams } from 'react-router';
-import ProjectsContainer from '../pages/MyFansubs/MyFansub/ProjectsContainer';
-import MembersContainer from '../pages/MyFansubs/MyFansub/MembersContainer';
-import SettingsContainer from '../pages/MyFansubs/MyFansub/SettingsContainer';
 import TabPanel from './TabPanel';
 
 const useStyles = makeStyles((theme) => ({
