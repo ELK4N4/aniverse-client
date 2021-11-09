@@ -15,14 +15,14 @@ import { Slide } from '@material-ui/core';
 import AnimeCards from '../../Cards/AnimeCards';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { profileUpdateScheme } from '@aniverse/utils/validations';
+import { userUpdateScheme } from '@aniverse/utils/validations';
 import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../../PaperWithHeader';
 
 function ProfileContianer() {
     const store = useStore();
     const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
-    const initialState = { avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
+    const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: '', avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
@@ -43,7 +43,7 @@ function ProfileContianer() {
     const formik = useFormik({ initialValues: initialState,
         validateOnBlur: true,
         onSubmit: handleSubmit,
-        validationSchema: profileUpdateScheme
+        validationSchema: userUpdateScheme
     })
 
     return (

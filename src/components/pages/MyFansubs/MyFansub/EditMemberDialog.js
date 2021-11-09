@@ -18,7 +18,7 @@ import { toJS } from 'mobx';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../../errorMessage';
 import { useFormik } from 'formik';
-import { fansubScheme, roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
+import { roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
 
 function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, member}) {
     const store = useStore();
