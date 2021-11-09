@@ -22,7 +22,7 @@ function UserContainer() {
     const store = useStore();
     const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
-    const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: ''};
+    const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: '', avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
@@ -44,8 +44,6 @@ function UserContainer() {
         onSubmit: handleSubmit,
         validationSchema: userUpdateScheme
     })
-
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     return (
         <Container maxWidth="md">
