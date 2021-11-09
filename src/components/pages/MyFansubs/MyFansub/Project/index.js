@@ -98,7 +98,7 @@ function Project() {
         }
     }
 
-    const addEpisode = async (episode) => {
+    const addEpisode = async (episode, handleClose) => {
         store.startLoading();
         try {
             const { data } = await api.addEpisode(fansubId, projectId, episode);
@@ -106,6 +106,7 @@ function Project() {
             newProject.episodes.push(data);
             setProject(newProject);
             enqueueSnackbar('הפרק נוסף', {variant: 'success'});
+            handleClose();
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {

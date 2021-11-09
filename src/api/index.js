@@ -21,7 +21,7 @@ export const deleteAdmin = (userId) => API.delete('/admins/' + userId);
 
 export const fetchBans = (keyword, skip, limit) => API.get('/bans', { params: {search: keyword, skip, limit} });
 export const fetchBan = (userId) => API.get('/bans/' + userId);
-export const addBan = (username, ban) => API.post('/bans/' + username, ban);
+export const addBan = (ban) => API.post('/bans/', ban);
 export const updateBan = (userId, updatedBan) => API.put('/bans/' + userId, updatedBan);
 export const deleteBan = (userId) => API.delete('/bans/' + userId);
 

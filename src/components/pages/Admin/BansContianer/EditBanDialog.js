@@ -30,7 +30,7 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
     const handleSumbit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.updateBan(ban._id, {expire: values.expire, reason: values.reason});
+            const { data } = await api.updateBan(ban._id, values);
             enqueueSnackbar('באן עודכן בהצלחה', {variant: 'success'});
             handleClose();
         } catch (err) {

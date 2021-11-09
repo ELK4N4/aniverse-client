@@ -24,8 +24,7 @@ export default function AddEpisodeDialog({onSumbit}) {
     };
 
     const handleSumbit = (values) => {
-        onSumbit(values);
-        handleClose();
+        onSumbit(values, handleClose);
     }
 
     const formik = useFormik({ initialValues: initialState,

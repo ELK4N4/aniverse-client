@@ -39,7 +39,7 @@ export default function AddBanDialog({ addBanToArr }) {
     const handleSumbit = async (values) => {
         store.startLoading();
         try {
-            const { data } = await api.addBan(values.username, {expire: values.expire, reason: values.reason});
+            const { data } = await api.addBan(values);
             enqueueSnackbar('באן נוסף בהצלחה', {variant: 'success'});
             addBanToArr(data);
             handleClose();
