@@ -22,7 +22,7 @@ export default function AddMemberDialog() {
     const [open, setOpen] = useState(false);
 
     const handleSumbit = (values) => {
-        fansubStore.addMember(values.username,
+        fansubStore.addMember(values,
             () => {
                 enqueueSnackbar('חבר צוות נוסף בהצלחה', {variant: 'success'});
                 handleClose();

@@ -63,7 +63,7 @@ export const updateRating = (animeId, ratingId, score) => API.put(`/animes/${ani
 export const deleteRating = (animeId, ratingId) => API.delete(`/animes/${animeId}/rating/${ratingId}`);
 
 
-export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/${username}`);
+export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/`, username);
 export const removeMember = (fansubId, userId) => API.delete(`/fansubs/${fansubId}/members/${userId}`);
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`/fansubs/${fansubId}/members/${userId}`, updatedMember);
 
