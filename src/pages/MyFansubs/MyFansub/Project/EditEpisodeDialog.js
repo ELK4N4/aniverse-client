@@ -15,7 +15,6 @@ import { episodeScheme } from '@aniverse/utils/validations';
 export default function EditEpisodeDialog({open, handleClose, onSumbit, currentEditedEpisode}) {
     const handleSumbit = (values) => {
         onSumbit(values);
-        handleClose();
     }
 
     const formik = useFormik({ initialValues: currentEditedEpisode,

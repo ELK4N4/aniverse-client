@@ -61,14 +61,9 @@ function Project() {
             });
             setProject(newProject);
             enqueueSnackbar('הפרק עודכן', {variant: 'success'});
+            handleClose();
         } catch (err) {
-            if (err.response) {
-                // enqueueSnackbar(err.response.data, {variant: 'error'});
-            } else if (err.request) {
-                enqueueSnackbar(err.request, {variant: 'error'});
-            } else {
-                enqueueSnackbar(err.message, {variant: 'error'});
-            }
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }
