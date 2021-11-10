@@ -15,7 +15,7 @@ export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 
 export const fetchAdmins = (keyword, skip, limit) => API.get('/admins', { params: {search: keyword, skip, limit} });
 export const fetchAdmin = (userId) => API.get('/admins/' + userId);
-export const addAdmin = (username) => API.post('/admins/' + username);
+export const addAdmin = (username) => API.post('/admins/', username);
 export const updateAdmin = (userId, updatedAdmin) => API.put('/admins/' + userId, updatedAdmin);
 export const deleteAdmin = (userId) => API.delete('/admins/' + userId);
 

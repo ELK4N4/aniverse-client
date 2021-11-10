@@ -22,10 +22,10 @@ export default function AddAdminDialog({ addAdminToArr }) {
     const [open, setOpen] = useState(false);
 
     const handleSumbit = async (values) => {
-        
+        console.log(values)
         store.startLoading();
         try {
-            const { data } = await api.addAdmin(values.username);
+            const { data } = await api.addAdmin(values);
             enqueueSnackbar('אדמין נוסף בהצלחה', {variant: 'success'});
             addAdminToArr(data);
             handleClose();
