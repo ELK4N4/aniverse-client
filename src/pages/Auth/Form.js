@@ -34,9 +34,8 @@ function Form() {
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
 
     const handleSubmit = (values) => {
-        const { confirmPassword, ...data } = values;
         if (isRegister) {
-            userStore.register(data,
+            userStore.register(values,
                 () => {
                     enqueueSnackbar('ברוכים הבאים!', {variant: 'success'});
                     history.push(redirect ?? '/');
@@ -46,8 +45,9 @@ function Form() {
                 }
             );
         } else {
-            delete data.username;
-            userStore.login(data,
+            delete values.username;
+            delete values.confirmPassword;
+            userStore.login(values,
                 () => {
                     enqueueSnackbar('טוב שחזרתם!', {variant: 'success'});
                     history.push(redirect ?? '/');
