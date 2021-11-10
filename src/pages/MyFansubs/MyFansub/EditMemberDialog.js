@@ -167,7 +167,7 @@ function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, m
                             ביטול
                     </Button>
                     {member?.user.username !== toJS(userStore.user.user.username) &&
-                            <Button fullWidth onClick={removeMember(member._id)} variant="outlined" >
+                            <Button fullWidth onClick={() => removeMember(member._id)} variant="outlined" >
                                 הסר את {member?.user.username}
                             </Button>
                     }
