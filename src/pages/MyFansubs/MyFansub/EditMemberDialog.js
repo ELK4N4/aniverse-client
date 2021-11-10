@@ -35,7 +35,7 @@ function EditMemberDialog({removeMember, open, handleClose, member}) {
     }, [member])
 
     console.log(member.permissions)
-    
+
     const availablePermissions = useMemo(() => {
         const helperArr = [];
         for (const type in permissionsTypes.fansub) {
@@ -174,7 +174,7 @@ function EditMemberDialog({removeMember, open, handleClose, member}) {
                             ביטול
                     </Button>
                     {member?.user.username !== toJS(userStore.user.user.username) &&
-                            <Button fullWidth onClick={() => removeMember(member._id)} variant="outlined" >
+                            <Button fullWidth onClick={() => removeMember(member.user._id)} variant="outlined" >
                                 הסר את {member?.user.username}
                             </Button>
                     }

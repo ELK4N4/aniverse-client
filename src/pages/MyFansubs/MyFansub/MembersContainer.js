@@ -70,6 +70,7 @@ function MembersContainer() {
             fansubStore.removeMember(userId,
                 () => {
                     enqueueSnackbar('חבר צוות הוסר', {variant: 'success'});
+                    handleClose();
                 },
                 (error) => {
                     enqueueSnackbar(error, {variant: 'error'});

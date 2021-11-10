@@ -97,7 +97,7 @@ class FansubStore {
   async removeMember(userId, onSuccess, onError) {
     this.rootStore.loading = true;
     this.state = 'pending';
-
+    
     try {
       const { data } = await api.removeMember(this.fansub._id, userId);
       runInAction(() => {
