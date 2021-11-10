@@ -41,6 +41,7 @@ export default function EditBanDialog({removeBan, open, handleClose, ban}) {
     }
 
     const formik = useFormik({ initialValues: { username: ban.user.username, expire: ban.expire, reason: ban.reason},
+        enableReinitialize: true,
         validateOnBlur: true,
         onSubmit: handleSumbit,
         validationSchema: banScheme
