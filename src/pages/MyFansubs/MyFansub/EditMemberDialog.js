@@ -20,7 +20,7 @@ import errorMessage from '../../../errorMessage';
 import { useFormik } from 'formik';
 import { roleAndPermissionsUpdateScheme } from '@aniverse/utils/validations';
 
-function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, member}) {
+function EditMemberDialog({removeMember, open, handleClose, member}) {
     const store = useStore();
     const classes = useStyles();
     const { fansubId } = useParams();
@@ -30,6 +30,12 @@ function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, m
     const [permissions, setPermissions] = useState(member.permissions);
     const [permission, setPermission] = useState('');
 
+    useEffect(() => {
+        setPermissions(member.permissions);
+    }, [member])
+
+    console.log(member.permissions)
+    
     const availablePermissions = useMemo(() => {
         const helperArr = [];
         for (const type in permissionsTypes.fansub) {
@@ -56,6 +62,7 @@ function EditMemberDialog({removeMember, updateMemberInArr, open, handleClose, m
     }
 
     const formik = useFormik({ initialValues,
+        enableReinitialize: true,
         validateOnBlur: true,
         onSubmit: handleSubmit,
         validationSchema: roleAndPermissionsUpdateScheme
