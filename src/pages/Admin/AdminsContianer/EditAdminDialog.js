@@ -166,9 +166,9 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
                             ביטול
                     </Button>
                     {admin?.username !== toJS(userStore.user.user.username) &&
-                            <Button fullWidth onClick={removeAdmin(admin._id)} variant="outlined" >
-                                הסר את {admin?.username}
-                            </Button>
+                        <Button fullWidth onClick={() => removeAdmin(admin._id)} variant="outlined" >
+                            הסר את {admin?.username}
+                        </Button>
                     }
                     
                     <Button type="submit" onClick={formik.handleSubmit} variant="contained" color="primary">
