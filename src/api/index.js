@@ -15,7 +15,7 @@ export const fetchMyFansubs = () => API.get('/user/my-fansubs');
 
 export const fetchAdmins = (keyword, skip, limit) => API.get('/admins', { params: {search: keyword, skip, limit} });
 export const fetchAdmin = (userId) => API.get('/admins/' + userId);
-export const addAdmin = (username) => API.post('/admins/' + username);
+export const addAdmin = (username) => API.post('/admins/', username);
 export const updateAdmin = (userId, updatedAdmin) => API.put('/admins/' + userId, updatedAdmin);
 export const deleteAdmin = (userId) => API.delete('/admins/' + userId);
 
@@ -63,7 +63,7 @@ export const updateRating = (animeId, ratingId, score) => API.put(`/animes/${ani
 export const deleteRating = (animeId, ratingId) => API.delete(`/animes/${animeId}/rating/${ratingId}`);
 
 
-export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/${username}`);
+export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/`, username);
 export const removeMember = (fansubId, userId) => API.delete(`/fansubs/${fansubId}/members/${userId}`);
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`/fansubs/${fansubId}/members/${userId}`, updatedMember);
 

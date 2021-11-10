@@ -13,22 +13,22 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 
-import Animes from "./components/pages/Animes";
-import Anime from "./components/pages/Anime";
-import UserSettings from "./components/pages/UserSettings";
-import Form from "./components/pages/Auth/Form";
-import Fansubs from "./components/pages/Fansubs";
-import Fansub from "./components/pages/Fansub";
-import MyFansubs from "./components/pages/MyFansubs";
-import MyFansub from "./components/pages/MyFansubs/MyFansub";
+import Animes from "./pages/Animes";
+import Anime from "./pages/Anime";
+import UserSettings from "./pages/UserSettings";
+import Form from "./pages/Auth/Form";
+import Fansubs from "./pages/Fansubs";
+import Fansub from "./pages/Fansub";
+import MyFansubs from "./pages/MyFansubs";
+import MyFansub from "./pages/MyFansubs/MyFansub";
 
 import AddAnimeForm from './components/AddAnimeForm/AddAnimeForm';
 import CreateFansubForm from './components/CreateFansubForm/CreateFansubForm';
-import Project from './components/pages/MyFansubs/MyFansub/Project';
-import User from './components/pages/User';
-import Home from './components/pages/Home';
+import Project from './pages/MyFansubs/MyFansub/Project';
+import User from './pages/User';
+import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Admin from './components/pages/Admin';
+import Admin from './pages/Admin';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
