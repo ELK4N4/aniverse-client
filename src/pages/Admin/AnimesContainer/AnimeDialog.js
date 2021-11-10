@@ -85,7 +85,6 @@ function AnimeDialog({open, handleClose, onSubmit, choosenAnime = initAnime}) {
 
     const handleSubmit = (values) => {
         onSubmit(values);
-        handleClose();
     };
 
     const formik = useFormik({ initialValues: choosenAnime,

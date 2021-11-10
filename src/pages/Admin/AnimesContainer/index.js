@@ -75,6 +75,7 @@ function ManageAnimes() {
             const animesTemp = [...animes];
             animesTemp[editAnimeIndex] = data;
             setAnimes(animesTemp);
+            handleClose();
             enqueueSnackbar('האנימה עודכנה', {variant: 'success'});
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
