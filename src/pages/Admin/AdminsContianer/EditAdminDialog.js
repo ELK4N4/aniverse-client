@@ -29,6 +29,10 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     const [permissions, setPermissions] = useState(admin.permissions);
     const [permission, setPermission] = useState('');
 
+    useEffect(() => {
+        setPermissions(admin.permissions);
+    }, [admin])
+
     const availablePermissions = useMemo(() => {
         const helperArr = [];
         for (const type in permissionsTypes.admin) {
@@ -55,6 +59,7 @@ function EditAdminDialog({removeAdmin, updateAdminInArr, open, handleClose, admi
     }
 
     const formik = useFormik({ initialValues,
+        enableReinitialize: true,
         validateOnBlur: true,
         onSubmit: handleSubmit,
         validationSchema: roleAndPermissionsUpdateScheme
