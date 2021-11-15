@@ -120,7 +120,7 @@ function Header({toggleTheme, themeIcon}) {
             <p>התראות</p>
           </MenuItem>
 
-          {userStore.user.user.permissions.length > 0 &&
+          {(userStore.user.user.permissions.length > 0 || userStore.user.user.owner) &&
             <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <AdminPanelSettingsIcon/>
@@ -235,7 +235,7 @@ function Header({toggleTheme, themeIcon}) {
           
           <div className={classes.grow} />
           <Typography component={Link} to='/' className={classes.title} variant="h6" noWrap>
-            Aniverse
+            {userStore.user.user.owner ? 'Adminerse': 'Aniverse'}
           </Typography>
         </Toolbar>
         <LinearProgress hidden={!store.loading}/>

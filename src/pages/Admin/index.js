@@ -31,19 +31,19 @@ function AdminPanel() {
                             אדמין פאנל
                         </Typography>
                         <TabsGroup >
-                            {userStore.user.user.permissions.includes('admins') &&
+                            {(userStore.user.user.permissions.includes('admins') || userStore.user.user.owner) &&
                                 <TabContainer label="אדמינים" path="admins">
                                     <AdminsContainer />
                                 </TabContainer>
                             }
 
-                            {userStore.user.user.permissions.includes('bans') &&
+                            {(userStore.user.user.permissions.includes('bans') || userStore.user.user.owner) &&
                                 <TabContainer label="באנים" path="bans">
                                     <BansContainer />
                                 </TabContainer>
                             }
 
-                            {userStore.user.user.permissions.includes('animes') &&
+                            {(userStore.user.user.permissions.includes('animes') || userStore.user.user.owner) &&
                                 <TabContainer label="אנימות" path="animes">
                                     <AnimesContainer />
                                 </TabContainer>
