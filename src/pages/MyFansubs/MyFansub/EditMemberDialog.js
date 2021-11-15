@@ -34,8 +34,6 @@ function EditMemberDialog({removeMember, open, handleClose, member}) {
         setPermissions(member.permissions);
     }, [member])
 
-    console.log(member.permissions)
-
     const availablePermissions = useMemo(() => {
         const helperArr = [];
         for (const type in permissionsTypes.fansub) {

@@ -120,12 +120,14 @@ function Header({toggleTheme, themeIcon}) {
             <p>התראות</p>
           </MenuItem>
 
-          <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <AdminPanelSettingsIcon/>
-            </IconButton>
-            <p>אדמין פאנל</p>
-          </MenuItem>
+          {userStore.user.user.permissions.length > 0 &&
+            <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <AdminPanelSettingsIcon/>
+              </IconButton>
+              <p>אדמין פאנל</p>
+            </MenuItem>
+          }
 
           <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
