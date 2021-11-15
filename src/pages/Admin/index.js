@@ -23,8 +23,6 @@ function AdminPanel() {
     const history = useHistory();
     const classes = useStyles();
 
-    alert(userStore.user.user.permissions.includes('admins'))
-
     return (
         <>
             <Container maxWidth="lg">
@@ -38,12 +36,18 @@ function AdminPanel() {
                                     <AdminsContainer />
                                 </TabContainer>
                             }
-                            <TabContainer label="באנים" path="bans">
-                                <BansContainer />
-                            </TabContainer>
-                            <TabContainer label="אנימות" path="animes">
-                                <AnimesContainer />
-                            </TabContainer>
+
+                            {userStore.user.user.permissions.includes('bans') &&
+                                <TabContainer label="באנים" path="bans">
+                                    <BansContainer />
+                                </TabContainer>
+                            }
+
+                            {userStore.user.user.permissions.includes('animes') &&
+                                <TabContainer label="אנימות" path="animes">
+                                    <AnimesContainer />
+                                </TabContainer>
+                            }
                         </TabsGroup>
                     </ Paper>
             </Container>
