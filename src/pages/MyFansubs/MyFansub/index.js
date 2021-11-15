@@ -46,13 +46,20 @@ function MyFansub() {
                                     <ProjectsContainer />
                                 </TabContainer>
                             }
+
+                            {fansubStore.currentMember?.permissions.includes('members') &&
+                                <TabContainer label="צוות" path="team">
+                                    <MembersContainer />
+                                </TabContainer>
+                            }
+
+                            {fansubStore.currentMember?.permissions.includes('fansub') &&
+                                <TabContainer label="הגדרות" path="settings">
+                                    <SettingsContainer />
+                                </TabContainer>
+                            }
                             
-                            <TabContainer label="צוות" path="team">
-                                <MembersContainer />
-                            </TabContainer>
-                            <TabContainer label="הגדרות" path="settings">
-                                <SettingsContainer />
-                            </TabContainer>
+                            
                         </TabsGroup>
                     </ Paper>
             </Container>
