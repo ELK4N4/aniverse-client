@@ -15,6 +15,7 @@ import ProjectsContainer from './ProjectsContainer';
 import MembersContainer from './MembersContainer';
 import SettingsContainer from './SettingsContainer';
 import TabsGroup, { TabContainer } from '../../../components/TabsGroup';
+import { toJS } from 'mobx';
 
 
 
@@ -39,9 +40,13 @@ function MyFansub() {
                         </Typography>
 
                         <TabsGroup >
-                            <TabContainer label="פרוייקטים" path="projects">
-                                <ProjectsContainer />
-                            </TabContainer>
+
+                            {fansubStore.currentMember?.permissions.includes('projects') &&
+                                <TabContainer label="פרוייקטים" path="projects">
+                                    <ProjectsContainer />
+                                </TabContainer>
+                            }
+                            
                             <TabContainer label="צוות" path="team">
                                 <MembersContainer />
                             </TabContainer>

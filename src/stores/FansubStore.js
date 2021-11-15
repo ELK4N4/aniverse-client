@@ -317,13 +317,17 @@ class FansubStore {
   }
 
   updateMember(userId, updatedMember) {
-    console.log(updatedMember)
     const memberIndex = this.members.findIndex((member) => member.user._id === userId);
     const helper = [...this.members];
     helper[memberIndex] = updatedMember;
     runInAction(() => {
       this.members = helper;
     });
+  }
+
+  get currentMember() {
+    const currentUser = this.rootStore.userStore.user.user;
+    return this.members.find((member) => member.user._id === currentUser._id);
   }
 
 }
