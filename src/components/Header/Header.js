@@ -120,7 +120,7 @@ function Header({toggleTheme, themeIcon}) {
             <p>התראות</p>
           </MenuItem>
 
-          {userStore.user.user.permissions.length > 0 &&
+          {(userStore.user.user.permissions.length > 0 || userStore.user.user.owner) &&
             <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <AdminPanelSettingsIcon/>
