@@ -235,7 +235,7 @@ function Header({toggleTheme, themeIcon}) {
           
           <div className={classes.grow} />
           <Typography component={Link} to='/' className={classes.title} variant="h6" noWrap>
-            Aniverse
+            {userStore.user.user.owner ? 'Adminerse': 'Aniverse'}
           </Typography>
         </Toolbar>
         <LinearProgress hidden={!store.loading}/>
