@@ -17,11 +17,13 @@ import AdminsContainer from './AdminsContianer';
 import BansContainer from './BansContianer';
 import AnimesContainer from './AnimesContainer';
 
-export default function AdminPanel() {
+function AdminPanel() {
     const store = useStore();
     const { userStore } = store;
     const history = useHistory();
     const classes = useStyles();
+
+    alert(userStore.user.user.permissions.includes('admins'))
 
     return (
         <>
@@ -31,9 +33,11 @@ export default function AdminPanel() {
                             אדמין פאנל
                         </Typography>
                         <TabsGroup >
-                            <TabContainer label="אדמינים" path="admins">
-                                <AdminsContainer />
-                            </TabContainer>
+                            {userStore.user.user.permissions.includes('admins') &&
+                                <TabContainer label="אדמינים" path="admins">
+                                    <AdminsContainer />
+                                </TabContainer>
+                            }
                             <TabContainer label="באנים" path="bans">
                                 <BansContainer />
                             </TabContainer>
@@ -47,3 +51,6 @@ export default function AdminPanel() {
         </>
     )
 }
+
+
+export default observer(AdminPanel);

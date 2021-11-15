@@ -25,7 +25,8 @@ function TabsGroup({ children }) {
     const params = new URLSearchParams(location.search);
     const pathName = params.get('tab');
     const [value, setValue] = useState(pathName);
-    const paths = React.Children.map(children, child => {
+    const filteredChildren = React.Children.toArray(children).filter((child) => React.isValidElement(child));
+    const paths = React.Children.map(filteredChildren, child => {
       return child.props.path;
     });
     
@@ -52,7 +53,7 @@ function TabsGroup({ children }) {
       setValue(paths[index]);
     };
 
-    const tabs = React.Children.map(children, (child, index) => {
+    const tabs = React.Children.map(filteredChildren, (child, index) => {
       // Checking isValidElement is the safe way and avoids a typescript
       // error too.
       if (React.isValidElement(child)) {
@@ -62,7 +63,7 @@ function TabsGroup({ children }) {
       return <Tab label={child.props.label} id={index} />;
     });
 
-    const contianers = React.Children.map(children, (child, index) => {
+    const contianers = React.Children.map(filteredChildren, (child, index) => {
       // Checking isValidElement is the safe way and avoids a typescript
       // error too.
       if (React.isValidElement(child)) {
