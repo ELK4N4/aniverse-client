@@ -14,7 +14,7 @@ function PaperHeaderSection({ children, align, justify }) {
   });
 
   return (
-    <div style={{gridArea: align, justifySelf: justify}} >
+    <div style={{gridArea: align, justifySelf: justify, marginBottom: 20}} >
       {childrenWithProps}
     </div>
   )

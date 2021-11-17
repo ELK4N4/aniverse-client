@@ -17,6 +17,7 @@ import { Skeleton } from '@material-ui/lab';
 import AddAdminDialog from './AddAdminDialog';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../errorMessage';
+import SearchBar from '../../../components/SearchBar/SearchBar';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../components/PaperWithHeader';
 import StyledListItem from '../../../components/StyledListItem';
 
@@ -27,6 +28,7 @@ function AdminsContainer() {
     const history = useHistory();
     const classes = useStyles();
     const [admins, setAdmins] = useState([]);
+    const [keyword, setKeyword] = useState('');
     const [editAdmin, setEditAdmin] = useState();
     const [open, setOpen] = useState(false);
 
@@ -77,11 +79,30 @@ function AdminsContainer() {
         }
     }
 
+    const handleOnSearch = async (e) => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchAdmins(keyword);
+            setAdmins(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
+    const handleOnChange = (e) => {
+        setKeyword(e.target.value);
+    }
+
     return (
         <>
             <Container maxWidth="lg">
                 <PaperWithHeader>
                     <PaperHeader divider>
+                        <PaperHeaderSection align="bottom" justify="center">
+                            <SearchBar value={keyword} placeholder="חפשו אדמין..." onChange={handleOnChange} onSearch={handleOnSearch} />
+                        </PaperHeaderSection>
                         <PaperHeaderSection align="center" justify="center">
                             <Typography align="center"variant="h5">
                                 אדמינים
@@ -91,6 +112,7 @@ function AdminsContainer() {
                             <AddAdminDialog addAdminToArr={addAdminToArr}/>
                         </PaperHeaderSection>
                     </PaperHeader>
+
                     <PaperBody loading={!admins}>
                         <List >
                             {admins?.map((admin) => (
