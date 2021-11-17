@@ -154,6 +154,7 @@ function AdminsContainer() {
                     <PaperBody loading={!admins}>
                         <List >
                             <InfiniteScroll
+                                style={{paddingRight: 7, paddingLeft: 7}}
                                 dataLength={admins.length}
                                 next={fetchMoreData}
                                 hasMore={hasMore}
