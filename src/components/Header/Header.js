@@ -120,6 +120,13 @@ function Header({toggleTheme, themeIcon}) {
             <p>התראות</p>
           </MenuItem>
 
+          <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <PeopleAltRoundedIcon/>
+            </IconButton>
+            <p>הפאנסאבים שלי</p>
+          </MenuItem>
+
           {(userStore.user.user.permissions.length > 0 || userStore.user.user.owner) &&
             <MenuItem component={Link} to={'/admin'} onClick={handleMenuClose}>
               <IconButton aria-label="show 4 new mails" color="inherit">
@@ -128,13 +135,6 @@ function Header({toggleTheme, themeIcon}) {
               <p>אדמין פאנל</p>
             </MenuItem>
           }
-
-          <MenuItem component={Link} to={'/my-fansubs'} onClick={handleMenuClose}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <PeopleAltRoundedIcon/>
-            </IconButton>
-            <p>הפאנסאבים שלי</p>
-          </MenuItem>
 
           <MenuItem component={Link} to={'/user/settings'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
