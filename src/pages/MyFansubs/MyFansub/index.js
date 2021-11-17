@@ -40,7 +40,6 @@ function MyFansub() {
                         </Typography>
 
                         <TabsGroup >
-
                             {fansubStore.currentMember?.permissions.includes('projects') &&
                                 <TabContainer label="פרוייקטים" path="projects">
                                     <ProjectsContainer />

@@ -29,14 +29,14 @@ function TabsGroup({ children }) {
     const paths = React.Children.map(filteredChildren, child => {
       return child.props.path;
     });
-    
+
     const pathIndex = useMemo(() => {
       if(paths.findIndex(path => path === value) === -1) {
         return 0;
       } else {
         return paths.findIndex(path => path === value)
       }
-    }, [value]);
+    }, [value, paths]);
 
     useEffect(() => {
       setValue(pathName)
