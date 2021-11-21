@@ -92,8 +92,6 @@ function BansContainer() {
             const { data } = await api.fetchBans(keyword, skipStart, limit);
             if(data.length === 0) {
                 setHasMore(false);
-            console.log(data)
-
             } else {
                 setHasMore(true);
                 setSkip(skipStart + limit);
