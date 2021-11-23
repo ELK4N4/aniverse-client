@@ -3,18 +3,17 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useStore } from '../stores';
 
-const UserRoute = ({ component: Component, path, ...rest }) => {
+const UserRoute = ({ component: Component, location, ...rest }) => {
   const store = useStore();
   const { userStore } = store;
 
   return (
     userStore.user?.user ? (
     <Route
-      path={path}
       {...rest}
     />
     ) : (
-      <Redirect to={{ pathname: `/login`, search:`?redirect=${path}` }} />
+      <Redirect to={{ pathname: `/login`, search:`?redirect=${location.pathname}` }} />
     )
   )
 }

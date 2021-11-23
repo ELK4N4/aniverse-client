@@ -136,9 +136,9 @@ export default function App() {
                 <UserRoute exact path= {["/admin/"]}>
                   <Admin />
                 </UserRoute>
-                <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
+                <UserRoute exact path={["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                   <MyFansub />
-                </Route>
+                </UserRoute>
                 <Route exact path="/user/settings">
                   <UserSettings />
                 </Route>
