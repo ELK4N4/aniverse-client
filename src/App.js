@@ -29,6 +29,7 @@ import User from './pages/User';
 import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Admin from './pages/Admin';
+import UserRoute from './components/UserRoute';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -126,15 +127,15 @@ export default function App() {
                 <Route exact path="/fansubs/:fansubId">
                   <Fansub />
                 </Route>
-                <Route exact path="/my-fansubs">
+                <UserRoute exact path="/my-fansubs">
                   <MyFansubs />
-                </Route>
+                </UserRoute>
                 <Route exact path="/users/:userId">
                   <User />
                 </Route>
-                <Route exact path= {["/admin/"]}>
+                <UserRoute exact path= {["/admin/"]}>
                   <Admin />
-                </Route>
+                </UserRoute>
                 <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                   <MyFansub />
                 </Route>
