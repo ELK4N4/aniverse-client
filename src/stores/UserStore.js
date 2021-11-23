@@ -70,7 +70,6 @@ class UserStore {
 
     try {
       const { data } = await api.register(formData);
-      this.setProfile(data);
       runInAction(() => {
         this.state = 'done';
         onSuccess();

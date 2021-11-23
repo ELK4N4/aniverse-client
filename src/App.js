@@ -29,6 +29,7 @@ import User from './pages/User';
 import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Admin from './pages/Admin';
+import Verify from './pages/Verify';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
