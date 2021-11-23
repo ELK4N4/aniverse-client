@@ -71,3 +71,5 @@ export const fetchUser = (userId) => API.get(`/users/${userId}/`);
 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);
+export const verify = (token) => API.get('/auth/verify/' + token);
+export const resendVerfiy = (email) => API.post('/auth/verify/resend/', {email});

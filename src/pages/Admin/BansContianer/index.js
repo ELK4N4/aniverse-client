@@ -19,6 +19,8 @@ import { useSnackbar } from 'notistack';
 import errorMessage from '../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../components/PaperWithHeader';
 import StyledListItem from '../../../components/StyledListItem';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import SearchBar from '../../../components/SearchBar/SearchBar';
 
 
 function BansContainer() {
@@ -29,11 +31,24 @@ function BansContainer() {
     const [bans, setBans] = useState([]);
     const [editBan, setEditBan] = useState();
     const [open, setOpen] = useState(false);
+    const [keyword, setKeyword] = useState('');
+    const [search, setSearch] = useState('');
+    const [hasMore, setHasMore] = useState(true);
+    const limit = 7;
+    const skipStart = 0;
+    const [skip, setSkip] = useState(skipStart);
 
     useEffect(async () => {
         store.startLoading();
+        window.scrollTo(0, 0);
         try {
-            const { data } = await api.fetchBans();
+            const { data } = await api.fetchBans(search, skipStart, limit);
+            if(data.length === 0) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+                setSkip(skipStart + limit);
+            }
             setBans(data);
         } catch (err) {
             console.error(err.response);
@@ -70,11 +85,55 @@ function BansContainer() {
         }
     }
 
+    const handleOnSearch = async (e) => {
+        setSearch(keyword);
+        store.startLoading();
+        try {
+            const { data } = await api.fetchBans(keyword, skipStart, limit);
+            if(data.length === 0) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+                setSkip(skipStart + limit);
+            }
+            setBans(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
+    const handleOnChange = (e) => {
+        setKeyword(e.target.value);
+    }
+
+    const fetchMoreData = async () => {
+        store.startLoading();
+        try {
+            const { data } = await api.fetchBans(search, skip, limit);
+            if(data.length === 0) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+                setBans([...bans, ...data]);
+                setSkip(skip + limit);
+            }
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
     return (
         <>
             <Container maxWidth="lg">
                 <PaperWithHeader>
-                    <PaperHeader divider>
+                    <PaperHeader>
+                        <PaperHeaderSection align="bottom" justify="center">
+                            <SearchBar value={keyword} placeholder="חפשו משתמש..." onChange={handleOnChange} onSearch={handleOnSearch} />
+                        </PaperHeaderSection>
                         <PaperHeaderSection align="center" justify="center">
                             <Typography align="center"variant="h5">
                                 באנים
@@ -86,32 +145,49 @@ function BansContainer() {
                     </PaperHeader>
                     <PaperBody loading={!bans}>
                         <List >
-                            {bans?.map((ban) => (
-                                <StyledListItem
-                                    key={ban.user._id}
-                                    text={ban.user.username}
-                                    avatar={ban.user.avatar}
-                                    banner={ban.user.banner}
-                                    onClick={() => handleClickOpen(ban)}
-                                    controls={[
-                                        {
-                                            icon: <EditIcon />,
-                                            text: 'ערוך',
-                                            onClick: () => handleClickOpen(ban)
-                                        },
-                                        {
-                                            icon: <DeleteIcon />,
-                                            text: 'מחק',
-                                            onClick: () => removeBan(ban._id, ban.user.username)
-                                        },
-                                        {
-                                            icon: <LaunchIcon />,
-                                            text: 'צפייה',
-                                            onClick: () => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')
-                                        },
-                                    ]}
-                                />
-                            ))}
+                            <InfiniteScroll
+                                style={{paddingRight: 7, paddingLeft: 7}}
+                                dataLength={bans.length}
+                                next={fetchMoreData}
+                                hasMore={hasMore}
+                                loader={
+                                    <p style={{ textAlign: 'center' }}>
+                                        <b>טוען</b>
+                                    </p>
+                                }
+                                endMessage={
+                                    <p style={{ textAlign: 'center' }}>
+                                        <b>Yay! You have seen it all</b>
+                                    </p>
+                                }
+                                >
+                                   {bans?.map((ban) => (
+                                        <StyledListItem
+                                            key={ban.user._id}
+                                            text={ban.user.username}
+                                            avatar={ban.user.avatar}
+                                            banner={ban.user.banner}
+                                            onClick={() => handleClickOpen(ban)}
+                                            controls={[
+                                                {
+                                                    icon: <EditIcon />,
+                                                    text: 'ערוך',
+                                                    onClick: () => handleClickOpen(ban)
+                                                },
+                                                {
+                                                    icon: <DeleteIcon />,
+                                                    text: 'מחק',
+                                                    onClick: () => removeBan(ban._id, ban.user.username)
+                                                },
+                                                {
+                                                    icon: <LaunchIcon />,
+                                                    text: 'צפייה',
+                                                    onClick: () => window.open('/users/' + ban.user._id, '_blank', 'noopener,noreferrer')
+                                                },
+                                            ]}
+                                        />
+                                    ))}
+                            </InfiniteScroll>
                         </List>
                     </PaperBody>
                 </PaperWithHeader>

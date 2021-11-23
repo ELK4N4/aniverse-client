@@ -18,7 +18,7 @@ function PaperHeader({ children, divider }) {
       <Box elevation={5} className={classes.header}>
         {childrenWithProps}
       </Box>
-      {divider && <Divider style={{margin: 10}} />}
+      {divider && <Divider />}
     </>
     )
 }
