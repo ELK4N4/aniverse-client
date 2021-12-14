@@ -89,5 +89,8 @@ export default makeStyles((theme) => ({
       width: theme.spacing(3),
       height: theme.spacing(3),
     },
+    hideLoading: {
+      height: 0
+    }
 }));
   

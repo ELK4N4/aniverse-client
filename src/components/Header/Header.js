@@ -26,7 +26,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import Drawer from './Drawer';
-import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom } from '@material-ui/core';
+import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom, Collapse } from '@material-ui/core';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
@@ -238,7 +238,9 @@ function Header({toggleTheme, themeIcon}) {
             {userStore.user?.user.owner ? 'Adminerse': 'Aniverse'}
           </Typography>
         </Toolbar>
-        <LinearProgress hidden={!store.loading}/>
+        <Collapse in={store.loading} easing={{ enter: "easeInOutCubic", exit: "easeInOutCubic" }}>
+          <LinearProgress />
+        </Collapse>
       </AppBar>
       {renderMobileMenu}
       <div className={classes.appBarSpacer}></div>
