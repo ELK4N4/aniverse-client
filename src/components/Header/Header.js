@@ -111,7 +111,7 @@ function Header({toggleTheme, themeIcon}) {
             <p>הודעות</p>
           </MenuItem>
 
-          <MenuItem onClick={handleMenuClose}>
+          <MenuItem component={Link} to={'/notifications'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />

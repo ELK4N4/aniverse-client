@@ -24,7 +24,10 @@ import errorMessage from '../../errorMessage';
 
 const initFansub = {
     name: '',
-    avatar: ''
+    avatar: '',
+    banner: '',
+    website: '',
+    description: '',
 }
 
 function CreateFansubForm() {
@@ -93,6 +96,53 @@ function CreateFansubForm() {
                                 autoComplete="off"
                                 onChange={formik.handleChange}
                                 value={formik.values.avatar}
+                            />
+                            <TextField
+                                error={formik.touched.banner && formik.errors.banner}
+                                helperText={formik.touched.banner && formik.errors.banner}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="banner"
+                                label="באנר"
+                                name="banner"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.banner}
+                            />
+                            <TextField
+                                error={formik.touched.website && formik.errors.website}
+                                helperText={formik.touched.website && formik.errors.website}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="website"
+                                label="קישור לאתר"
+                                name="website"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.website}
+                            />
+                            <TextField
+                                error={formik.touched.description && formik.errors.description}
+                                helperText={formik.touched.description && formik.errors.description}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                multiline
+                                minRows={4}
+                                id="description"
+                                label="תיאור"
+                                name="description"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.description}
                             />
                             
                             <Button

@@ -14,6 +14,7 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 
 import Animes from "./pages/Animes";
+import Notifications from "./pages/Notifications";
 import Anime from "./pages/Anime";
 import UserSettings from "./pages/UserSettings";
 import Form from "./pages/Auth/Form";
@@ -105,6 +106,9 @@ export default function App() {
               <Switch>
                 <Route exact path={["/", "/home"]}>
                   <Home />
+                </Route>
+                <Route exact path={"/notifications"}>
+                  <Notifications />
                 </Route>
                 <Route exact path={["/login", "/register"]}>
                   <Form />

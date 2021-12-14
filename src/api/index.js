@@ -32,12 +32,13 @@ export const updateAnime = (animeId, updatedAnime) => API.put('/animes/' + anime
 export const deleteAnime = (animeId) => API.delete('/animes/' + animeId);
 
 export const fetchFansubMembers = (fansubId) => API.get(`/fansubs/${fansubId}/members`);
-
-export const fetchFansubs = (keyword) => API.get('/fansubs', { params: {search: keyword} });
+export const fetchFansubs = (keyword, skip, limit) => API.get('/fansubs', { params: {search: keyword, skip, limit, confirmed: true} });
+export const fetchUnconfirmedFansubs = (keyword, skip, limit) => API.get('/fansubs', { params: {search: keyword, skip, limit, confirmed: false} });
 export const fetchFansub = (fansubId) => API.get('/fansubs/' + fansubId);
 export const deleteFansub = (fansubId) => API.delete('/fansubs/' + fansubId);
 export const fetchFansubProjects = (fansubId) => API.get('/fansubs/' + fansubId + '/projects');
 export const addFansub = (newFansub) => API.post('/fansubs', newFansub);
+export const confirmFansub = (fansubId) => API.get(`/fansubs/${fansubId}/confirm`);
 export const updateFansub = (fansubId, updatedFansub) => API.put('/fansubs/' + fansubId, updatedFansub);
 
 export const followFansub = (fansubId) => API.post(`/fansubs/${fansubId}/followers/`);
@@ -73,3 +74,5 @@ export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);
 export const verify = (token) => API.get('/auth/verify/' + token);
 export const resendVerfiy = (email) => API.post('/auth/verify/resend/', {email});
+
+export const fetchNotifications = (skip, limit) => API.get('/notifications', { params: {search: skip, limit} });
