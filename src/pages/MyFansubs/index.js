@@ -77,7 +77,7 @@ function MyFansubs() {
                         <PaperHeader>
                             <PaperHeaderSection align="center" justify="center">
                                 <Typography align="center" variant="h5">
-                                    פאנסאבים בתהליך אישור
+                                {uncomfirmedFansubs.length > 0 ? "פאנסאבים בתהליך אישור" : "יצירת פאנסאב חדש"}
                                 </Typography>
                             </PaperHeaderSection>
                             {uncomfirmedFansubs.length > 0 ?
@@ -120,7 +120,7 @@ function MyFansubs() {
                     </PaperWithHeader>
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={6} style={{padding: 15}}>
+                <Grid item xs={12} sm={12} md={6} hidden={comfirmedFansubs.length === 0} style={{padding: 15}}>
                     <PaperWithHeader >
                         <PaperHeader>
                             <PaperHeaderSection align="center" justify="center">
