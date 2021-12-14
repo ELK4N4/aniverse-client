@@ -44,9 +44,11 @@ function AdminPanel() {
                                 </TabContainer>
                             }
 
+                            {(userStore.user.user.permissions.includes('fansubs') || userStore.user.user.owner) &&
                                 <TabContainer label="פאנסאבים" path="fansubs">
                                     <FansubsContianer />
                                 </TabContainer>
+                            }
 
                             {(userStore.user.user.permissions.includes('animes') || userStore.user.user.owner) &&
                                 <TabContainer label="אנימות" path="animes">

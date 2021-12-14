@@ -21,9 +21,9 @@ export default makeStyles((theme) => ({
         bottom: theme.spacing(3),
         left: theme.spacing(3),
     },
-    paper: {
-        marginTop: '30px',
+    container: {
+        marginTop: '10px',
+        padding: theme.spacing(4),
         overflow: 'hidden',
-        padding: theme.spacing(2),
     }
 }));
