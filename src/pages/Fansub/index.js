@@ -4,8 +4,10 @@ import { Redirect } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
+import { Link as MuiLink } from '@material-ui/core/';
 import { Avatar, Badge, Box, Button, Container, Grid, Typography, withStyles } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
+import LaunchIcon from '@material-ui/icons/Launch';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useHistory, useLocation } from 'react-router';
@@ -91,13 +93,21 @@ function Fansub() {
                 <Redirect to={{ pathname: `/404` }} />
             :
                 <>
-                    <Grid container spacing={0} className={classes.showcase} style={showcaseStyle()} justifycontent="flex-end" alignItems="center">
+                    <Grid container className={classes.showcase} style={showcaseStyle()} justifycontent="flex-end" alignItems="center">
                         <Grid item>
                             {<Avatar src={fansubStore.fansub.avatar} className={classes.logo}/> }
                         </Grid>
                         <Grid item>
                             <Typography variant="h2" className={classes.fansubName}>
                                 {fansubStore.fansub.name}
+                            </Typography>
+                            <MuiLink hidden={fansubStore.fansub.website?.length === 0} href={fansubStore.fansub.website} target="_blank" style={{margin: 0}}>
+                                <Box display="inline-flex" justifyContent="center">
+                                    <LaunchIcon fontSize="small" style={{marginRight: 0, marginLeft: 6}} /> {fansubStore.fansub.website}
+                                </Box>
+                            </MuiLink>
+                            <Typography variant="body2" style={{whiteSpace: "pre-line"}} className={classes.fansubName}>
+                                {fansubStore.fansub.description}
                             </Typography>
                             <StyledBadge badgeContent={fansubStore.followers} color="primary" overlap="circular" showZero className={classes.followers}>
                                 {userStore.user?.user?.followingFansubs.find((fansub => fansub === fansubId)) ? 
