@@ -31,6 +31,8 @@ import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Admin from './pages/Admin';
 import UserRoute from './components/UserRoute';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -112,6 +114,12 @@ export default function App() {
                 </Route>
                 <Route exact path={["/login", "/register"]}>
                   <Form />
+                </Route>
+                <Route exact path="/forgot-password">
+                  <ForgotPassword />
+                </Route>
+                <Route exact path="/reset-password">
+                  <ResetPassword />
                 </Route>
                 <Route exact path="/animes">
                   <Animes />
