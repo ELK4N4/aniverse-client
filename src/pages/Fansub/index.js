@@ -87,7 +87,7 @@ function Fansub() {
 
     return (
         <>
-            {!fansubStore.fansub.confrimed ?
+            {(fansubStore.fansub.confirmed === false && fansubStore.fansub._id === fansubId) ?
                 <Redirect to={{ pathname: `/404` }} />
             :
                 <>

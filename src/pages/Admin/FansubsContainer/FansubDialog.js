@@ -24,7 +24,7 @@ import errorMessage from '../../../errorMessage';
 export default function FansubDialog({confirmFansub, unconfirmFansub, open, handleClose, fansub}) {
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar();
-    
+
     const handleSumbit = async (values) => {
         store.startLoading();
         try {
