@@ -24,7 +24,7 @@ import errorMessage from '../../../errorMessage';
 export default function FansubDialog({confirmFansub, unconfirmFansub, open, handleClose, fansub}) {
     const store = useStore();
     const { enqueueSnackbar } = useSnackbar();
-
+    
     const handleSumbit = async (values) => {
         store.startLoading();
         try {
@@ -67,7 +67,9 @@ export default function FansubDialog({confirmFansub, unconfirmFansub, open, hand
                         <Typography gutterBottom variant="h6">
                             תיאור הפאנסאב
                         </Typography>
-                        {fansub.name}
+                        <div style={{whiteSpace: "pre-line"}} >
+                            {fansub.description}
+                        </div>
                     </Paper>
                 </DialogContent>
                 <DialogActions>
