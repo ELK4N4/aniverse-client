@@ -41,7 +41,7 @@ function CreateFansubForm() {
         try {
             const { data } = await api.addFansub(values);
             enqueueSnackbar('פאנסאב נוסף בהצלחה', {variant: 'success'});
-            history.push('/fansubs/' + data._id);
+            history.push('/my-fansubs/');
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {

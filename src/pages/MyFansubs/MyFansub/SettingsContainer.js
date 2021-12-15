@@ -27,8 +27,7 @@ function SettingsContainer() {
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
-    const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner });
-    const initFansub = { name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner }
+    const initFansub = { name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner, website: fansubStore.fansub.website, description: fansubStore.fansub.description }
 
     const handleSubmit = (values) => {
         fansubStore.updateFansub(values,
@@ -135,6 +134,36 @@ function SettingsContainer() {
                                     autoComplete="banner"
                                     onChange={formik.handleChange}
                                     value={formik.values.banner || ''}
+                                />
+                                <TextField
+                                    error={formik.touched.website && formik.errors.website}
+                                    helperText={formik.touched.website && formik.errors.website}
+                                    onBlur={formik.handleBlur}
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    id="website"
+                                    label="קישור לאתר"
+                                    name="website"
+                                    autoComplete="website"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.website || ''}
+                                />
+                                <TextField
+                                    error={formik.touched.description && formik.errors.description}
+                                    helperText={formik.touched.description && formik.errors.description}
+                                    onBlur={formik.handleBlur}
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    multiline
+                                    minRows={4}
+                                    id="description"
+                                    label="תיאור"
+                                    name="description"
+                                    autoComplete="description"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.description || ''}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

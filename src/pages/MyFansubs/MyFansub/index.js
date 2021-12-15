@@ -37,16 +37,19 @@ function MyFansub() {
                     <Paper elevation={5} className={classes.panelPaper}>
                         <Typography variant="h3" align="center" className={classes.panelTitle}>
                             {fansubStore.fansub.name}
+                            <Typography hidden={fansubStore.fansub.confirmed} variant="h6" align="center" className={classes.panelTitle}>
+                                בתהליך אישור
+                            </Typography>
                         </Typography>
-
+                        
                         <TabsGroup >
-                            {fansubStore.currentMember?.permissions.includes('projects') &&
+                            {(fansubStore.currentMember?.permissions.includes('projects') && fansubStore.fansub.confirmed) &&
                                 <TabContainer label="פרוייקטים" path="projects">
                                     <ProjectsContainer />
                                 </TabContainer>
                             }
 
-                            {fansubStore.currentMember?.permissions.includes('members') &&
+                            {(fansubStore.currentMember?.permissions.includes('members') && fansubStore.fansub.confirmed) &&
                                 <TabContainer label="צוות" path="team">
                                     <MembersContainer />
                                 </TabContainer>
