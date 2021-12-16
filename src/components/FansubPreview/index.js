@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import useStyles from './style';
 import { IconButton, Link as MuiLink } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Avatar, Box, Paper, Typography } from '@material-ui/core';
@@ -12,8 +13,18 @@ export default function FansubPreview({ name, avatar, banner, website, descripti
     const classes = useStyles();
     const history = useHistory();
     
+    const showcaseStyle = () => {
+        if(banner) {
+            return {
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url('${banner}')`
+            };
+        } else {
+            return null;
+        }
+    }
+
     return (
-        <Paper onClick={onClick} style={{cursor: "pointer", padding: "25px 40px", boxShadow: '0px 0px 10px #a8a8a8', margin: "25px 10px"}}>
+        <Paper elevation={10} className={classes.showcase} style={showcaseStyle()}>
             <Grid container justifycontent="flex-end" alignItems="center">
                 <Grid item>
                     <Avatar src={avatar} className={classes.logo}/>

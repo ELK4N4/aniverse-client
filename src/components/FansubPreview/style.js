@@ -20,15 +20,27 @@ export default makeStyles((theme) => ({
             marginLeft: theme.spacing(.5),
         }
     },
-    avatar: {
-        width: theme.spacing(6),
-        height: theme.spacing(6),
-        fontSize: theme.spacing(3),
-        cursor: 'pointer',
-        backgroundColor: theme.palette.primary.main,
-        transition: '.1s',
-        '&:hover': {
-            transform: 'scale(1.15)',
+    logo: {
+        width: theme.spacing(24),
+        height: theme.spacing(24),
+        boxShadow: '0 0 15px 5px rgba(0, 0, 0, 0.2)',
+        borderRadius: theme.shape.borderRadius
+    },
+    showcase: {
+        background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        paddingTop: theme.spacing(5),
+        paddingLeft: theme.spacing(2),
+        paddingBottom: theme.spacing(5),
+        '& *':{
+            marginRight: theme.spacing(.5),
+            marginLeft: theme.spacing(.5),
         }
     },
+    fansubName: {
+        color: 'white',
+        textShadow: '0px 0px 20px #000000',
+    }
 }));
