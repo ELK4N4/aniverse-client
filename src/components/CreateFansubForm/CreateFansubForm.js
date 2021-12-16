@@ -145,6 +145,9 @@ function CreateFansubForm() {
                                 onChange={formik.handleChange}
                                 value={formik.values.description}
                             />
+                            <Typography gutterBottom variant="h5" align="center">
+                                תצוגה מקדימה
+                            </Typography>
                             <FansubPreview
                                 name={formik.values.name}
                                 avatar={formik.values.avatar}
