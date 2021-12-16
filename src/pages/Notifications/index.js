@@ -67,6 +67,33 @@ function Notifications() {
         }
     }
 
+    const onNotificationClick = async (notification, index) => {
+        window.open(notification.link, "_blank");
+        if(!notification.check) {
+            try {
+                const { data } = await api.checkNotification(notification._id);
+                const newNotifications = [...notifications];
+                newNotifications[index] = data;
+                setNotifications(newNotifications);
+            } catch (err) {
+                console.error(err.response);
+            }
+        }
+    }
+
+    const deleteNotification = async (e, notificationId) => {
+        e.stopPropagation();
+        store.startLoading();
+        try {
+            const { data } = await api.deleteNotification(notificationId);
+            setNotifications(notifications.filter((notification) => notification._id !== notificationId));
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
     return (
         <>
             <div className={classes.showcase} >
@@ -92,10 +119,9 @@ function Notifications() {
                         </p>
                     }
                 >
-                    <Notification text="sadfsadf sadfadsfsd afsadfsdafas " checked/>
-                    <Notification text="sadfsadf sadfadsfsd afsadfsdafas " />
-                    <Notification text="sadfsadf sadfadsfsd afsadfsdafas " />
-                    <Notification text="sadfsadf sadfadsfsd afsadfsdafas " checked/>
+                    {notifications.map((notification, index) => (
+                        <Notification deleteNotification={(e) => deleteNotification(e, notification._id)} onClick={() => onNotificationClick(notification, index)} message={notification.message} link={notification.link} checked={notification.checked} />
+                    ))}
                 </InfiniteScroll>
             </Container>
         </>

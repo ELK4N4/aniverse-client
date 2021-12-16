@@ -52,11 +52,11 @@ function Header({toggleTheme, themeIcon}) {
       page: '/fansubs',
       icon: <PeopleAltRoundedIcon/>
     },
-    {
-      name: 'פוסטים',
-      page: '/posts',
-      icon: <NoteRoundedIcon/>
-    },  
+    // {
+    //   name: 'פוסטים',
+    //   page: '/posts',
+    //   icon: <NoteRoundedIcon/>
+    // },  
   ];
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -102,20 +102,18 @@ function Header({toggleTheme, themeIcon}) {
         userStore.user
         ?
         <div>
-          <MenuItem onClick={handleMenuClose}>
+          {/* <MenuItem onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
             <p>הודעות</p>
-          </MenuItem>
+          </MenuItem> */}
 
           <MenuItem component={Link} to={'/notifications'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              <NotificationsIcon />
             </IconButton>
             <p>התראות</p>
           </MenuItem>

@@ -91,7 +91,7 @@ function FansubTabs({ selectedTab, tabsBackgroundColor }) {
         >
           <Tab label="צוות" id="1" />
           <Tab label="פרוייקטים" id="2" />
-          <Tab label="פוסטים" id="3" />
+          {/* <Tab label="פוסטים" id="3" /> */}
         </Tabs>
       </AppBar>
       <SwipeableViews
