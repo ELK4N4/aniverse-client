@@ -33,6 +33,7 @@ export default makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         paddingTop: theme.spacing(5),
         paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
         paddingBottom: theme.spacing(5),
         '& *':{
             marginRight: theme.spacing(.5),

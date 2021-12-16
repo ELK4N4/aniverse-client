@@ -20,6 +20,7 @@ import { useSnackbar } from 'notistack';
 import { fansubScheme } from '@aniverse/utils/validations';
 import { useFormik } from 'formik';
 import errorMessage from '../../errorMessage';
+import FansubPreview from '../FansubPreview';
 
 
 const initFansub = {
@@ -144,7 +145,13 @@ function CreateFansubForm() {
                                 onChange={formik.handleChange}
                                 value={formik.values.description}
                             />
-                            
+                            <FansubPreview
+                                name={formik.values.name}
+                                avatar={formik.values.avatar}
+                                banner={formik.values.banner}
+                                website={formik.values.website}
+                                description={formik.values.description}
+                            />
                             <Button
                                 type="submit"
                                 fullWidth

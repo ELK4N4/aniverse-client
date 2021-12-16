@@ -33,7 +33,7 @@ export default function FansubPreview({ name, avatar, banner, website, descripti
                     <Typography variant="h2" className={classes.fansubName}>
                         {name}
                     </Typography>
-                    <MuiLink hidden={website?.length === 0} href={website} target="_blank" style={{margin: 0}}>
+                    <MuiLink hidden={website?.length === 0} href={website} target="_blank" style={{margin: 0, wordBreak: "break-all"}}>
                         <Box display="inline-flex" justifyContent="center">
                             <LaunchIcon fontSize="small" style={{marginRight: 0, marginLeft: 6}} /> {website}
                         </Box>

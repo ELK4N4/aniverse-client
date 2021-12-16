@@ -101,7 +101,7 @@ function Fansub() {
                             <Typography variant="h2" className={classes.fansubName}>
                                 {fansubStore.fansub.name}
                             </Typography>
-                            <MuiLink hidden={fansubStore.fansub.website?.length === 0} href={fansubStore.fansub.website} target="_blank" style={{margin: 0}}>
+                            <MuiLink hidden={fansubStore.fansub.website?.length === 0} href={fansubStore.fansub.website} target="_blank" style={{margin: 0, wordBreak: "break-all"}}>
                                 <Box display="inline-flex" justifyContent="center">
                                     <LaunchIcon fontSize="small" style={{marginRight: 0, marginLeft: 6}} /> {fansubStore.fansub.website}
                                 </Box>
