@@ -36,6 +36,7 @@ function Form() {
     const [isRegister, setIsRegister] = useState(location.pathname === '/register');
     const [isSlide, setIsSlide] = useState(true);
     const [unverified, setUnverified] = useState(false);
+    const [ban, setBan] = useState();
     const [verificationStatus, setVerificationStatus] = useState();
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
 
@@ -61,6 +62,8 @@ function Form() {
                 (error) => {
                     if(error === "unverified") {
                         setUnverified(true);
+                    } else if(error.includes("עד לתאריך")) {
+                        setBan(error);
                     } else {
                         enqueueSnackbar(error, {variant: 'error'});
                     }
@@ -239,6 +242,12 @@ function Form() {
                                     <MuiLink onClick={resendToken} style={{cursor: 'pointer'}}>
                                         <strong>לחץ כאן לקבלת קישור חדש</strong>
                                     </MuiLink>
+                                </Alert>
+                            }
+                            {ban  &&
+                                <Alert style={{whiteSpace: "pre-wrap"}} severity="error">
+                                <AlertTitle><strong>המשתמש חסום!</strong></AlertTitle>
+                                    {ban}
                                 </Alert>
                             }
                             <Button

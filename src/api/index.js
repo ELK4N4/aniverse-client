@@ -77,6 +77,6 @@ export const resendVerfiy = (email) => API.post('/auth/verify/resend/', {email})
 export const forgotPassword = (email) => API.post('/auth/forgot-password/', email);
 export const resetPassword = (token, password) => API.post('/auth/reset-password/' + token, password);
 
-export const fetchNotifications = (skip, limit) => API.get('/user/notifications', { params: {search: skip, limit} });
+export const fetchNotifications = (skip, limit) => API.get('/user/notifications', { params: {skip, limit} });
 export const checkNotification = (notificationId) => API.put('/user/notifications/' + notificationId);
 export const deleteNotification = (notificationId) => API.delete('/user/notifications/' + notificationId);
