@@ -17,10 +17,20 @@ import { observer } from 'mobx-react-lite';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
-import { forgotPasswordScheme } from '@aniverse/utils/validations';
+// import { forgotPasswordScheme } from '@aniverse/utils/validations';
 import * as api from '../../api';
 import errorMessage from '../../errorMessage';
 
+import * as yup from "yup";
+const basicUserScheme = {
+    email: yup.string().email("Please enter a valid email"),
+    username: yup.string().min(3, "Please enter a username longer than 3"),
+    password: yup.string(),
+}
+
+const forgotPasswordScheme = yup.object({
+    email: basicUserScheme.email.required("Email must be required!"),
+});
 
 function ResetPassword() {
     const store = useStore();
