@@ -19,7 +19,7 @@ export default function Notification({ deleteNotification, onClick, message, lin
                     <Avatar style={{marginLeft: 30, width: 50, height: 50 }}>
                         <NotificationsIcon />
                     </Avatar>
-                    <Typography variant="h5">
+                    <Typography variant="h6">
                         {checked ?
                             message
                         :
@@ -30,8 +30,8 @@ export default function Notification({ deleteNotification, onClick, message, lin
                     </Typography>
                     
                 </Box>
-                <IconButton color="primary" aria-label="delete" onClick={deleteNotification}>
-                    <DeleteIcon fontSize="large" />
+                <IconButton color="primary" edge="end" aria-label="delete" onClick={deleteNotification}>
+                    <DeleteIcon fontSize="large"/>
                 </IconButton>
             </Box>
         </Paper>
