@@ -12,18 +12,24 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(7),
         marginBottom: theme.spacing(7),
     },
-    title: {
-        padding: theme.spacing(2),
-        paddingBottom: theme.spacing(0.5)
-    },
     fab: {
         position: 'fixed',
         bottom: theme.spacing(3),
         left: theme.spacing(3),
     },
-    container: {
-        marginTop: '10px',
-        padding: theme.spacing(4),
-        overflow: 'hidden',
-    }
+    showcase: {
+        background: `linear-gradient(to top right,${theme.palette.primary.main} 0%, #000000 100%)`,
+        paddingTop: theme.spacing(6),
+        paddingBottom: theme.spacing(7),
+        borderBottom: `7px solid black`,
+    },
+    pageTitle: {
+        color: 'white',
+        textShadow: '0px 0px 20px #000000',
+        fontWeight: 'bold',
+    },
+    pageContent: {
+        marginTop: -theme.spacing(13)
+    },
 }));
+  

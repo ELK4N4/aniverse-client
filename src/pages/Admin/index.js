@@ -13,8 +13,9 @@ import * as api from '../../api';
 import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import TabsGroup, { TabContainer } from '../../components/TabsGroup';
-import AdminsContainer from './AdminsContianer';
-import BansContainer from './BansContianer';
+import AdminsContainer from './AdminsContainer';
+import BansContainer from './BansContainer';
+import FansubsContianer from './FansubsContainer';
 import AnimesContainer from './AnimesContainer';
 
 function AdminPanel() {
@@ -40,6 +41,12 @@ function AdminPanel() {
                             {(userStore.user.user.permissions.includes('bans') || userStore.user.user.owner) &&
                                 <TabContainer label="באנים" path="bans">
                                     <BansContainer />
+                                </TabContainer>
+                            }
+
+                            {(userStore.user.user.permissions.includes('fansubs') || userStore.user.user.owner) &&
+                                <TabContainer label="פאנסאבים" path="fansubs">
+                                    <FansubsContianer />
                                 </TabContainer>
                             }
 

@@ -19,6 +19,7 @@ import FansubCard from '../../../components/Cards/FansubCards/FansubCard';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { fansubScheme } from '@aniverse/utils/validations';
+import FansubPreview from '../../../components/FansubPreview';
 
 
 function SettingsContainer() {
@@ -27,8 +28,7 @@ function SettingsContainer() {
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
-    const [form, setForm] = useState({ name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner });
-    const initFansub = { name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner }
+    const initFansub = { name: fansubStore.fansub.name, avatar: fansubStore.fansub.avatar, banner: fansubStore.fansub.banner, website: fansubStore.fansub.website, description: fansubStore.fansub.description }
 
     const handleSubmit = (values) => {
         fansubStore.updateFansub(values,
@@ -91,7 +91,7 @@ function SettingsContainer() {
                         :
                     <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                         <Grid container spacing={3} alignItems="center">
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={12} md={5}>
                                 <TextField
                                     error={formik.touched.name && formik.errors.name}
                                     helperText={formik.touched.name && formik.errors.name}
@@ -136,23 +136,48 @@ function SettingsContainer() {
                                     onChange={formik.handleChange}
                                     value={formik.values.banner || ''}
                                 />
+                                <TextField
+                                    error={formik.touched.website && formik.errors.website}
+                                    helperText={formik.touched.website && formik.errors.website}
+                                    onBlur={formik.handleBlur}
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    id="website"
+                                    label="קישור לאתר"
+                                    name="website"
+                                    autoComplete="website"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.website || ''}
+                                />
+                                <TextField
+                                    error={formik.touched.description && formik.errors.description}
+                                    helperText={formik.touched.description && formik.errors.description}
+                                    onBlur={formik.handleBlur}
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    multiline
+                                    minRows={4}
+                                    id="description"
+                                    label="תיאור"
+                                    name="description"
+                                    autoComplete="description"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.description || ''}
+                                />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={12} md={7}>
                                 <Typography component="h6" variant="h5" align="center">
                                     תצוגה מקדימה
                                 </Typography>
-                                <Box
-                                    display="flex"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    >
-                                    <FansubCard
-                                        name={formik.values.name}
-                                        img={formik.values.avatar ? formik.values.avatar : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
-                                        showContent
-                                        timeout={500}
-                                    />
-                                </Box>
+                                <FansubPreview
+                                    name={formik.values.name}
+                                    avatar={formik.values.avatar}
+                                    banner={formik.values.banner}
+                                    website={formik.values.website}
+                                    description={formik.values.description}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <Button

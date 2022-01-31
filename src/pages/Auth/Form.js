@@ -254,7 +254,7 @@ function Form() {
                                 <Grid item xs>
                                     { !isRegister && (
                                     <>
-                                        <MuiLink href="#" variant="body2">
+                                        <MuiLink component={Link} to={`forgot-password?email=${formik.values.email}`} variant="body2">
                                             שכחת סיסמא?
                                         </MuiLink>
                                     </>

@@ -20,11 +20,15 @@ import { useSnackbar } from 'notistack';
 import { fansubScheme } from '@aniverse/utils/validations';
 import { useFormik } from 'formik';
 import errorMessage from '../../errorMessage';
+import FansubPreview from '../FansubPreview';
 
 
 const initFansub = {
     name: '',
-    avatar: ''
+    avatar: '',
+    banner: '',
+    website: '',
+    description: '',
 }
 
 function CreateFansubForm() {
@@ -38,7 +42,7 @@ function CreateFansubForm() {
         try {
             const { data } = await api.addFansub(values);
             enqueueSnackbar('פאנסאב נוסף בהצלחה', {variant: 'success'});
-            history.push('/fansubs/' + data._id);
+            history.push('/my-fansubs/');
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
@@ -94,7 +98,63 @@ function CreateFansubForm() {
                                 onChange={formik.handleChange}
                                 value={formik.values.avatar}
                             />
-                            
+                            <TextField
+                                error={formik.touched.banner && formik.errors.banner}
+                                helperText={formik.touched.banner && formik.errors.banner}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="banner"
+                                label="באנר"
+                                name="banner"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.banner}
+                            />
+                            <TextField
+                                error={formik.touched.website && formik.errors.website}
+                                helperText={formik.touched.website && formik.errors.website}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="website"
+                                label="קישור לאתר"
+                                name="website"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.website}
+                            />
+                            <TextField
+                                error={formik.touched.description && formik.errors.description}
+                                helperText={formik.touched.description && formik.errors.description}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                multiline
+                                minRows={4}
+                                id="description"
+                                label="תיאור"
+                                name="description"
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                value={formik.values.description}
+                            />
+                            <Typography gutterBottom variant="h5" align="center">
+                                תצוגה מקדימה
+                            </Typography>
+                            <FansubPreview
+                                name={formik.values.name}
+                                avatar={formik.values.avatar}
+                                banner={formik.values.banner}
+                                website={formik.values.website}
+                                description={formik.values.description}
+                            />
                             <Button
                                 type="submit"
                                 fullWidth

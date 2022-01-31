@@ -14,6 +14,7 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 
 import Animes from "./pages/Animes";
+import Notifications from "./pages/Notifications";
 import Anime from "./pages/Anime";
 import UserSettings from "./pages/UserSettings";
 import Form from "./pages/Auth/Form";
@@ -29,6 +30,9 @@ import User from './pages/User';
 import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Admin from './pages/Admin';
+import UserRoute from './components/UserRoute';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -105,8 +109,17 @@ export default function App() {
                 <Route exact path={["/", "/home"]}>
                   <Home />
                 </Route>
+                <Route exact path={"/notifications"}>
+                  <Notifications />
+                </Route>
                 <Route exact path={["/login", "/register"]}>
                   <Form />
+                </Route>
+                <Route exact path="/forgot-password">
+                  <ForgotPassword />
+                </Route>
+                <Route exact path="/reset-password">
+                  <ResetPassword />
                 </Route>
                 <Route exact path="/animes">
                   <Animes />
@@ -126,18 +139,18 @@ export default function App() {
                 <Route exact path="/fansubs/:fansubId">
                   <Fansub />
                 </Route>
-                <Route exact path="/my-fansubs">
+                <UserRoute exact path="/my-fansubs">
                   <MyFansubs />
-                </Route>
+                </UserRoute>
                 <Route exact path="/users/:userId">
                   <User />
                 </Route>
-                <Route exact path= {["/admin/"]}>
+                <UserRoute exact path= {["/admin/"]}>
                   <Admin />
-                </Route>
-                <Route exact path= {["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
+                </UserRoute>
+                <UserRoute exact path={["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                   <MyFansub />
-                </Route>
+                </UserRoute>
                 <Route exact path="/user/settings">
                   <UserSettings />
                 </Route>

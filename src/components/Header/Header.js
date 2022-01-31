@@ -26,7 +26,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useStyles from './style';
 import Drawer from './Drawer';
-import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom } from '@material-ui/core';
+import { Avatar, Box, Button, LinearProgress, withStyles, Slide, Zoom, Collapse } from '@material-ui/core';
 import { useStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
 
@@ -52,11 +52,11 @@ function Header({toggleTheme, themeIcon}) {
       page: '/fansubs',
       icon: <PeopleAltRoundedIcon/>
     },
-    {
-      name: 'פוסטים',
-      page: '/posts',
-      icon: <NoteRoundedIcon/>
-    },  
+    // {
+    //   name: 'פוסטים',
+    //   page: '/posts',
+    //   icon: <NoteRoundedIcon/>
+    // },  
   ];
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -102,20 +102,18 @@ function Header({toggleTheme, themeIcon}) {
         userStore.user
         ?
         <div>
-          <MenuItem onClick={handleMenuClose}>
+          {/* <MenuItem onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
             <p>הודעות</p>
-          </MenuItem>
+          </MenuItem> */}
 
-          <MenuItem onClick={handleMenuClose}>
+          <MenuItem component={Link} to={'/notifications'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              <NotificationsIcon />
             </IconButton>
             <p>התראות</p>
           </MenuItem>
@@ -238,7 +236,9 @@ function Header({toggleTheme, themeIcon}) {
             {userStore.user?.user.owner ? 'Adminerse': 'Aniverse'}
           </Typography>
         </Toolbar>
-        <LinearProgress hidden={!store.loading}/>
+        <Collapse in={store.loading} easing={{ enter: "easeInOutCubic", exit: "easeInOutCubic" }}>
+          <LinearProgress />
+        </Collapse>
       </AppBar>
       {renderMobileMenu}
       <div className={classes.appBarSpacer}></div>
