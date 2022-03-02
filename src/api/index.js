@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { getLocalStorage } from '../localStorage';
+import { getSessionStorage } from '../sessionStorage';
 const API = axios.create({ baseURL: process.env.REACT_APP_API_URL})
 
 API.interceptors.request.use((req) => {
   if(getLocalStorage('user')) {
     req.headers.authorization = `Bearer ${getLocalStorage('user').token}`;
+  } else if(getSessionStorage('user')) {
+    req.headers.authorization = `Bearer ${getSessionStorage('user').token}`;
   }
   return req;
 });

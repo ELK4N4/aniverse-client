@@ -39,6 +39,11 @@ function Form() {
     const [ban, setBan] = useState();
     const [verificationStatus, setVerificationStatus] = useState();
     const [title, setTitle] = useState(isRegister ? 'כניסה' : 'הרשמה');
+    const [rememberMe, setRememberMe] = useState(true);
+
+    const handleRememberMe = (e) => {
+        setRememberMe(e.target.checked);
+    };
 
     const handleSubmit = (values) => {
         if (isRegister) {
@@ -54,7 +59,7 @@ function Form() {
         } else {
             delete values.username;
             delete values.confirmPassword;
-            userStore.login(values,
+            userStore.login(values, rememberMe,
                 () => {
                     enqueueSnackbar('טוב שחזרתם!', {variant: 'success'});
                     history.push(redirect ?? '/');
@@ -229,7 +234,7 @@ function Form() {
                             { !isRegister && (
                             <>
                                 <FormControlLabel
-                                    control={<Checkbox value="remember" color="primary" />}
+                                    control={<Checkbox value="remember" checked={rememberMe} onChange={handleRememberMe} color="primary" />}
                                     label="זכור אותי"
                                 />
                             </>
