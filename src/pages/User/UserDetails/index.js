@@ -12,23 +12,40 @@ export default function UserDetails({user}) {
     return (
         <>
             <Paper elevation={5} className={classes.paper}>
-                <Box display="flex" alignItems="center" className={classes.userHeader}>
-                    <Avatar src={user?.avatar} className={classes.userImage} />
-                    <Box>
-                        <Box display="flex" alignItems="center">
-                            <Typography variant="h3" className={classes.username} >
-                                { user?.username }
-                            </Typography>
-                            {user?.role && (
-                                <Chip color="primary" label={user?.role} className={classes.roleChip}/>
-                            )}
-                        </Box>
-                        
-                        <Typography variant="h6" color="">
-                            { user?._id }
-                        </Typography>
-                        </Box>
+                <Box className={classes.mainBox}>
+                    <Box className={classes.metadataBox}>
+                        <div>
+                            <Avatar src={user?.avatar} className={classes.userImage}/>
+                        </div>
                     </Box>
+                    <div className={classes.userDetails} >
+                        <Box display="flex" alignItems="center">
+                            <Typography variant="h2" >
+                                    { user?.username }
+                            </Typography>
+                            <Box>
+                                {user?.role && (
+                                    <Chip color="primary" label={user?.role} className={classes.roleChip}/>
+                                )}
+                            </Box>
+                        </Box>
+                        {user && 
+                            <>
+                                <Typography variant="h6">
+                                    יש אנשים ויש אנשים
+                                </Typography>
+                                <Typography variant="body1" style={{color: 'grey'}}>
+                                    הצטרף בתאריך:&nbsp;
+                                    {new Date(user.createdAt).toLocaleDateString()}
+                                </Typography>
+                            </>
+                        }
+                        <hr />
+                    </div>
+                </Box>
+                dasfdas
+                sadfadsfasdf
+                asdf
             </Paper>
         </>
     );

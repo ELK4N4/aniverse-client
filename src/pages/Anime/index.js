@@ -209,7 +209,6 @@ function Anime() {
                                 <Comments comments={comments} removeComment={removeComment} editComment={editComment} />
                             </>
                         )}
-                        
                     </Container>
                 </>
             )}
