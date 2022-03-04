@@ -98,9 +98,12 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                 </Tooltip>
                             </Box>
                             <Typography variant="body1" className={classes.metadataText}>
-                                מספר פרקים:
-                                &nbsp;
+                                מספר פרקים:&nbsp;
                                 {anime.episodesNumber}
+                            </Typography>
+                            <Typography variant="body1" className={classes.metadataText}>
+                                מוגן בזכויות יוצרים:&nbsp;
+                                {anime.copyright ? "כן" : "לא"}
                             </Typography>
                         </div>
                     </Box>
@@ -111,48 +114,52 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                         <Typography variant="body1">
                             {anime.summary}
                         </Typography>
-                        <Box display="flex" alignItems="center" className={classes.episodesTitlesHeader}>
-                            <Typography variant="body1" className={classes.detailsTitle}>
-                                פרקים
-                            </Typography>
-                            {choosenFansub && (
-                                <FormControl size="small" variant="outlined" fullWidth>
-                                    <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
-                                    <Select
-                                        labelId="choosen-fansub-label"
-                                        id="choosen-fansub"
-                                        value={choosenFansub}
-                                        onChange={(e) => changeFansub(e.target.value)}
-                                        label="פאנסאב"
-                                    >
-                                    {projects.map((project) => (
-                                        <MenuItem key={project.fansub._id} value={project.fansub._id}>
-                                            {project.fansub.name}
-                                        </MenuItem>
-                                    ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        </Box>
+                        {!anime.copyright && 
+                            <>
+                                <Box display="flex" alignItems="center" className={classes.episodesTitlesHeader}>
+                                    <Typography variant="body1" className={classes.detailsTitle}>
+                                        פרקים
+                                    </Typography>
+                                    {choosenFansub && (
+                                        <FormControl size="small" variant="outlined" fullWidth>
+                                            <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
+                                            <Select
+                                                labelId="choosen-fansub-label"
+                                                id="choosen-fansub"
+                                                value={choosenFansub}
+                                                onChange={(e) => changeFansub(e.target.value)}
+                                                label="פאנסאב"
+                                            >
+                                            {projects.map((project) => (
+                                                <MenuItem key={project.fansub._id} value={project.fansub._id}>
+                                                    {project.fansub.name}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                    )}
+                                </Box>
                         
-                        {episodes.length === 0 ? (
-                            <Typography variant="body1">
-                                אין פרקים עדיין לאנימה זו
-                            </Typography>
-                        ) : (
-                            <Typography variant="body1">
-                                בחרו פרק
-                            </Typography>
-                        )}
+                                {episodes.length === 0 ? (
+                                    <Typography variant="body1">
+                                        אין פרקים עדיין לאנימה זו
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="body1">
+                                        בחרו פרק
+                                    </Typography>
+                                )}
 
-                        <Box display="flex" className={classes.episodesBtnsContainer} >
-                            {episodes.map((episode) => (
-                                <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
-                                    {episode.number}
-                                </Button>
-                            ))}
-                            
-                        </Box>
+                                <Box display="flex" className={classes.episodesBtnsContainer} >
+                                    {episodes.map((episode) => (
+                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                            {episode.number}
+                                        </Button>
+                                    ))}
+                                </Box>
+                            </>
+                        }
+                        
                     </div>
                 </Box>
             </Paper>
