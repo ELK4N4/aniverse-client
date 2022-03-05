@@ -6,7 +6,7 @@ import * as api from '../../../api';
 import { useStore } from '../../../stores';
 import { useSnackbar } from 'notistack';
 
-export default function UserDetails({user}) {
+export default function UserDetails({user, viewingTracking}) {
     const classes = useStyles();
     
     return (
@@ -40,6 +40,11 @@ export default function UserDetails({user}) {
                                 </Typography>
                             </>
                         }
+                        {viewingTracking?.map((anime) => (
+                            <Typography key={anime} variant="h5">
+                                {anime.animeId}
+                            </Typography>
+                        ))}
                         <hr />
                     </div>
                 </Box>

@@ -74,6 +74,7 @@ export const removeMember = (fansubId, userId) => API.delete(`/fansubs/${fansubI
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`/fansubs/${fansubId}/members/${userId}`, updatedMember);
 
 export const fetchUser = (userId) => API.get(`/users/${userId}/`);
+export const fetchUserAnimeTracking = (userId, status, skip, limit) => API.get(`/users/${userId}/tracking/animes/${status}`, { params: {search: skip, limit} });
 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);
