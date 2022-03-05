@@ -12,7 +12,12 @@ import * as api from '../../../api';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../errorMessage';
 
-
+const trackingStatus = [
+    "בצפייה",
+    "נצפה",
+    "מתוכנן",
+    "נזרק",
+]
 
 function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, clickedEpisode}) {
     const store = useStore();
@@ -24,6 +29,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
+    const [tracking, setTracking] = useState(anime.tracking);
     const [rating, setRating] = useState({
         avg: anime.rating?.avg,
         userRating: anime.rating?.userRating
@@ -64,6 +70,26 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
             store.stopLoading();
         }
     }
+
+    const changeTrackingStatus = async (newValue) => {
+        let trackingRes;
+        store.startLoading();
+        try {
+            if(tracking) {
+                trackingRes = await api.updateAnimeTracking(animeId, tracking._id, {status: newValue});
+            } else {
+                trackingRes = await api.addAnimeTracking(animeId, {status: newValue});
+            }
+    
+            const { data } = trackingRes;
+            setTracking(data);
+            enqueueSnackbar('מעקב אנימה עודכן', {variant: 'success'});
+        } catch (err) {
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
+        }
+    }
     
     const ratingStyle = () => {
         if(rating.userRating != null || ratingHover) {
@@ -97,14 +123,34 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                     </Typography>
                                 </Tooltip>
                             </Box>
-                            <Typography variant="body1" className={classes.metadataText}>
-                                מספר פרקים:&nbsp;
-                                {anime.episodesNumber}
-                            </Typography>
-                            <Typography variant="body1" className={classes.metadataText}>
-                                מוגן בזכויות יוצרים:&nbsp;
-                                {anime.copyright ? "כן" : "לא"}
-                            </Typography>
+                                <br/>
+                                <Typography variant="body1" className={classes.metadataText}>
+                                    <FormControl size="small" variant="outlined" fullWidth>
+                                        <InputLabel id="select-fansub-label">בחר סטטוס צפייה</InputLabel>
+                                        <Select
+                                            labelId="choosen-fansub-label"
+                                            id="choosen-fansub"
+                                            value={tracking?.status}
+                                            onChange={(e) => changeTrackingStatus(e.target.value)}
+                                            label="בחר סטטוס צפייה"
+                                        >
+                                        {trackingStatus.map((status) => (
+                                            <MenuItem key={status} value={status}>
+                                                {status}
+                                            </MenuItem>
+                                        ))}
+                                        </Select>
+                                    </FormControl>
+                                </Typography>
+                                <br/>
+                                <Typography variant="body1" className={classes.metadataText}>
+                                    מספר פרקים:&nbsp;
+                                    {anime.episodesNumber}
+                                </Typography>
+                                <Typography variant="body1" className={classes.metadataText}>
+                                    מוגן בזכויות יוצרים:&nbsp;
+                                    {anime.copyright ? "כן" : "לא"}
+                                </Typography>
                         </div>
                     </Box>
                     <div>
