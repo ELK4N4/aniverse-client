@@ -34,7 +34,7 @@ export default function UserDetails({user}) {
                         {user && 
                             <>
                                 <Typography variant="h6">
-                                    יש אנשים ויש אנשים
+                                    {user?.about}
                                 </Typography>
                                 <Typography variant="body1" style={{color: 'grey'}}>
                                     הצטרף בתאריך:&nbsp;

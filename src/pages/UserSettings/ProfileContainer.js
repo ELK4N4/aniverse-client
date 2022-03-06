@@ -22,7 +22,7 @@ function ProfileContianer() {
     const store = useStore();
     const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
-    const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: '', avatar: userStore.user.user.avatar, banner: userStore.user.user.banner};
+    const initialState = { username: userStore.user.user.username, email: userStore.user.user.email, password: '', avatar: userStore.user.user.avatar, banner: userStore.user.user.banner, about: userStore.user.user.about};
     const [form, setForm] = useState(initialState);
     const history = useHistory();
     const location = useLocation();
@@ -87,6 +87,21 @@ function ProfileContianer() {
                             autoComplete="banner"
                             onChange={formik.handleChange}
                             value={formik.values.banner}
+                        />
+                        <TextField
+                            error={formik.touched.about && formik.errors.about}
+                            helperText={formik.touched.about && formik.errors.about}
+                            onBlur={formik.handleBlur}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="about"
+                            label="אודות"
+                            name="about"
+                            autoComplete="about"
+                            onChange={formik.handleChange}
+                            value={formik.values.about}
                         />
                         <br />
                         <br />
