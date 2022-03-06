@@ -5,9 +5,11 @@ import useStyles from './style';
 import * as api from '../../../api';
 import { useStore } from '../../../stores';
 import { useSnackbar } from 'notistack';
+import TrackingContainer from '../../../components/TrackingContainer';
 
-export default function UserDetails({user, viewingTracking}) {
+export default function UserDetails({user}) {
     const classes = useStyles();
+    const { userId } = useParams();
     
     return (
         <>
@@ -40,17 +42,10 @@ export default function UserDetails({user, viewingTracking}) {
                                 </Typography>
                             </>
                         }
-                        {viewingTracking?.map((anime) => (
-                            <Typography key={anime} variant="h5">
-                                {anime.animeId}
-                            </Typography>
-                        ))}
                         <hr />
                     </div>
                 </Box>
-                dasfdas
-                sadfadsfasdf
-                asdf
+                <TrackingContainer title="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking} trackingStatus="בצפייה"/>
             </Paper>
         </>
     );

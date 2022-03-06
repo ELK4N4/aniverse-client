@@ -109,7 +109,7 @@ function Animes() {
                         </p>
                     }
                     >
-                        <AnimeCards clickable animes={animes} keyword={keyword}/>
+                        <AnimeCards clickable animes={animes}/>
                 </InfiniteScroll>
             </Container>
         </>
