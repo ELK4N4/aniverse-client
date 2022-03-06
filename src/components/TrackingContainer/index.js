@@ -99,41 +99,43 @@ function TrackingContainer({title, userId, fetchCallback, trackingStatus}) {
     }
 
     return (
-        <PaperWithHeader>
-            <PaperHeader divider>
-                <PaperHeaderSection align="right" justify="center">
-                    <Typography align="center" variant="h4">
-                        {title}
-                    </Typography>
-                </PaperHeaderSection>
-                <PaperHeaderSection align="center" justify="center">
-                    <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
-                </PaperHeaderSection>
-            </PaperHeader>
+        <Container style={{marginTop: 30}}>
+            <PaperWithHeader>
+                <PaperHeader divider>
+                    <PaperHeaderSection align="right" justify="center">
+                        <Typography align="center" variant="h4">
+                            {title}
+                        </Typography>
+                    </PaperHeaderSection>
+                    <PaperHeaderSection align="center" justify="center">
+                        <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
+                    </PaperHeaderSection>
+                </PaperHeader>
 
-            <PaperBody loading={!cards}>
-                <InfiniteScroll
-                    style={{paddingRight: 7, paddingLeft: 7}}
-                    height={400}
-                    dataLength={cards.length}
-                    next={fetchMoreData}
-                    hasMore={hasMore}
-                    loader={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>טוען</b>
-                        </p>
-                    }
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                    >
-                        <br/>
-                        <AnimeCards clickable animes={cards?.map((card) => card.animeId)} />
-                </InfiniteScroll>
-            </PaperBody>
-        </PaperWithHeader>
+                <PaperBody loading={!cards}>
+                    <InfiniteScroll
+                        style={{paddingRight: 7, paddingLeft: 7}}
+                        maxHeight={350}
+                        dataLength={cards.length}
+                        next={fetchMoreData}
+                        hasMore={hasMore}
+                        loader={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>טוען</b>
+                            </p>
+                        }
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                        >
+                            <br/>
+                            <AnimeCards clickable animes={cards?.map((card) => card.animeId)} />
+                    </InfiniteScroll>
+                </PaperBody>
+            </PaperWithHeader>
+        </Container>
     );
 }
 

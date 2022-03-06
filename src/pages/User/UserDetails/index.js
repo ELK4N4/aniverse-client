@@ -45,7 +45,10 @@ export default function UserDetails({user}) {
                         <hr />
                     </div>
                 </Box>
-                <TrackingContainer title="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking} trackingStatus="בצפייה"/>
+                <TrackingContainer title="אנימות בצפייה" trackingStatus="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                <TrackingContainer title="אנימות שנצפו" trackingStatus="נצפה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                <TrackingContainer title="אנימות מתוכננות"  trackingStatus="מתוכנן" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                <TrackingContainer title="אנימות שנזרקו"  trackingStatus="נזרק" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
             </Paper>
         </>
     );
