@@ -19,6 +19,7 @@ import Episode from './Episode';
 import Comments from './Comments';
 import { useIsMount } from '../../hooks/useIsMount';
 import CommentDialog from './CommentDialog';
+import { useSnackbar } from 'notistack';
 
 
 function Anime() {
@@ -26,6 +27,7 @@ function Anime() {
     const store = useStore();
     const location = useLocation();
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
     const params = new URLSearchParams(location.search);
     const fansubId = params.get('fansub');
     const episodeId = params.get('episode');
@@ -99,6 +101,7 @@ function Anime() {
                     const newAnime = {...anime};
                     newAnime.tracking.currentEpisode = episodeRes.data.number;
                     setAnime(newAnime);
+                    enqueueSnackbar(`עודכן מעקב צפייה לפרק ${episodeRes.data.number}`, {variant: 'info'});
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);
