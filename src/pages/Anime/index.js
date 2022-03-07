@@ -96,6 +96,9 @@ function Anime() {
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
                     episodeRef.current.scrollIntoView({ behavior: 'smooth' });
+                    const newAnime = {...anime};
+                    newAnime.tracking.currentEpisode = episodeRes.data.number;
+                    setAnime(newAnime);
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);

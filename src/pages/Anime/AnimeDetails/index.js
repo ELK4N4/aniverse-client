@@ -198,7 +198,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
 
                                 <Box display="flex" className={classes.episodesBtnsContainer} >
                                     {episodes.map((episode) => (
-                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={tracking.currentEpisode < episode.number ? 'primary' : 'default'} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                             {episode.number}
                                         </Button>
                                     ))}
