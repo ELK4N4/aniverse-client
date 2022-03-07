@@ -99,6 +99,18 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
         }
     }
 
+    const getButtonColor = (episode) => {
+        if(userStore.user) {
+            if(tracking.currentEpisode < episode.number) {
+                return "primary";
+            } else {
+                return "default";
+            }
+        } else {
+            return "primary";
+        }
+    }
+
     return (
         <>
             <Paper elevation={5} className={classes.detailsContainer}>
@@ -198,7 +210,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
 
                                 <Box display="flex" className={classes.episodesBtnsContainer} >
                                     {episodes.map((episode) => (
-                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={tracking.currentEpisode < episode.number ? 'primary' : 'default'} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={getButtonColor(episode)} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                             {episode.number}
                                         </Button>
                                     ))}
