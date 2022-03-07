@@ -135,25 +135,29 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                     </Typography>
                                 </Tooltip>
                             </Box>
-                                <br/>
-                                <Typography variant="body1" className={classes.metadataText}>
-                                    <FormControl size="small" variant="outlined" fullWidth>
-                                        <InputLabel id="select-fansub-label">בחר סטטוס צפייה</InputLabel>
-                                        <Select
-                                            labelId="choosen-fansub-label"
-                                            id="choosen-fansub"
-                                            value={tracking?.status}
-                                            onChange={(e) => changeTrackingStatus(e.target.value)}
-                                            label="בחר סטטוס צפייה"
-                                        >
-                                        {trackingStatus.map((status) => (
-                                            <MenuItem key={status} value={status}>
-                                                {status}
-                                            </MenuItem>
-                                        ))}
-                                        </Select>
-                                    </FormControl>
-                                </Typography>
+                                {userStore.user &&
+                                    <>
+                                        <br/>
+                                        <Typography variant="body1" className={classes.metadataText}>
+                                            <FormControl size="small" variant="outlined" fullWidth>
+                                                <InputLabel id="select-fansub-label">בחר סטטוס צפייה</InputLabel>
+                                                <Select
+                                                    labelId="choosen-fansub-label"
+                                                    id="choosen-fansub"
+                                                    value={tracking?.status}
+                                                    onChange={(e) => changeTrackingStatus(e.target.value)}
+                                                    label="בחר סטטוס צפייה"
+                                                >
+                                                {trackingStatus.map((status) => (
+                                                    <MenuItem key={status} value={status}>
+                                                        {status}
+                                                    </MenuItem>
+                                                ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Typography>
+                                    </>
+                                }
                                 <br/>
                                 <Typography variant="body1" className={classes.metadataText}>
                                     מספר פרקים:&nbsp;
