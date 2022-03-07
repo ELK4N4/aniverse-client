@@ -161,6 +161,7 @@ class UserStore {
 
   logout() {
     removeLocalStorage('user');
+    removeSessionStorage('user');
     this.user = null;
   }
 
