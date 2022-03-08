@@ -151,6 +151,7 @@ function Anime() {
             setComments(commentTemp);
             handleClose();
             resetForm();
+            enqueueSnackbar('התגובה נוספה', {variant: 'success'});
         } catch (err) {
             console.error(err.response);
         } finally {
@@ -164,6 +165,7 @@ function Anime() {
             const { data } = await api.removeComment(animeId, episodeId, commentId);
             const updatedComments = comments.filter((comment) => comment._id !== commentId);
             setComments(updatedComments);
+            enqueueSnackbar('התגובה הוסרה', {variant: 'warning'});
         } catch (err) {
             console.error(err.response);
         } finally {
@@ -192,6 +194,7 @@ function Anime() {
             setUpdatedComment(undefined);
             handleClose();
             resetForm();
+            enqueueSnackbar('התגובה עודכנה', {variant: 'info'});
         } catch (err) {
             console.error(err.response);
         } finally {
