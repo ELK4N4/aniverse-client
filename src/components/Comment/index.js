@@ -7,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ReplyIcon from '@material-ui/icons/Reply';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { Avatar, Box, Paper, Typography } from '@material-ui/core';
-import ReplyBox from '../../pages/Anime/CommentDialog/ReplyBox';
+import ReplyBox from '../ReplyBox';
 
 export default function Comment({ commentsRef, comment, removeComment, editComment, replyToComment }) {
     const classes = useStyles();

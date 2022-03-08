@@ -18,7 +18,7 @@ import AnimeDetails from './AnimeDetails';
 import Episode from './Episode';
 import Comments from './Comments';
 import { useIsMount } from '../../hooks/useIsMount';
-import CommentDialog from './CommentDialog';
+import CommentDialog from '../../components/CommentDialog';
 import { useSnackbar } from 'notistack';
 
 
@@ -44,7 +44,6 @@ function Anime() {
     const [open, setOpen] = useState(false);
     const isMount = useIsMount();
     const episodeRef = useRef(null);
-    
 
     useEffect(async () => {
         if(isMount) {

@@ -55,11 +55,6 @@ export default makeStyles((theme) => ({
         }),
         boxSizing: 'border-box',
     },
-    replyPaper: {
-        padding: theme.spacing(2.5),
-        marginBottom: theme.spacing(3),
-        backgroundColor: "#f2f2f2",
-    },
     animeTitlePaper: {
         width: 'max-content',
         padding: theme.spacing(0.5),
