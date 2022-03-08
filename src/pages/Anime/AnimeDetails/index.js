@@ -100,7 +100,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     }
 
     const getButtonColor = (episode) => {
-        if(userStore.user) {
+        if(userStore.user && tracking) {
             if(tracking.currentEpisode < episode.number) {
                 return "primary";
             } else {
