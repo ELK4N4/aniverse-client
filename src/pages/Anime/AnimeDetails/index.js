@@ -173,7 +173,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                         <Typography variant="body1" className={classes.detailsTitle}>
                             תקציר
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" style={{whiteSpace: "pre-line"}}>
                             {anime.summary}
                         </Typography>
                         {!anime.copyright && 
