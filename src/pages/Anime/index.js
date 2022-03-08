@@ -40,6 +40,7 @@ function Anime() {
     const [choosenFansub, setChoosenFansub] = useState();
     const [comments, setComments] = useState([]);
     const [updatedComment, setUpdatedComment] = useState();
+    const [repliedComment, setRepliedComment] = useState();
     const [open, setOpen] = useState(false);
     const isMount = useIsMount();
     const episodeRef = useRef(null);
@@ -119,6 +120,9 @@ function Anime() {
 
     const handleClose = () => {
         setOpen(false);
+        setUpdatedComment(undefined);
+        setRepliedComment(undefined);
+        
     };
 
     const changeFansub = (fansub) => {
@@ -130,13 +134,18 @@ function Anime() {
 
     const openCommentDialog = () => {
         setOpen(true);
-        setUpdatedComment(undefined);
     }
 
     const addComment = async (comment, resetForm) => {
         store.startLoading();
         try {
-            const { data } = await api.addComment(animeId, episodeId, comment);
+            let res;
+            if(repliedComment) {
+                res = await api.replyToComment(animeId, episodeId, comment, repliedComment._id);
+            } else {
+                res = await api.addComment(animeId, episodeId, comment);
+            }
+            const data = res.data;
             const commentTemp = [...comments];
             commentTemp.push(data)
             setComments(commentTemp);
@@ -164,6 +173,11 @@ function Anime() {
 
     const editComment = (comment) => {
         setUpdatedComment(comment);
+        setOpen(true);
+    }
+
+    const replyToComment = (comment) => {
+        setRepliedComment(comment);
         setOpen(true);
     }
 
@@ -225,9 +239,9 @@ function Anime() {
                                     <Button variant="contained" color="primary" onClick={openCommentDialog}>
                                         הוסף תגובה +
                                     </Button>
-                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} open={open} handleClose={handleClose} />
+                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
                                 </Box>
-                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} />
+                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} replyToComment={replyToComment} />
                             </>
                         )}
                     </Container>

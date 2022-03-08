@@ -11,17 +11,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import { useFormik } from 'formik';
 import { commentScheme } from '@aniverse/utils/validations';
+import ReplyBox from './ReplyBox';
 
 const initComment = {message: ''}
 
-function CommentDialog({onSumbit, open, handleClose, updatedComment = initComment}) {
+function CommentDialog({onSumbit, open, handleClose, updatedComment = initComment, repliedComment}) {
     const { animeId, episodeId } = useParams();
     const store = useStore();
     const { userStore } = store;
@@ -51,6 +52,9 @@ function CommentDialog({onSumbit, open, handleClose, updatedComment = initCommen
             <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{updatedComment.message.length == 0 ? 'תגובה חדשה' : 'עריכת תגובה' }</DialogTitle>
                 <DialogContent>
+                    {repliedComment && (
+                        <ReplyBox title={"הגב לתגובה"} repliedComment={repliedComment} />
+                    )}
                     <TextField
                         error={formik.touched.message && formik.errors.message}
                         helperText={formik.touched.message && formik.errors.message}
