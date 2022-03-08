@@ -33,7 +33,7 @@ export default function Comment({ comment, removeComment, editComment }) {
                     </IconButton>
                 </Box>
             </Box>
-            <Typography variant="body1">
+            <Typography variant="body1" style={{whiteSpace: "pre-line"}}>
                 {comment.message}
             </Typography>
         </Paper>

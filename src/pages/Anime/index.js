@@ -133,24 +133,32 @@ function Anime() {
         setUpdatedComment(undefined);
     }
 
-    const addComment = async (comment) => {
+    const addComment = async (comment, resetForm) => {
+        store.startLoading();
         try {
             const { data } = await api.addComment(animeId, episodeId, comment);
             const commentTemp = [...comments];
             commentTemp.push(data)
             setComments(commentTemp);
+            handleClose();
+            resetForm();
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 
     const removeComment = async (commentId) => {
+        store.startLoading();
         try {
             const { data } = await api.removeComment(animeId, episodeId, commentId);
             const updatedComments = comments.filter((comment) => comment._id !== commentId);
             setComments(updatedComments);
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 
@@ -159,16 +167,21 @@ function Anime() {
         setOpen(true);
     }
 
-    const updateComment = async (updatedComment) => {
+    const updateComment = async (updatedComment, resetForm, commentId) => {
+        store.startLoading();
         try {
-            const { data } = await api.updateComment(animeId, episodeId, updatedComment._id, updatedComment);
-            const editCommentIndex = comments.findIndex(comment => comment._id === updatedComment._id);
+            const { data } = await api.updateComment(animeId, episodeId, commentId, updatedComment);
+            const editCommentIndex = comments.findIndex(comment => comment._id === commentId);
             const commentTemp = [...comments];
             commentTemp[editCommentIndex] = data;
             setComments(commentTemp);
             setUpdatedComment(undefined);
+            handleClose();
+            resetForm();
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 

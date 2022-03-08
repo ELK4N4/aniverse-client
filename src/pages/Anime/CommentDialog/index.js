@@ -16,6 +16,8 @@ import { Link, useParams } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
+import { useFormik } from 'formik';
+import { commentScheme } from '@aniverse/utils/validations';
 
 const initComment = {message: ''}
 
@@ -32,11 +34,17 @@ function CommentDialog({onSumbit, open, handleClose, updatedComment = initCommen
 
     const handleChange = (e) => setComment({ ...comment, [e.target.name]: e.target.value });
 
-    const handleSumbit = () => {
-        onSumbit(comment);
+    const handleSubmit = (values) => {
+        onSumbit(values, formik.resetForm ,comment._id);
         setComment(initComment)
-        handleClose();
     };
+
+    const formik = useFormik({ initialValues: comment,
+        enableReinitialize: true,
+        validateOnBlur: true,
+        onSubmit: handleSubmit,
+        validationSchema: commentScheme
+    })
 
     return (
         <>
@@ -44,6 +52,9 @@ function CommentDialog({onSumbit, open, handleClose, updatedComment = initCommen
                 <DialogTitle id="form-dialog-title">{updatedComment.message.length == 0 ? 'תגובה חדשה' : 'עריכת תגובה' }</DialogTitle>
                 <DialogContent>
                     <TextField
+                        error={formik.touched.message && formik.errors.message}
+                        helperText={formik.touched.message && formik.errors.message}
+                        onBlur={formik.handleBlur}
                         id="message"
                         label="תגובה"
                         type="message"
@@ -52,16 +63,16 @@ function CommentDialog({onSumbit, open, handleClose, updatedComment = initCommen
                         multiline
                         rows={4}
                         autoFocus
-                        value={comment.message}
                         name="message"
-                        onChange={handleChange}
+                        onChange={formik.handleChange}
+                        value={formik.values.message}
                     />
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     ביטול
                 </Button>
-                <Button onClick={handleSumbit} variant="contained" color="primary">
+                <Button onClick={formik.handleSubmit} variant="contained" color="primary">
                     שלח
                 </Button>
                 </DialogActions>
