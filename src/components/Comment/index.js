@@ -40,7 +40,7 @@ export default function Comment({ commentsRef, comment, removeComment, editComme
                 </Box>
             </Box>
             {comment.replyTo && (
-                <ReplyBox repliedComment={comment.replyTo} onClick={() => commentsRef.current[comment.replyTo._id].scrollIntoView({ behavior: 'smooth', block: "center"})} />
+                <ReplyBox repliedComment={comment.replyTo} onClick={() => commentsRef.current[comment.replyTo._id]?.scrollIntoView({ behavior: 'smooth', block: "center"})} />
             )}
             <Typography variant="body1" style={{whiteSpace: "pre-line"}}>
                 {comment.message}
