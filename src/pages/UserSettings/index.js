@@ -46,8 +46,8 @@ function UserSettings() {
                     <ProfileContainer />
                 </TabContainer>
                 <TabContainer label="התראות" path="notifications">
-                    התראות
-                </TabContainer>
+                    בקרוב
+                 </TabContainer>
             </TabsGroup>
         </>
     )
