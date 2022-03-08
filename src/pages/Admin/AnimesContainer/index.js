@@ -19,6 +19,7 @@ import errorMessage from '../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../components/PaperWithHeader';
 import AddIconButton from '../../../components/AddIconButton';
 import StyledListItem from '../../../components/StyledListItem';
+import SearchBar from '../../../components/SearchBar/SearchBar';
 
 
 function ManageAnimes() {
@@ -30,6 +31,12 @@ function ManageAnimes() {
     const [open, setOpen] = useState(false);
     const [choosenAnime, setChoosenAnime] = useState();
     const { enqueueSnackbar } = useSnackbar();
+    const [keyword, setKeyword] = useState('');
+    const [search, setSearch] = useState('');
+    const [hasMore, setHasMore] = useState(true);
+    const limit = 7;
+    const skipStart = 0;
+    const [skip, setSkip] = useState(skipStart);
 
     useEffect(async () => {
         store.startLoading();
@@ -83,6 +90,30 @@ function ManageAnimes() {
             store.stopLoading();
         }
     }
+
+    const handleOnChange = (e) => {
+        setKeyword(e.target.value);
+    }
+
+    const handleOnSearch = async (e) => {
+        setSearch(keyword);
+        store.startLoading();
+        try {
+            const { data } = await api.fetchAnimes(keyword, skipStart, limit);
+            if(data.length === 0) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+                setSkip(skipStart + limit);
+            }
+            setAnimes(data);
+        } catch (err) {
+            console.error(err.response);
+        } finally {
+            store.stopLoading();
+        }
+    }
+
     
 
     return (
@@ -100,6 +131,9 @@ function ManageAnimes() {
                                 aria-label="open drawer"
                                 onClick={() => history.push('/animes/add')}
                             />
+                        </PaperHeaderSection>
+                        <PaperHeaderSection align="bottom" justify="center">
+                            <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
                         </PaperHeaderSection>
                     </PaperHeader>
                     <PaperBody loading={!animes}>

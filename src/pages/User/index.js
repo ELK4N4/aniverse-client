@@ -17,8 +17,8 @@ export default function User() {
     useEffect(async () => {
         store.startLoading();
         try {
-            const { data } = await api.fetchUser(userId);
-            setUser(data);
+            const userRes = await api.fetchUser(userId);
+            setUser(userRes.data);
         } catch (err) {
             enqueueSnackbar(err.message, {variant: 'error'});
         } finally {
@@ -40,7 +40,7 @@ export default function User() {
         <>
             <div className={classes.showcase} style={showcaseStyle()} />
             <Container maxWidth="lg" className={classes.container}>
-                <UserDetails user={user}/>
+                <UserDetails user={user} />
             </Container>
         </>
     );

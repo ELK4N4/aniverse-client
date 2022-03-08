@@ -251,7 +251,17 @@ function AddAnimeForm() {
                                 showContent
                                 timeout={500}
                             />
-                            
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={formik.values.copyright}
+                                        onChange={formik.handleChange}
+                                        name="copyright"
+                                        color="primary"
+                                    />
+                                }
+                                label="מוגן בזכויות יוצרים"
+                            />
                             <Button
                                 type="submit"
                                 fullWidth

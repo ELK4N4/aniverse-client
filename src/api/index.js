@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { getLocalStorage } from '../localStorage';
+import { getSessionStorage } from '../sessionStorage';
 const API = axios.create({ baseURL: process.env.REACT_APP_API_URL})
 
 API.interceptors.request.use((req) => {
   if(getLocalStorage('user')) {
     req.headers.authorization = `Bearer ${getLocalStorage('user').token}`;
+  } else if(getSessionStorage('user')) {
+    req.headers.authorization = `Bearer ${getSessionStorage('user').token}`;
   }
   return req;
 });
@@ -59,9 +62,14 @@ export const fetchComments = (animeId, episodeId) => API.get(`/animes/${animeId}
 export const addComment = (animeId, episodeId, comment) => API.post(`/animes/${animeId}/episodes/${episodeId}/comments`, comment);
 export const removeComment = (animeId, episodeId, commentId) => API.delete(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`);
 export const updateComment = (animeId, episodeId, commentId, updatedComment) => API.put(`/animes/${animeId}/episodes/${episodeId}/comments/${commentId}`, updatedComment);
+export const replyToComment = (animeId, episodeId, comment, repliedCommentId) => API.post(`/animes/${animeId}/episodes/${episodeId}/comments/reply/${repliedCommentId}`, comment);
+
+
 export const addRating = (animeId, score) => API.post(`/animes/${animeId}/rating`, {score: score});
 export const updateRating = (animeId, ratingId, score) => API.put(`/animes/${animeId}/rating/${ratingId}`, {score});
 export const deleteRating = (animeId, ratingId) => API.delete(`/animes/${animeId}/rating/${ratingId}`);
+export const addAnimeTracking = (animeId, trackingData) => API.post(`/animes/${animeId}/tracking`, trackingData);
+export const updateAnimeTracking = (animeId, trackingId, trackingData) => API.put(`/animes/${animeId}/tracking/${trackingId}`, trackingData);
 
 
 export const addMember = (fansubId, username) => API.post(`/fansubs/${fansubId}/members/`, username);
@@ -69,6 +77,7 @@ export const removeMember = (fansubId, userId) => API.delete(`/fansubs/${fansubI
 export const updateMember = (fansubId, userId, updatedMember) => API.put(`/fansubs/${fansubId}/members/${userId}`, updatedMember);
 
 export const fetchUser = (userId) => API.get(`/users/${userId}/`);
+export const fetchUserAnimeTracking = (userId, status, keyword, skip, limit) => API.get(`/users/${userId}/tracking/animes/${status}`, { params: {search: keyword, skip, limit} });
 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);

@@ -12,7 +12,12 @@ import * as api from '../../../api';
 import { useSnackbar } from 'notistack';
 import errorMessage from '../../../errorMessage';
 
-
+const trackingStatus = [
+    "בצפייה",
+    "נצפה",
+    "מתוכנן",
+    "נזרק",
+]
 
 function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, clickedEpisode}) {
     const store = useStore();
@@ -24,6 +29,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
+    const [tracking, setTracking] = useState(anime.tracking);
     const [rating, setRating] = useState({
         avg: anime.rating?.avg,
         userRating: anime.rating?.userRating
@@ -64,12 +70,44 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
             store.stopLoading();
         }
     }
+
+    const changeTrackingStatus = async (newValue) => {
+        let trackingRes;
+        store.startLoading();
+        try {
+            if(tracking) {
+                trackingRes = await api.updateAnimeTracking(animeId, tracking._id, {status: newValue});
+            } else {
+                trackingRes = await api.addAnimeTracking(animeId, {status: newValue});
+            }
+    
+            const { data } = trackingRes;
+            setTracking(data);
+            enqueueSnackbar('מעקב אנימה עודכן', {variant: 'success'});
+        } catch (err) {
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
+        } finally {
+            store.stopLoading();
+        }
+    }
     
     const ratingStyle = () => {
         if(rating.userRating != null || ratingHover) {
             return {color: '#E23D28'};
         } else {
             return {};
+        }
+    }
+
+    const getButtonColor = (episode) => {
+        if(userStore.user) {
+            if(tracking.currentEpisode < episode.number) {
+                return "primary";
+            } else {
+                return "default";
+            }
+        } else {
+            return "primary";
         }
     }
 
@@ -97,62 +135,93 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                     </Typography>
                                 </Tooltip>
                             </Box>
-                            <Typography variant="body1" className={classes.metadataText}>
-                                מספר פרקים:
-                                &nbsp;
-                                {anime.episodesNumber}
-                            </Typography>
+                                {userStore.user &&
+                                    <>
+                                        <br/>
+                                        <Typography variant="body1" className={classes.metadataText}>
+                                            <FormControl size="small" variant="outlined" fullWidth>
+                                                <InputLabel id="select-fansub-label">בחר סטטוס צפייה</InputLabel>
+                                                <Select
+                                                    labelId="choosen-fansub-label"
+                                                    id="choosen-fansub"
+                                                    value={tracking?.status}
+                                                    onChange={(e) => changeTrackingStatus(e.target.value)}
+                                                    label="בחר סטטוס צפייה"
+                                                >
+                                                {trackingStatus.map((status) => (
+                                                    <MenuItem key={status} value={status}>
+                                                        {status}
+                                                    </MenuItem>
+                                                ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Typography>
+                                    </>
+                                }
+                                <br/>
+                                <Typography variant="body1" className={classes.metadataText}>
+                                    מספר פרקים:&nbsp;
+                                    {anime.episodesNumber}
+                                </Typography>
+                                <Typography variant="body1" className={classes.metadataText}>
+                                    מוגן בזכויות יוצרים:&nbsp;
+                                    {anime.copyright ? "כן" : "לא"}
+                                </Typography>
                         </div>
                     </Box>
                     <div>
                         <Typography variant="body1" className={classes.detailsTitle}>
                             תקציר
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" style={{whiteSpace: "pre-line"}}>
                             {anime.summary}
                         </Typography>
-                        <Box display="flex" alignItems="center" className={classes.episodesTitlesHeader}>
-                            <Typography variant="body1" className={classes.detailsTitle}>
-                                פרקים
-                            </Typography>
-                            {choosenFansub && (
-                                <FormControl size="small" variant="outlined" fullWidth>
-                                    <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
-                                    <Select
-                                        labelId="choosen-fansub-label"
-                                        id="choosen-fansub"
-                                        value={choosenFansub}
-                                        onChange={(e) => changeFansub(e.target.value)}
-                                        label="פאנסאב"
-                                    >
-                                    {projects.map((project) => (
-                                        <MenuItem key={project.fansub._id} value={project.fansub._id}>
-                                            {project.fansub.name}
-                                        </MenuItem>
-                                    ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        </Box>
+                        {!anime.copyright && 
+                            <>
+                                <Box display="flex" alignItems="center" className={classes.episodesTitlesHeader}>
+                                    <Typography variant="body1" className={classes.detailsTitle}>
+                                        פרקים
+                                    </Typography>
+                                    {choosenFansub && (
+                                        <FormControl size="small" variant="outlined" fullWidth>
+                                            <InputLabel id="select-fansub-label">פאנסאב</InputLabel>
+                                            <Select
+                                                labelId="choosen-fansub-label"
+                                                id="choosen-fansub"
+                                                value={choosenFansub}
+                                                onChange={(e) => changeFansub(e.target.value)}
+                                                label="פאנסאב"
+                                            >
+                                            {projects.map((project) => (
+                                                <MenuItem key={project.fansub._id} value={project.fansub._id}>
+                                                    {project.fansub.name}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                    )}
+                                </Box>
                         
-                        {episodes.length === 0 ? (
-                            <Typography variant="body1">
-                                אין פרקים עדיין לאנימה זו
-                            </Typography>
-                        ) : (
-                            <Typography variant="body1">
-                                בחרו פרק
-                            </Typography>
-                        )}
+                                {episodes.length === 0 ? (
+                                    <Typography variant="body1">
+                                        אין פרקים עדיין לאנימה זו
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="body1">
+                                        בחרו פרק
+                                    </Typography>
+                                )}
 
-                        <Box display="flex" className={classes.episodesBtnsContainer} >
-                            {episodes.map((episode) => (
-                                <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color="primary" variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
-                                    {episode.number}
-                                </Button>
-                            ))}
-                            
-                        </Box>
+                                <Box className={classes.episodesBtnsContainer} >
+                                    {episodes.map((episode) => (
+                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={getButtonColor(episode)} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                            {episode.number}
+                                        </Button>
+                                    ))}
+                                </Box>
+                            </>
+                        }
+                        
                     </div>
                 </Box>
             </Paper>

@@ -18,7 +18,8 @@ import AnimeDetails from './AnimeDetails';
 import Episode from './Episode';
 import Comments from './Comments';
 import { useIsMount } from '../../hooks/useIsMount';
-import CommentDialog from './CommentDialog';
+import CommentDialog from '../../components/CommentDialog';
+import { useSnackbar } from 'notistack';
 
 
 function Anime() {
@@ -26,6 +27,7 @@ function Anime() {
     const store = useStore();
     const location = useLocation();
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
     const params = new URLSearchParams(location.search);
     const fansubId = params.get('fansub');
     const episodeId = params.get('episode');
@@ -38,10 +40,10 @@ function Anime() {
     const [choosenFansub, setChoosenFansub] = useState();
     const [comments, setComments] = useState([]);
     const [updatedComment, setUpdatedComment] = useState();
+    const [repliedComment, setRepliedComment] = useState();
     const [open, setOpen] = useState(false);
     const isMount = useIsMount();
     const episodeRef = useRef(null);
-    
 
     useEffect(async () => {
         if(isMount) {
@@ -96,6 +98,12 @@ function Anime() {
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
                     episodeRef.current.scrollIntoView({ behavior: 'smooth' });
+                    if(userStore.user.user) {
+                        const newAnime = {...anime};
+                        newAnime.tracking.currentEpisode = episodeRes.data.number;
+                        setAnime(newAnime);
+                        enqueueSnackbar(`עודכן מעקב צפייה לפרק ${episodeRes.data.number}`, {variant: 'info'});
+                    }
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);
@@ -111,6 +119,9 @@ function Anime() {
 
     const handleClose = () => {
         setOpen(false);
+        setUpdatedComment(undefined);
+        setRepliedComment(undefined);
+        
     };
 
     const changeFansub = (fansub) => {
@@ -122,27 +133,42 @@ function Anime() {
 
     const openCommentDialog = () => {
         setOpen(true);
-        setUpdatedComment(undefined);
     }
 
-    const addComment = async (comment) => {
+    const addComment = async (comment, resetForm) => {
+        store.startLoading();
         try {
-            const { data } = await api.addComment(animeId, episodeId, comment);
+            let res;
+            if(repliedComment) {
+                res = await api.replyToComment(animeId, episodeId, comment, repliedComment._id);
+            } else {
+                res = await api.addComment(animeId, episodeId, comment);
+            }
+            const data = res.data;
             const commentTemp = [...comments];
             commentTemp.push(data)
             setComments(commentTemp);
+            handleClose();
+            resetForm();
+            enqueueSnackbar('התגובה נוספה', {variant: 'success'});
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 
     const removeComment = async (commentId) => {
+        store.startLoading();
         try {
             const { data } = await api.removeComment(animeId, episodeId, commentId);
             const updatedComments = comments.filter((comment) => comment._id !== commentId);
             setComments(updatedComments);
+            enqueueSnackbar('התגובה הוסרה', {variant: 'warning'});
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 
@@ -151,16 +177,27 @@ function Anime() {
         setOpen(true);
     }
 
-    const updateComment = async (updatedComment) => {
+    const replyToComment = (comment) => {
+        setRepliedComment(comment);
+        setOpen(true);
+    }
+
+    const updateComment = async (updatedComment, resetForm, commentId) => {
+        store.startLoading();
         try {
-            const { data } = await api.updateComment(animeId, episodeId, updatedComment._id, updatedComment);
-            const editCommentIndex = comments.findIndex(comment => comment._id === updatedComment._id);
+            const { data } = await api.updateComment(animeId, episodeId, commentId, updatedComment);
+            const editCommentIndex = comments.findIndex(comment => comment._id === commentId);
             const commentTemp = [...comments];
             commentTemp[editCommentIndex] = data;
             setComments(commentTemp);
             setUpdatedComment(undefined);
+            handleClose();
+            resetForm();
+            enqueueSnackbar('התגובה עודכנה', {variant: 'info'});
         } catch (err) {
             console.error(err.response);
+        } finally {
+            store.stopLoading();
         }
     }
 
@@ -204,12 +241,11 @@ function Anime() {
                                     <Button variant="contained" color="primary" onClick={openCommentDialog}>
                                         הוסף תגובה +
                                     </Button>
-                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} open={open} handleClose={handleClose} />
+                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
                                 </Box>
-                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} />
+                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} replyToComment={replyToComment} />
                             </>
                         )}
-                        
                     </Container>
                 </>
             )}

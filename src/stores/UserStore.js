@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction, toJS } from 'mobx';
 import { setLocalStorage, getLocalStorage, removeLocalStorage } from '../localStorage';
 import * as api from '../api';
 import errorMessage from '../errorMessage';
+import { setSessionStorage, getSessionStorage, removeSessionStorage } from '../sessionStorage';
 
 class UserStore {
   rootStore = null;
@@ -18,10 +19,13 @@ class UserStore {
 
   checkCache() {
     this.fetchCurrentUser();
-    const user = getLocalStorage('user');
-    if (user) {
+    if (getLocalStorage('user')) {
       runInAction(() => {
-        this.user = user;
+        this.user = getLocalStorage('user');
+      });
+    } else if(getSessionStorage('user')) {
+      runInAction(() => {
+        this.user = getSessionStorage('user');
       });
     }
   }
@@ -30,12 +34,16 @@ class UserStore {
     this.state = 'initial';
   }
 
-  setProfile(user) {
+  setProfile(user, rememberMe) {
     this.user = user;
-    setLocalStorage('user', user);
+    if(rememberMe) {
+      setLocalStorage('user', user);
+    } else {
+      setSessionStorage('user', user);
+    }
   };
 
-  login = async (formData, onSuccess, onError) => {
+  login = async (formData, rememberMe, onSuccess, onError) => {
     runInAction(() => {
       this.rootStore.loading = true;
       this.state = 'pending';
@@ -43,7 +51,7 @@ class UserStore {
 
     try {
       const { data } = await api.login(formData);
-      this.setProfile(data);
+      this.setProfile(data, rememberMe);
       runInAction(() => {
         this.state = 'done';
         onSuccess();
@@ -116,8 +124,11 @@ class UserStore {
   };
 
   fetchCurrentUser = async () => {
-    const user = getLocalStorage('user');
+    let user = getLocalStorage('user');
     if (!user) {
+      if(getSessionStorage('user')) {
+        user = getSessionStorage('user');
+      }
       return;
     }
 
@@ -150,6 +161,7 @@ class UserStore {
 
   logout() {
     removeLocalStorage('user');
+    removeSessionStorage('user');
     this.user = null;
   }
 
@@ -160,6 +172,7 @@ class UserStore {
   unfollowFansub(fansubId) {
     this.user.user.followingFansubs = this.user.user.followingFansubs.filter((fansub) => fansub !== fansubId);
   }
+
 }
 
 export default UserStore;

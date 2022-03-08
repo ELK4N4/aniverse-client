@@ -66,8 +66,12 @@ function Projects() {
         }
     }
 
-    const handleOnClick = (projectId) => {
-        history.push(`/my-fansubs/${fansubId}/project/${projectId}/`);
+    const handleOnClick = (project) => {
+        if(project.anime.copyright) {
+            alert("לא ניתן להוסיף פרקים לאנימה זו מכיוון שמוגנת בזכויות יוצרים");
+        } else {
+            history.push(`/my-fansubs/${fansubId}/project/${project._id}/`);
+        }
     }
 
     return (
@@ -91,7 +95,7 @@ function Projects() {
                         <PaperBody loading={store.loading}>
                             <List >
                             {fansubStore.projects?.map((project) => (
-                                <ListItem button key={project._id} onClick={() => handleOnClick(project._id)}>
+                                <ListItem button key={project._id} onClick={() => handleOnClick(project)}>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <TheatersIcon />

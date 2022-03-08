@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -242,6 +243,17 @@ function AnimeDialog({open, handleClose, onSubmit, choosenAnime = initAnime}) {
                             img={formik.values.image ? formik.values.image : 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png'}
                             showContent
                             timeout={500}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={formik.values.copyright}
+                                    onChange={formik.handleChange}
+                                    name="copyright"
+                                    color="primary"
+                                />
+                            }
+                            label="מוגן בזכויות יוצרים"
                         />
                 </form>
                 </DialogContent>
