@@ -212,7 +212,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                     </Typography>
                                 )}
 
-                                <Box display="flex" className={classes.episodesBtnsContainer} >
+                                <Box className={classes.episodesBtnsContainer} >
                                     {episodes.map((episode) => (
                                         <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={getButtonColor(episode)} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                             {episode.number}
