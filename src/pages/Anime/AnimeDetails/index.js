@@ -39,8 +39,15 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
         return rating.userRating?.score || rating.avg;
     }, [rating]);
 
-    const onEpisodeClick = (episodeId) => {
-        history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episodeId);
+    const onEpisodeClick = (episode) => {
+        if(tracking) {
+            if(tracking.currentEpisode < episode.number) {
+                changeTracking(tracking.status, episode.number);
+            }
+        } else {
+            changeTracking("בצפייה", episode.number);
+        }
+        history.push('/animes/' + animeId + '/episodes?fansub=' + fansubId + '&episode=' + episode._id);
     }
 
     const onRatingChange = async (event, newValue) => {
@@ -71,19 +78,30 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
         }
     }
 
-    const changeTrackingStatus = async (newValue) => {
+    const changeTracking = async (status, currentEpisode) => {
+        let fields = {};
+        if(status) {
+            fields.status = status;
+        }
+        if(currentEpisode) {
+            fields.currentEpisode = currentEpisode;
+        }
         let trackingRes;
         store.startLoading();
         try {
             if(tracking) {
-                trackingRes = await api.updateAnimeTracking(animeId, tracking._id, {status: newValue});
+                trackingRes = await api.updateAnimeTracking(animeId, tracking._id, fields);
             } else {
-                trackingRes = await api.addAnimeTracking(animeId, {status: newValue});
+                trackingRes = await api.addAnimeTracking(animeId, fields);
             }
     
             const { data } = trackingRes;
             setTracking(data);
-            enqueueSnackbar('מעקב אנימה עודכן', {variant: 'success'});
+            if(currentEpisode) {
+                enqueueSnackbar(`עודכן מעקב צפייה לפרק ${data.currentEpisode}`, {variant: 'info'});
+            } else if(status) {
+                enqueueSnackbar(`עודכן סטטוס מעקב אנימה`, {variant: 'info'});
+            }
         } catch (err) {
             enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
@@ -144,8 +162,8 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                                                 <Select
                                                     labelId="choosen-fansub-label"
                                                     id="choosen-fansub"
-                                                    value={tracking?.status}
-                                                    onChange={(e) => changeTrackingStatus(e.target.value)}
+                                                    value={tracking ? tracking.status : ''}
+                                                    onChange={(e) => changeTracking(e.target.value)}
                                                     label="בחר סטטוס צפייה"
                                                 >
                                                 {trackingStatus.map((status) => (
@@ -214,7 +232,7 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
 
                                 <Box className={classes.episodesBtnsContainer} >
                                     {episodes.map((episode) => (
-                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode._id)} color={getButtonColor(episode)} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
+                                        <Button key={episode._id} onClick={() => onEpisodeClick(episode)} color={getButtonColor(episode)} variant={clickedEpisode?._id === episode._id ? "outlined" : "contained"} disableElevation style={{margin: 4}}>
                                             {episode.number}
                                         </Button>
                                     ))}

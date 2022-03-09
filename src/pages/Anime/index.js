@@ -98,12 +98,6 @@ function Anime() {
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
                     episodeRef.current.scrollIntoView({ behavior: 'smooth' });
-                    if(userStore.user.user) {
-                        const newAnime = {...anime};
-                        newAnime.tracking.currentEpisode = episodeRes.data.number;
-                        setAnime(newAnime);
-                        enqueueSnackbar(`עודכן מעקב צפייה לפרק ${episodeRes.data.number}`, {variant: 'info'});
-                    }
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);
