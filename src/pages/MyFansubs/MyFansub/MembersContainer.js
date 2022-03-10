@@ -26,6 +26,7 @@ import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../
 function MembersContainer() {
     const store = useStore();
     const { fansubStore } = store;
+    const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
@@ -119,7 +120,7 @@ function MembersContainer() {
                                             text: 'צפייה',
                                             onClick: onClickLaunch(member.user._id)
                                         },
-                                    ]}
+                                    ].filter(control => (member.user._id !== userStore.user.user._id) || (control.text !== "מחק"))}
                                 />
                             ))}
                         </List>
