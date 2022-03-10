@@ -25,6 +25,7 @@ import StyledListItem from '../../../components/StyledListItem';
 
 function AdminsContainer() {
     const store = useStore();
+    const { userStore } = store;
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const classes = useStyles();
@@ -193,7 +194,7 @@ function AdminsContainer() {
                                                     text: 'צפייה',
                                                     onClick: () => window.open('/users/' + admin._id, '_blank', 'noopener,noreferrer')
                                                 },
-                                            ]}
+                                            ].filter(control => (admin._id !== userStore.user.user._id) || (control.text !== "מחק"))}
                                         />
                                     ))}
                             </InfiniteScroll>

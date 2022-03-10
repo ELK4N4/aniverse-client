@@ -189,7 +189,7 @@ function SettingsContainer() {
                                     שמור
                                 </Button>
                             </Grid>
-                            <Grid item xs={6} sm={4}>
+                            {/* <Grid item xs={6} sm={4}>
                                 <Button
                                     variant="outlined"
                                     fullWidth
@@ -197,7 +197,7 @@ function SettingsContainer() {
                                 >
                                     צא מהפאנסאב
                                 </Button>
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={6} sm={4}>
                                 <Button
                                     variant="outlined"
