@@ -111,7 +111,7 @@ function Project() {
 
     const editEpisode = async (episode) => {
         setCurrentEditedEpisode(episode);
-        setOpen(true)
+        setOpen(true);
     }
 
     const backToProjectsPage = () => {

@@ -27,7 +27,7 @@ export default function EditEpisodeDialog({open, handleClose, onSumbit, currentE
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
-                    <DialogTitle id="form-dialog-title">הוספת פרק</DialogTitle>
+                    <DialogTitle id="form-dialog-title">עריכת פרק</DialogTitle>
                     <Container maxWidth="sm">
                         <DialogContent>
                             <TextField
