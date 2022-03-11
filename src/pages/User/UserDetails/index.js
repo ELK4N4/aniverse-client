@@ -7,7 +7,7 @@ import { useStore } from '../../../stores';
 import { useSnackbar } from 'notistack';
 import TrackingContainer from '../../../components/TrackingContainer';
 
-export default function UserDetails({user}) {
+export default function UserDetails({user, preview}) {
     const classes = useStyles();
     const { userId } = useParams();
     
@@ -45,10 +45,14 @@ export default function UserDetails({user}) {
                         <hr />
                     </div>
                 </Box>
-                <TrackingContainer title="אנימות בצפייה" trackingStatus="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
-                <TrackingContainer title="אנימות שנצפו" trackingStatus="נצפה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
-                <TrackingContainer title="אנימות מתוכננות"  trackingStatus="מתוכנן" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
-                <TrackingContainer title="אנימות שנזרקו"  trackingStatus="נזרק" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                {!preview &&
+                    <>
+                        <TrackingContainer title="אנימות בצפייה" trackingStatus="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                        <TrackingContainer title="אנימות שנצפו" trackingStatus="נצפה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                        <TrackingContainer title="אנימות מתוכננות"  trackingStatus="מתוכנן" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                        <TrackingContainer title="אנימות שנזרקו"  trackingStatus="נזרק" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                    </>
+                }
             </Paper>
         </>
     );
