@@ -17,7 +17,6 @@ const initialState = { number: 1, name: '', link: '' };
 
 export default function AddEpisodeDialog({onSumbit}) {
     const [open, setOpen] = useState(false);
-    const [episode, setEpisode] = useState(initialState);
 
     const handleClickOpen = () => {
         setOpen(true);
