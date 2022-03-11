@@ -5,6 +5,7 @@ import { BorderBottom } from '@material-ui/icons';
 export default makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(5),
+        marginBottom: theme.spacing(3),
     },
     mainBox: {
         marginTop: theme.spacing(-4),

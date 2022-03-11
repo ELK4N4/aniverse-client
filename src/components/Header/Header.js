@@ -134,6 +134,13 @@ function Header({toggleTheme, themeIcon}) {
             </MenuItem>
           }
 
+          <MenuItem component={Link} to={`/users/${userStore.user?.user._id}`} onClick={handleMenuClose}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <AccountCircle/>
+            </IconButton>
+            <p>הפרופיל שלי</p>
+          </MenuItem>
+
           <MenuItem component={Link} to={'/user/settings'} onClick={handleMenuClose}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <SettingsIcon/>

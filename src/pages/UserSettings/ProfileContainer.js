@@ -13,10 +13,12 @@ import { Skeleton } from '@material-ui/lab';
 import { toJS } from 'mobx';
 import { Slide } from '@material-ui/core';
 import AnimeCards from '../../components/Cards/AnimeCards';
+import UserPreview from '../../components/UserPreview';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import { userUpdateScheme } from '@aniverse/utils/validations';
 import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../../components/PaperWithHeader';
+import UserDetails from '../User/UserDetails';
 
 function ProfileContianer() {
     const store = useStore();
@@ -39,12 +41,11 @@ function ProfileContianer() {
         );
     };
 
-
     const formik = useFormik({ initialValues: initialState,
         validateOnBlur: true,
         onSubmit: handleSubmit,
         validationSchema: userUpdateScheme
-    })
+    });
 
     return (
         <Container maxWidth="md">
@@ -103,6 +104,10 @@ function ProfileContianer() {
                             onChange={formik.handleChange}
                             value={formik.values.about}
                         />
+                        <Typography align="center"variant="h5">
+                            תצוגה מקדימה
+                        </Typography>
+                        <UserPreview user={{...formik.values, createdAt: userStore.user?.user.createdAt}} />
                         <br />
                         <br />
                         <Button
