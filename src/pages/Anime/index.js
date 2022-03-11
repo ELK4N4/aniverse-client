@@ -20,6 +20,7 @@ import Comments from './Comments';
 import { useIsMount } from '../../hooks/useIsMount';
 import CommentDialog from '../../components/CommentDialog';
 import { useSnackbar } from 'notistack';
+import errorMessage from '../../errorMessage';
 
 
 function Anime() {
@@ -31,7 +32,6 @@ function Anime() {
     const params = new URLSearchParams(location.search);
     const fansubId = params.get('fansub');
     const episodeId = params.get('episode');
-    const { userStore } = store;
     const classes = useStyles();
     const [anime, setAnime] = useState();
     const [episodes, setEpisodes] = useState([]);
@@ -146,7 +146,7 @@ function Anime() {
             resetForm();
             enqueueSnackbar('התגובה נוספה', {variant: 'success'});
         } catch (err) {
-            console.error(err.response);
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }
@@ -160,7 +160,7 @@ function Anime() {
             setComments(updatedComments);
             enqueueSnackbar('התגובה הוסרה', {variant: 'warning'});
         } catch (err) {
-            console.error(err.response);
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }
@@ -190,6 +190,7 @@ function Anime() {
             enqueueSnackbar('התגובה עודכנה', {variant: 'info'});
         } catch (err) {
             console.error(err.response);
+            enqueueSnackbar(errorMessage(err), {variant: 'error'});
         } finally {
             store.stopLoading();
         }

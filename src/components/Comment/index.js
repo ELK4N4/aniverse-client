@@ -8,11 +8,13 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { Avatar, Box, Paper, Typography } from '@material-ui/core';
 import ReplyBox from '../ReplyBox';
+import { useStore } from '../../stores';
 
 export default function Comment({ commentsRef, comment, removeComment, editComment, replyToComment }) {
     const classes = useStyles();
     const history = useHistory();
-    const commentRef = useRef(null);
+    const store = useStore();
+    const { userStore } = store;
 
     const handleUserClick= () => {
         history.push(`/users/${comment.addedByUser._id}`);
@@ -28,12 +30,16 @@ export default function Comment({ commentsRef, comment, removeComment, editComme
                     </MuiLink>
                 </Typography>
                 <Box display="flex" alignItems="center" className={classes.headerControls} >
-                    <IconButton aria-label="delete" onClick={() => removeComment(comment._id)}>
-                        <DeleteIcon />
-                    </IconButton>
-                    <IconButton aria-label="edit" onClick={() => editComment(comment)}>
-                        <EditIcon />
-                    </IconButton>
+                    {(userStore.user?.user && comment.addedByUser._id === userStore.user.user._id) && 
+                        <>
+                            <IconButton aria-label="delete" onClick={() => removeComment(comment._id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                            <IconButton aria-label="edit" onClick={() => editComment(comment)}>
+                                <EditIcon />
+                            </IconButton>
+                        </>
+                    }
                     <IconButton aria-label="reply" onClick={() => replyToComment(comment)}>
                         <ReplyIcon />
                     </IconButton>
