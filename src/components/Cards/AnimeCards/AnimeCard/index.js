@@ -28,9 +28,13 @@ export default function AnimeCard({ img, name, summary, rating, showContent, tim
                 <CardMedia
                     component="img"
                     className={classes.media}
-                    image={ img }
+                    image={ img ? img : "https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" }
                     title= { name.hebrew }
                     style={{height}}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png";
+                    }}
                 />
                 <Slide in={!hover && showContent} direction="down">
                         <Paper square className={classes.title}>

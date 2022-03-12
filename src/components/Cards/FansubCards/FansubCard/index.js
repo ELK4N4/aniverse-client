@@ -26,8 +26,12 @@ export default function FansubCard({ img, name, showContent, timeout }) {
             <CardMedia
                 component="img"
                 className={classes.media}
-                image={ img }
+                image={ img ? img : "https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" }
                 title= { name }
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png";
+                }}
             />
             <Paper square className={!hover ? classes.content : classes.contentHover}>
                 <div className={classes.padding}>

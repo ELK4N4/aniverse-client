@@ -135,7 +135,16 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
                 <Box display="flex" className={classes.mainBox}>
                     <Box className={classes.metadataBox}>
                         <div>
-                            <img src={anime.image} width="200" height="300" className={classes.animeImage} />
+                            <img
+                                src={anime.image ? anime.image : "https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png"}
+                                width="200"
+                                height="300"
+                                className={classes.animeImage}
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png";
+                                }}
+                            />
                             <Box display="flex" alignItems="center">
                                 <Rating
                                     style={ratingStyle()}

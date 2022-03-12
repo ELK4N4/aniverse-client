@@ -21,9 +21,13 @@ export default function ProjectCards({ clickable, animes, onProjectSelect}) {
                     <AnimeCard
                         name={anime.name.hebrew}
                         summary={anime.summary}
-                        img={anime.image}
+                        img={anime.image ? anime.image : "https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png"}
                         showContent
                         timeout={500}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png";
+                        }}
                     />
                 </Grid>
             ))}
