@@ -26,8 +26,12 @@ export default function EpisodeCard({ image, name, number, showContent, timeout 
             <CardMedia
                 component="img"
                 className={classes.media}
-                image={ image }
+                image={ image ? image :  "https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png"}
                 title= { name }
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png";
+                }}
             />
             <Grow in={hover && showContent} mountOnEnter unmountOnExit>
                 <Paper square className={classes.content}>
