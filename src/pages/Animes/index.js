@@ -100,12 +100,12 @@ function Animes() {
                     hasMore={hasMore}
                     loader={
                         <p style={{ textAlign: 'center' }}>
-                            <b>טוען</b>
+                            <b></b>
                         </p>
                     }
                     endMessage={
                         <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
+                            <b></b>
                         </p>
                     }
                     >

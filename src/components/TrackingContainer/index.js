@@ -26,7 +26,14 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../PaperWithHeader';
 import SearchBar from '../SearchBar/SearchBar';
 
-function TrackingContainer({title, userId, fetchCallback, trackingStatus}) {
+const trackingStatus = [
+    "בצפייה",
+    "נצפה",
+    "מתוכנן",
+    "נזרק",
+]
+
+function TrackingContainer({title, userId, fetchCallback}) {
     const history = useHistory();
     const classes = useStyles();
     const store = useStore();
@@ -38,11 +45,12 @@ function TrackingContainer({title, userId, fetchCallback, trackingStatus}) {
     const limit = 7;
     const skipStart = 0;
     const [skip, setSkip] = useState(skipStart);
+    const [status, setStatus] = useState("בצפייה");
 
     useEffect(async () => {
         store.startLoading();
         try {
-            const { data } = await fetchCallback(userId, trackingStatus, search, skipStart, limit);
+            const { data } = await fetchCallback(userId, status, search, skipStart, limit);
             if(data.length === 0) {
                 setHasMore(false);
             } else {
@@ -55,10 +63,14 @@ function TrackingContainer({title, userId, fetchCallback, trackingStatus}) {
         } finally {
             store.stopLoading();
         }
-    }, []);
+    }, [status, search]);
 
-    const handleOnChange = (e) => {
+    const handleKeywordChange = (e) => {
         setKeyword(e.target.value);
+    }
+
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
     }
 
     const handleOnSearch = async (e) => {
@@ -108,29 +120,46 @@ function TrackingContainer({title, userId, fetchCallback, trackingStatus}) {
                         </Typography>
                     </PaperHeaderSection>
                     <PaperHeaderSection align="center" justify="center">
-                        <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
+                        <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleKeywordChange} onSearch={handleOnSearch} />
+                    </PaperHeaderSection>
+                    <PaperHeaderSection align="left" justify="center" fullWidth>
+                        <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="select-fansub-label">סטטוס צפייה</InputLabel>
+                            <Select
+                                labelId="choosen-fansub-label"
+                                id="choosen-fansub"
+                                value={status}
+                                onChange={handleStatusChange}
+                                label="סטטוס צפייה"
+                            >
+                            {trackingStatus.map((status) => (
+                                <MenuItem key={status} value={status}>
+                                    {status}
+                                </MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>                   
                     </PaperHeaderSection>
                 </PaperHeader>
 
                 <PaperBody loading={!cards}>
                     <InfiniteScroll
                         style={{paddingRight: 7, paddingLeft: 7}}
-                        maxHeight={350}
                         dataLength={cards.length}
                         next={fetchMoreData}
                         hasMore={hasMore}
+                        height={350}
                         loader={
                             <p style={{ textAlign: 'center' }}>
-                                <b>טוען</b>
+                                <b></b>
                             </p>
                         }
                         endMessage={
                             <p style={{ textAlign: 'center' }}>
-                                <b>Yay! You have seen it all</b>
+                                <b></b>
                             </p>
                         }
                         >
-                            <br/>
                             <AnimeCards clickable animes={cards?.map((card) => card.animeId)} />
                     </InfiniteScroll>
                 </PaperBody>

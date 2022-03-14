@@ -132,7 +132,7 @@ function ManageAnimes() {
                                 onClick={() => history.push('/animes/add')}
                             />
                         </PaperHeaderSection>
-                        <PaperHeaderSection align="bottom" justify="center">
+                        <PaperHeaderSection align="bottom" justify="center" fullWidth>
                             <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleOnChange} onSearch={handleOnSearch} />
                         </PaperHeaderSection>
                     </PaperHeader>

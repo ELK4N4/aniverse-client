@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
         width: '100%'
     },
     card: {
+        margin: theme.spacing(2.5),
         transition: '.3s',
         '&:hover': {
             transform: `scale(${1.05})`,
