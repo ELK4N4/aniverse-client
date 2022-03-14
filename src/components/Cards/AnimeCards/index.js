@@ -18,7 +18,6 @@ export default function AnimeCards({ clickable, animes }) {
         <Grid
             className={classes.root}
             container
-            spacing={5}
             direction="row"
             justifyContent="center"
             alignItems="center"
