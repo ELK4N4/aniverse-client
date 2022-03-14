@@ -139,7 +139,7 @@ function AdminsContainer() {
             <Container maxWidth="lg">
                 <PaperWithHeader>
                     <PaperHeader divider>
-                        <PaperHeaderSection align="bottom" justify="center">
+                        <PaperHeaderSection align="bottom" justify="center" fullWidth>
                             <SearchBar value={keyword} placeholder="חפשו אדמין..." onChange={handleOnChange} onSearch={handleOnSearch} />
                         </PaperHeaderSection>
                         <PaperHeaderSection align="center" justify="center">

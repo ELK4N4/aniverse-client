@@ -122,7 +122,7 @@ function TrackingContainer({title, userId, fetchCallback}) {
                     <PaperHeaderSection align="center" justify="center">
                         <SearchBar value={keyword} placeholder="חפשו אנימה..." onChange={handleKeywordChange} onSearch={handleOnSearch} />
                     </PaperHeaderSection>
-                    <PaperHeaderSection align="left" justify="center">
+                    <PaperHeaderSection align="left" justify="center" fullWidth>
                         <FormControl variant="outlined" fullWidth>
                             <InputLabel id="select-fansub-label">סטטוס צפייה</InputLabel>
                             <Select
@@ -160,7 +160,6 @@ function TrackingContainer({title, userId, fetchCallback}) {
                             </p>
                         }
                         >
-                            <br/>
                             <AnimeCards clickable animes={cards?.map((card) => card.animeId)} />
                     </InfiniteScroll>
                 </PaperBody>

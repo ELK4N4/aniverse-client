@@ -19,7 +19,6 @@ export default function FansubCards({ clickable, fansubs, keyword }) {
         <Grid
             className={classes.root}
             container
-            spacing={5}
             direction="row"
             justifyContent="center"
             alignItems="center"

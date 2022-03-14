@@ -138,7 +138,7 @@ function FansubsContainer() {
             <Container maxWidth="lg">
                 <PaperWithHeader>
                     <PaperHeader>
-                        <PaperHeaderSection align="bottom" justify="center">
+                        <PaperHeaderSection align="bottom" justify="center" fullWidth>
                             <SearchBar value={keyword} placeholder="חפשו פאנסאב..." onChange={handleOnChange} onSearch={handleOnSearch} />
                         </PaperHeaderSection>
                         <PaperHeaderSection align="center" justify="center">
