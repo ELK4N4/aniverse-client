@@ -16,6 +16,10 @@ import ReplyBox from '../ReplyBox';
 
 const initComment = {message: ''}
 
+function hasLetters(str) {
+    return str.trim().length !== 0;
+}
+
 function CommentDialog({onSumbit, open, handleClose, updatedComment = initComment, repliedComment}) {
     const { animeId, episodeId } = useParams();
     const store = useStore();
