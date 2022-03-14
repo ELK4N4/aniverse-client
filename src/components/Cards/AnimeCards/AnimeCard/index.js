@@ -60,7 +60,7 @@ export default function AnimeCard({ img, name, summary, rating, showContent, tim
                 </Slide>
                 <Box display="flex" className={classes.tinyDetials} justifyContent="end">
                     <Paper className={classes.ratingPaper} >
-                        <Typography className={classes.ratingText} align="center" variant="body1">{rating || 'ללא'}</Typography>
+                        <Typography className={classes.ratingText} align="center" variant="body1">{Math.round(rating * 10) / 10 || 'ללא'}</Typography>
                         <StarIcon color="primary" style={{color: '#ffb400'}}/>
                     </Paper>
                 </Box>
