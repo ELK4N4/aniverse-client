@@ -145,10 +145,10 @@ function TrackingContainer({title, userId, fetchCallback}) {
                 <PaperBody loading={!cards}>
                     <InfiniteScroll
                         style={{paddingRight: 7, paddingLeft: 7}}
-                        maxHeight={350}
                         dataLength={cards.length}
                         next={fetchMoreData}
                         hasMore={hasMore}
+                        height={350}
                         loader={
                             <p style={{ textAlign: 'center' }}>
                                 <b>טוען</b>
