@@ -28,10 +28,10 @@ function ReplyBox({title, repliedComment, onClick}) {
                 </>
             }
             <ReplyTypography variant="body1" style={{fontWeight: "bold"}}>
-                {repliedComment.addedByUser.username}
+                {repliedComment === "deleted" ? "" : repliedComment.addedByUser.username}
             </ReplyTypography>
             <ReplyTypography variant="body2">
-                {repliedComment.message}
+                {repliedComment === "deleted" ? "תגובה זו נמחקה" : repliedComment.message}
             </ReplyTypography>
         </Paper>
     )
