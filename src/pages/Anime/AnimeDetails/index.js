@@ -79,33 +79,35 @@ function AnimeDetails({anime, projects, episodes, choosenFansub, changeFansub, c
     }
 
     const changeTracking = async (status, currentEpisode) => {
-        let fields = {};
-        if(status) {
-            fields.status = status;
-        }
-        if(currentEpisode) {
-            fields.currentEpisode = currentEpisode;
-        }
-        let trackingRes;
-        store.startLoading();
-        try {
-            if(tracking) {
-                trackingRes = await api.updateAnimeTracking(animeId, tracking._id, fields);
-            } else {
-                trackingRes = await api.addAnimeTracking(animeId, fields);
+        if(userStore.user?.user) {
+            let fields = {};
+            if(status) {
+                fields.status = status;
             }
-    
-            const { data } = trackingRes;
-            setTracking(data);
             if(currentEpisode) {
-                enqueueSnackbar(`עודכן מעקב צפייה לפרק ${data.currentEpisode}`, {variant: 'info'});
-            } else if(status) {
-                enqueueSnackbar(`עודכן סטטוס מעקב אנימה`, {variant: 'info'});
+                fields.currentEpisode = currentEpisode;
             }
-        } catch (err) {
-            enqueueSnackbar(errorMessage(err), {variant: 'error'});
-        } finally {
-            store.stopLoading();
+            let trackingRes;
+            store.startLoading();
+            try {
+                if(tracking) {
+                    trackingRes = await api.updateAnimeTracking(animeId, tracking._id, fields);
+                } else {
+                    trackingRes = await api.addAnimeTracking(animeId, fields);
+                }
+        
+                const { data } = trackingRes;
+                setTracking(data);
+                if(currentEpisode) {
+                    enqueueSnackbar(`עודכן מעקב צפייה לפרק ${data.currentEpisode}`, {variant: 'info'});
+                } else if(status) {
+                    enqueueSnackbar(`עודכן סטטוס מעקב אנימה`, {variant: 'info'});
+                }
+            } catch (err) {
+                enqueueSnackbar(errorMessage(err), {variant: 'error'});
+            } finally {
+                store.stopLoading();
+            }
         }
     }
     
