@@ -27,12 +27,20 @@ function ReplyBox({title, repliedComment, onClick}) {
                     <hr/>
                 </>
             }
-            <ReplyTypography variant="body1" style={{fontWeight: "bold"}}>
-                {repliedComment.addedByUser.username}
-            </ReplyTypography>
-            <ReplyTypography variant="body2">
-                {repliedComment.message}
-            </ReplyTypography>
+            {repliedComment === "deleted" ? 
+                <ReplyTypography variant="body2" style={{fontStyle: "italic "}}>
+                    {repliedComment === "deleted" ? "תגובה זו נמחקה" : repliedComment.message}
+                </ReplyTypography>
+            :
+                <>
+                    <ReplyTypography variant="body1" style={{fontWeight: "bold"}}>
+                        {repliedComment.addedByUser.username}
+                    </ReplyTypography>
+                    <ReplyTypography variant="body2">
+                        {repliedComment.message}
+                    </ReplyTypography>
+                </>
+            }
         </Paper>
     )
 }

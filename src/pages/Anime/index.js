@@ -24,8 +24,9 @@ import errorMessage from '../../errorMessage';
 
 
 function Anime() {
-    const { animeId } = useParams();
+    let { animeId } = useParams();
     const store = useStore();
+    const { userStore } = store;
     const location = useLocation();
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
@@ -233,10 +234,18 @@ function Anime() {
                                     <Typography variant="h5" className={classes.commentsTitle}>
                                         {`תגובות (${comments.length})`}
                                     </Typography>
-                                    <Button variant="contained" color="primary" onClick={openCommentDialog}>
-                                        הוסף תגובה +
-                                    </Button>
-                                    <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
+                                    {userStore.user ?
+                                        <>
+                                            <Button variant="contained" color="primary" onClick={openCommentDialog}>
+                                                הוסף תגובה +
+                                            </Button>
+                                            <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
+                                        </>
+                                        :
+                                        <Button variant="contained" color="primary" onClick={() => history.push(`/login?redirect=${location.pathname}?fansub=${fansubId}%26episode=${episodeId}`)} >
+                                            הוסף תגובה +
+                                        </Button>
+                                    }
                                 </Box>
                                 <Comments comments={comments} removeComment={removeComment} editComment={editComment} replyToComment={replyToComment} />
                             </>
@@ -248,4 +257,4 @@ function Anime() {
     )
 }
 
-export default Anime;
+export default observer(Anime);
