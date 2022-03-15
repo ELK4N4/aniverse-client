@@ -63,21 +63,21 @@ function Episode({anime, episode}) {
                     </div>
                     <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
                         <VisibilityIcon />
-                        <Typography variant="body2" className={classes.episodeTinyDetails}>
+                        <Typography variant="body2" className={classes.episodeTinyTypo}>
                             צפיות:&nbsp;
                             {episode.views}
                         </Typography>
                     </Box>
                     <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
                         <ScheduleIcon />
-                        <Typography variant="body2" className={classes.episodeTinyDetails}>
+                        <Typography variant="body2" className={classes.episodeTinyTypo}>
                             פורסם בתאריך:&nbsp;
                             {new Date(episode.createdAt).toLocaleDateString()}
                         </Typography>
                     </Box>
                     <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
                         <PeopleAltIcon />
-                        <Typography variant="body2" className={classes.episodeTinyDetails}>
+                        <Typography variant="body2" className={classes.episodeTinyTypo}>
                             הועלה על ידי:&nbsp;
                             <MuiLink component={Link} to={`/fansubs/${episode.addedByFansub._id}`} href="#">
                                 {episode.addedByFansub.name}

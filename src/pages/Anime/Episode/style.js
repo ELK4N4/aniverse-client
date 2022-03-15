@@ -44,7 +44,7 @@ export default makeStyles((theme) => ({
         },
         [theme.breakpoints.down('md')]: {
             paddingTop: theme.spacing(1.5),
-            paddingBottom: theme.spacing(1),
+            paddingBottom: theme.spacing(1.5),
             paddingRight: theme.spacing(2),
             paddingLeft: theme.spacing(2),
         },
@@ -80,6 +80,11 @@ export default makeStyles((theme) => ({
     },
     episodeTinyDetails: {
         display: 'inline-flex',
+        marginRight: theme.spacing(.8),
+        marginLeft: theme.spacing(.8),
+        marginBottom: theme.spacing(1.2),
+    },
+    episodeTinyTypo: {
         marginRight: theme.spacing(.8),
         marginLeft: theme.spacing(.8),
     }
