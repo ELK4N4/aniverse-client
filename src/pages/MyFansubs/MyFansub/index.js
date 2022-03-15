@@ -37,7 +37,7 @@ function MyFansub() {
                     <Paper elevation={5} className={classes.panelPaper}>
                         <Typography variant="h3" align="center" className={classes.panelTitle}>
                             {fansubStore.fansub.name}
-                            <IconButton color="primary" style={{backgroundColor: 'white',}} aria-label="delete" onClick={() => window.open('/fansubs/' + fansubId, '_blank', 'noopener,noreferrer')}>
+                            <IconButton color="primary" style={{backgroundColor: 'white', marginRight: 15}} aria-label="delete" onClick={() => window.open('/fansubs/' + fansubId, '_blank', 'noopener,noreferrer')}>
                                 <LaunchIcon />
                             </IconButton>
                             <Typography hidden={fansubStore.fansub.confirmed} variant="h6" align="center" className={classes.panelTitle}>
