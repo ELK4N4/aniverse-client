@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import { commentScheme } from '@aniverse/utils/validations';
 import ReplyBox from '../ReplyBox';
 
+
 const initComment = {message: ''}
 
 function hasLetters(str) {
@@ -30,10 +31,11 @@ function CommentDialog({onSumbit, open, handleClose, updatedComment = initCommen
     useEffect(() => {
         setComment(updatedComment);
     }, [updatedComment])
-
+    
     const handleChange = (e) => setComment({ ...comment, [e.target.name]: e.target.value });
 
     const handleSubmit = (values) => {
+
         onSumbit(values, formik.resetForm ,comment._id);
         setComment(initComment)
     };
