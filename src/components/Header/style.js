@@ -25,10 +25,15 @@ export default makeStyles((theme) => ({
       cursor: "pointer",
       overflow: "hidden",
       textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
       display: 'none',
-      maxWidth: 70,
+      maxWidth: 200,
       [theme.breakpoints.up('sm')]: {
-        maxWidth: 100,
+        maxWidth: 250,
+        display: 'block',
+      },
+      [theme.breakpoints.up('md')]: {
+        maxWidth: 350,
         display: 'block',
       },
     },
