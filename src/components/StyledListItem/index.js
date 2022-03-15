@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import useStyles from './style';
-import { Avatar, Box, Collapse, Fade, Grow, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Menu, MenuItem, withStyles } from '@material-ui/core';
+import { Avatar, Box, Collapse, Fade, Grow, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Menu, MenuItem, Typography, withStyles } from '@material-ui/core';
 
 const CustomItemText = withStyles((theme) => ({
     root: {
@@ -47,7 +47,7 @@ const listItemBannerStyle = (image) => {
     }
 }
 
-export default function StyledListItem({ text, secondaryText, avatar, banner, onClick, controls }) {
+export default function StyledListItem({ showAvatarText, text, secondaryText, avatar, banner, onClick, controls }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -60,12 +60,24 @@ export default function StyledListItem({ text, secondaryText, avatar, banner, on
         setAnchorEl(null);
         callback(e);
     };
-    //TODO Key
+
+    function isValidURL(str) {
+        var a  = document.createElement('a');
+        a.href = str;
+        return (a.host && a.host != window.location.host);
+     }
+
     return (
         <ListItem button onClick={onClick} className={classes.listItem} style={listItemBannerStyle(banner)}>
             <div style={{marginLeft: 10}} />
             <ListItemAvatar>
-                <Avatar src={avatar} className={classes.avatar}/>
+                <Avatar src={isValidURL(avatar) ? avatar : null} className={classes.avatar} >
+                    {showAvatarText && 
+                        <Typography className={classes.avatarText}>
+                            {String(avatar).charAt(0)}
+                        </Typography>
+                    }
+                </Avatar>
             </ListItemAvatar>
             <div className={classes.textMargin} />
             <CustomItemText

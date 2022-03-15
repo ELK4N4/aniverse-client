@@ -75,14 +75,20 @@ export default makeStyles((theme) => ({
     avatar: {
         width: theme.spacing(5),
         height: theme.spacing(5),
-        fontSize: theme.spacing(5),
         cursor: 'pointer',
         backgroundColor: theme.palette.primary.main,
         transition: '.3s',
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(8),
             height: theme.spacing(8),
-            fontSize: theme.spacing(8),
+        },
+    },
+    avatarText: {
+        fontWeight: 'normal',
+        fontSize: theme.spacing(2.5),
+        [theme.breakpoints.up('sm')]: {
+            fontWeight: 'bold',
+            fontSize: theme.spacing(4),
         },
     }
 }));

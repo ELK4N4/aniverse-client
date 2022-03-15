@@ -19,6 +19,7 @@ import EditEpisodeDialog from './EditEpisodeDialog';
 import { Skeleton } from '@material-ui/lab';
 import errorMessage from '../../../../errorMessage';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../components/PaperWithHeader';
+import StyledListItem from '../../../../components/StyledListItem';
 
 function Project() {
     const store = useStore();
@@ -152,26 +153,33 @@ function Project() {
                             </PaperHeaderSection>
                         </PaperHeader>
                         <PaperBody loading={loading}>
-                            <List >
+                        <List >
                                 {project.episodes?.map((episode) => (
-                                    <ListItem button key={episode._id}>
-                                        <ListItemAvatar>
-                                            <Avatar className={classes.episodeAvatar}>
-                                                {episode.number}
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={episode.name}
-                                        />
-                                        <ListItemSecondaryAction>
-                                            <IconButton aria-label="delete" onClick={() => editEpisode(episode)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="delete" onClick={() => deleteEpisode(episode._id, episode.number)}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
+                                    <StyledListItem
+                                        showAvatarText
+                                        key={episode._id}
+                                        text={episode.name}
+                                        avatar={episode.number}
+                                        banner={anime.image}
+                                        onClick={() => editEpisode(episode)}
+                                        controls={[
+                                            {
+                                                icon: <EditIcon />,
+                                                text: 'ערוך',
+                                                onClick: () => editEpisode(episode)
+                                            },
+                                            {
+                                                icon: <DeleteIcon />,
+                                                text: 'מחק',
+                                                onClick: () => deleteEpisode(episode._id, episode.number)
+                                            },
+                                            {
+                                                icon: <LaunchIcon />,
+                                                text: 'צפייה',
+                                                onClick: () => window.open(`/animes/${anime._id}?fansub=${project.fansub}&episode=${episode._id}`, '_blank', 'noopener,noreferrer')
+                                            },
+                                        ]}
+                                    />
                                 ))}
                             </List>
                         </PaperBody>
