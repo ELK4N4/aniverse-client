@@ -26,6 +26,7 @@ import { Slide } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import PaperWithHeader, { PaperHeader, PaperHeaderSection, PaperBody } from '../../../../components/PaperWithHeader';
 import AddIconButton from '../../../../components/AddIconButton';
+import StyledListItem from '../../../../components/StyledListItem';
 
 const statusTypes = [
     {
@@ -173,29 +174,33 @@ function Projects() {
                         </PaperHeader>
                         <PaperBody loading={store.loading}>
                             <List >
-                            {fansubStore.projects?.map((project) => (
-                                <ListItem button key={project._id} onClick={() => handleOnClick(project)}>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <TheatersIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={project.anime.name.hebrew}
+                                {fansubStore.projects?.map((project) => (
+                                    <StyledListItem
+                                        key={project._id}
+                                        text={project.anime.name.hebrew}
+                                        secondaryText={project.status}
+                                        avatar={project.anime.avatar}
+                                        banner={project.anime.banner}
+                                        onClick={() => handleOnClick(project)}
+                                        controls={[
+                                            {
+                                                icon: getCurrentStatusIcon(project),
+                                                text: 'סטטוס',
+                                                onClick: (e) => handleStatusMenuOpen(e, project)
+                                            },
+                                            {
+                                                icon: <DeleteIcon />,
+                                                text: 'מחק',
+                                                onClick: () => deleteProject(project._id, project.anime.name.hebrew)
+                                            },
+                                            {
+                                                icon: <LaunchIcon />,
+                                                text: 'צפייה',
+                                                onClick: () => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')
+                                            },
+                                        ]}
                                     />
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="launch" onClick={(e) => handleStatusMenuOpen(e, project)}>
-                                            {getCurrentStatusIcon(project)}
-                                        </IconButton>
-                                        <IconButton aria-label="delete" onClick={() => deleteProject(project._id, project.anime.name.hebrew)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="launch" onClick={() => window.open('/animes/' + project.anime._id + '?fansub=' + project.fansub, '_blank', 'noopener,noreferrer')}>
-                                            <LaunchIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            ))}
+                                ))}
                             </List>
                         </PaperBody>
                     </PaperWithHeader>

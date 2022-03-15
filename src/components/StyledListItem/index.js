@@ -56,9 +56,9 @@ export default function StyledListItem({ text, secondaryText, avatar, banner, on
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuClose = (callback) => {
+    const handleMenuClose = (e, callback) => {
         setAnchorEl(null);
-        callback();
+        callback(e);
     };
     //TODO Key
     return (
@@ -76,7 +76,7 @@ export default function StyledListItem({ text, secondaryText, avatar, banner, on
             <ListItemSecondaryAction>
                 <Box className={classes.controls}>
                     {controls.map((control) => (
-                        <IconButton color="primary" aria-label="delete" onClick={() => handleMenuClose(control.onClick)}>
+                        <IconButton color="primary" aria-label="delete" onClick={(e) => handleMenuClose(e, control.onClick)}>
                             {control.icon}
                         </IconButton>
                     ))}
@@ -107,7 +107,7 @@ export default function StyledListItem({ text, secondaryText, avatar, banner, on
                         }}
                     >
                         {controls.map(control => (
-                            <MenuItem onClick={() => handleMenuClose(control.onClick)}>
+                            <MenuItem onClick={(e) => handleMenuClose(e, control.onClick)}>
                                 {control.icon}
                                 <p>{control.text}</p>
                             </MenuItem>
