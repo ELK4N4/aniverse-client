@@ -66,9 +66,12 @@ export default makeStyles((theme) => ({
     },
     mainText: {
         display: 'block',
-        marginBottom: theme.spacing(3),
+        marginBottom: theme.spacing(1.5),
+        paddingBottom: theme.spacing(2),
+        borderBottom: `1px solid ${theme.palette.primary.main}`,
         [theme.breakpoints.down('md')]: {
-            marginBottom: theme.spacing(2),
+            marginBottom: theme.spacing(1.5),
+            paddingBottom: theme.spacing(1.5),
         },
     },
     animeName: {
@@ -76,7 +79,10 @@ export default makeStyles((theme) => ({
     },
     episodeName: {
         marginTop: theme.spacing(.8),
-        marginLeft: theme.spacing(1),
+        marginLeft: theme.spacing(2),
+        [theme.breakpoints.down('md')]: {
+            marginLeft: theme.spacing(1),
+        },
     },
     episodeTinyDetails: {
         display: 'inline-flex',

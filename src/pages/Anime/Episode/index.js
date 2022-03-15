@@ -54,7 +54,7 @@ function Episode({anime, episode}) {
                                 {anime.name.hebrew}
                             </Typography>
                         </Paper>
-                        <Typography variant="h5" className={classes.episodeName}>
+                        <Typography variant="h6" className={classes.episodeName}>
                                 פרק&nbsp;
                                 {episode.number}
                                 &nbsp;-&nbsp;
