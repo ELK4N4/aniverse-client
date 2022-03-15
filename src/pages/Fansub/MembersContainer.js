@@ -45,13 +45,13 @@ function MembersContainer() {
                         {fansubStore.members.map((member) => (
                             <Grid item xs='auto' key={member.user._id}>
                                 <Paper elevation={0} className={classes.memberPaper} onClick={() => handleClick(member.user._id)}>
-                                    <Box alignItems="center">
+                                    <Box display="flex" justify="space-between" alignItems="center" style={{height: "100%", flexDirection: "column"}}>
                                         <Avatar
                                             src={member.user.avatar}
                                             className={classes.userAvatar}
                                         />
-                                        <div style={{marginTop: 15}} />
-                                        <Typography align="center" variant="h5" style={{fontWeight: 'bold'}}>
+                                        <div style={{marginTop: 8, flexGrow: 1,}} />
+                                        <Typography className={classes.memberText} align="center" variant="h6">
                                             { member.user.username }
                                         </Typography>
                                         <Typography align="center" variant="body1">

@@ -54,12 +54,16 @@ export default makeStyles((theme) => ({
     userAvatar: {
         width: theme.spacing(15),
         height: theme.spacing(15),
-        transition: '.5s'
+        transition: '.5s',
     },
     memberPaper: {
         cursor: 'pointer',
         backgroundColor: alpha(theme.palette.primary.main, 0.2),
-        padding: theme.spacing(2),
+        padding: theme.spacing(1),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(3),
+        width: theme.spacing(24),
+        height: theme.spacing(31),
         transition: '.5s',
         '&:hover': {
             backgroundColor: alpha(theme.palette.primary.main, 0.35),
@@ -69,4 +73,12 @@ export default makeStyles((theme) => ({
             transform: 'scale(1.05)',
         },
     },
+    memberText: {
+        padding: theme.spacing(.5),
+        width: '100%',
+        fontWeight: 'bold',
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+    }
 }));
