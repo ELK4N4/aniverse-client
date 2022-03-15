@@ -179,8 +179,8 @@ function Projects() {
                                         key={project._id}
                                         text={project.anime.name.hebrew}
                                         secondaryText={project.status}
-                                        avatar={project.anime.avatar}
-                                        banner={project.anime.banner}
+                                        avatar={project.anime.image}
+                                        banner={project.anime.image}
                                         onClick={() => handleOnClick(project)}
                                         controls={[
                                             {
