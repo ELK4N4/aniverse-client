@@ -19,7 +19,7 @@ function Error404() {
                     404
                 </Typography>
                 <Typography color="primary" variant="h5" align="center" className={classes.subtitle}>
-                    הדף המובקש לא נמצא
+                    הדף המבוקש לא נמצא
                 </Typography>
                 <br />
                 <Button onClick={homePageClick} fullWidth variant="contained" color="primary" className={classes.watchBtn}>
