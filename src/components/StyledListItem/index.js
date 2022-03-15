@@ -8,35 +8,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import useStyles from './style';
 import { Avatar, Box, Collapse, Fade, Grow, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Menu, MenuItem, Typography, withStyles } from '@material-ui/core';
 
-const CustomItemText = withStyles((theme) => ({
-    root: {
-        color: 'white',
-        '&>*': {
-            fontSize: theme.typography.h3.fontSize,
-            fontWeight: 'bold',
-            textShadow: '0px 0px 20px #000000',
-            [theme.breakpoints.down('sm')]: {
-                fontSize: theme.typography.h4.fontSize,
-            },
-            [theme.breakpoints.down('xs')]: {
-                fontSize: theme.typography.h5.fontSize,
-            },
-        }
-    },
-    secondary: {
-        color: 'white',
-        fontSize: theme.typography.body1.fontSize,
-        fontWeight: 'normal',
-        textShadow: '0px 0px 20px #000000',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: theme.typography.body1.fontSize,
-        },
-        [theme.breakpoints.down('xs')]: {
-            fontSize: theme.typography.body2.fontSize,
-        },
-    }
-}))(ListItemText);
-
 const listItemBannerStyle = (image) => {
     if(image) {
         return {
@@ -51,6 +22,46 @@ export default function StyledListItem({ showAvatarText, text, secondaryText, av
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
+    const textMaxWidth = 89 - 6 * controls.length;
+
+    const CustomItemText = withStyles((theme) => ({
+        root: {
+            color: 'white',
+            maxWidth: `${textMaxWidth}%`,
+            overflow: 'hidden',
+            '&>*': {
+                fontSize: theme.typography.h3.fontSize,
+                fontWeight: 'bold',
+                textShadow: '0px 0px 20px #000000',
+                [theme.breakpoints.down('sm')]: {
+                    maxWidth: '90%',
+                    fontSize: theme.typography.h4.fontSize,
+                },
+                [theme.breakpoints.down('xs')]: {
+                    maxWidth: '70%',
+                    fontSize: theme.typography.h5.fontSize,
+                },
+            }
+        },
+        primary: {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        },
+        secondary: {
+            textOverflow: 'ellipsis',
+            color: 'white',
+            fontSize: theme.typography.body1.fontSize,
+            fontWeight: 'normal',
+            textShadow: '0px 0px 20px #000000',
+            [theme.breakpoints.down('sm')]: {
+                fontSize: theme.typography.body1.fontSize,
+            },
+            [theme.breakpoints.down('xs')]: {
+                fontSize: theme.typography.body2.fontSize,
+            },
+        }
+    }))(ListItemText);
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);

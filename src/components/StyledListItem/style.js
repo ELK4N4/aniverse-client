@@ -71,7 +71,6 @@ export default makeStyles((theme) => ({
             display: 'block',
         },
     },
-
     avatar: {
         width: theme.spacing(5),
         height: theme.spacing(5),
