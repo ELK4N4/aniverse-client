@@ -21,7 +21,7 @@ function ReplyBox({title, repliedComment, onClick}) {
         <Paper onClick={onClick} elevation={0} className={classes.replyPaper} style={onClick ? {cursor: "pointer"} : {}}>
             {title && 
                 <>
-                    <ReplyTypography variant="body1">
+                    <ReplyTypography variant="body1" style={{whiteSpace: "pre-line", wordBreak: "break-word"}}>
                         {title}
                     </ReplyTypography>
                     <hr/>
@@ -36,7 +36,7 @@ function ReplyBox({title, repliedComment, onClick}) {
                     <ReplyTypography variant="body1" style={{fontWeight: "bold"}}>
                         {repliedComment.addedByUser.username}
                     </ReplyTypography>
-                    <ReplyTypography variant="body2">
+                    <ReplyTypography variant="body2" style={{whiteSpace: "pre-line", wordBreak: "break-word"}}>
                         {repliedComment.message}
                     </ReplyTypography>
                 </>

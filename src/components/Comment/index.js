@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './style';
-import { IconButton, Link as MuiLink } from '@material-ui/core/';
+import { IconButton, Link as MuiLink, withStyles } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ReplyIcon from '@material-ui/icons/Reply';
@@ -20,15 +20,44 @@ export default function Comment({ commentsRef, comment, removeComment, editComme
         history.push(`/users/${comment.addedByUser._id}`);
     }
 
+    const CustomMuiLink = withStyles((theme) => ({
+        root: {
+            color: 'white',
+            '&>*': {
+                fontSize: theme.typography.h3.fontSize,
+                fontWeight: 'bold',
+                textShadow: '0px 0px 20px #000000',
+                [theme.breakpoints.down('sm')]: {
+                    fontSize: theme.typography.h4.fontSize,
+                },
+                [theme.breakpoints.down('xs')]: {
+                    fontSize: theme.typography.h5.fontSize,
+                },
+            }
+        },
+        secondary: {
+            color: 'white',
+            fontSize: theme.typography.body1.fontSize,
+            fontWeight: 'normal',
+            textShadow: '0px 0px 20px #000000',
+            [theme.breakpoints.down('sm')]: {
+                fontSize: theme.typography.body1.fontSize,
+            },
+            [theme.breakpoints.down('xs')]: {
+                fontSize: theme.typography.body2.fontSize,
+            },
+        }
+    }))(MuiLink);
+
     return (
         <Paper ref={el => commentsRef.current[comment._id] = el} className={classes.paper} elevation={5}>
             <Box display="flex" alignItems="center" className={classes.header}>
                 <Avatar src={comment.addedByUser?.avatar ?? undefined} className={classes.avatar} onClick={handleUserClick}>{comment.addedByUser.username.toString()[0]}</Avatar>
-                <Typography variant="h6" style={{cursor: "pointer"}} onClick={handleUserClick}>
-                    <MuiLink>
-                        {comment.addedByUser.username}
-                    </MuiLink>
-                </Typography>
+                <MuiLink className={classes.username}>
+                    <Typography variant="h6" className={classes.username} onClick={handleUserClick}>
+                            {comment.addedByUser.username}
+                    </Typography>
+                </MuiLink>
                 <Box display="flex" alignItems="center" className={classes.headerControls} >
                     {(userStore.user?.user && comment.addedByUser._id === userStore.user.user._id) && 
                         <>
@@ -48,7 +77,7 @@ export default function Comment({ commentsRef, comment, removeComment, editComme
             {comment.replyTo && (
                 <ReplyBox repliedComment={comment.replyTo} onClick={() => commentsRef.current[comment.replyTo._id]?.scrollIntoView({ behavior: 'smooth', block: "center"})} />
             )}
-            <Typography variant="body1" style={{whiteSpace: "pre-line"}}>
+            <Typography variant="body1" style={{whiteSpace: "pre-line", wordBreak: "break-word"}}>
                 {comment.message}
             </Typography>
         </Paper>
