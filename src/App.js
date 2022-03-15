@@ -109,9 +109,9 @@ export default function App() {
                 <Route exact path={["/", "/home"]}>
                   <Home />
                 </Route>
-                <Route exact path={"/notifications"}>
+                <UserRoute exact path={"/notifications"}>
                   <Notifications />
-                </Route>
+                </UserRoute>
                 <Route exact path={["/login", "/register"]}>
                   <Form />
                 </Route>
@@ -124,18 +124,18 @@ export default function App() {
                 <Route exact path="/animes">
                   <Animes />
                 </Route>
-                <Route exact path="/animes/add">
+                <UserRoute exact path="/animes/add">
                   <AddAnimeForm />
-                </Route>
+                </UserRoute>
                 <Route exact path={["/animes/:animeId", "/animes/:animeId/episodes", "/animes/:animeId/episodes/:episodeId"]}>
                   <Anime />
                 </Route>
                 <Route exact path="/fansubs">
                   <Fansubs />
                 </Route>
-                <Route exact path="/fansubs/add">
+                <UserRoute exact path="/fansubs/add">
                   <CreateFansubForm />
-                </Route>
+                </UserRoute>
                 <Route exact path="/fansubs/:fansubId">
                   <Fansub />
                 </Route>
@@ -151,9 +151,9 @@ export default function App() {
                 <UserRoute exact path={["/my-fansubs/:fansubId", "/my-fansubs/:fansubId/project/:projectId"]}>
                   <MyFansub />
                 </UserRoute>
-                <Route exact path="/user/settings">
+                <UserRoute exact path="/user/settings">
                   <UserSettings />
-                </Route>
+                </UserRoute>
                 <Route exact path="/sandbox">
                   There is no Sandbox :(
                 </Route>
