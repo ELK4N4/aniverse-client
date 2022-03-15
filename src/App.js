@@ -33,6 +33,7 @@ import Admin from './pages/Admin';
 import UserRoute from './components/UserRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Error404 from './pages/Error404';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -154,8 +155,8 @@ export default function App() {
                 <UserRoute exact path="/user/settings">
                   <UserSettings />
                 </UserRoute>
-                <Route exact path="/sandbox">
-                  There is no Sandbox :(
+                <Route >
+                  <Error404 />
                 </Route>
               </Switch>
           </StylesProvider>
