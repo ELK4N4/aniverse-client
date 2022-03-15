@@ -227,7 +227,9 @@ function Header({toggleTheme, themeIcon}) {
             startIcon={profileIcon()}
             endIcon={<ExpandMoreIcon />}
           >
-            {userStore.user?.user?.username || 'אורח'}
+            <Typography className={classes.username}>
+              {userStore.user?.user?.username || 'אורח'}
+            </Typography>
           </Button>
 
           <div className={classes.sectionDesktop}>

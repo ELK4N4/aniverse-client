@@ -21,6 +21,17 @@ export default makeStyles((theme) => ({
         display: 'none',
       },
     },
+    username: {
+      cursor: "pointer",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      display: 'none',
+      maxWidth: 70,
+      [theme.breakpoints.up('sm')]: {
+        maxWidth: 100,
+        display: 'block',
+      },
+    },
     title: {
       display: 'block',
       color: 'white',
