@@ -31,19 +31,23 @@ export default makeStyles((theme) => ({
         height: '100%',
     },
     episodeDetails: {
-        paddingTop: theme.spacing(2),
+        paddingTop: theme.spacing(2.5),
         paddingBottom: theme.spacing(2),
         paddingRight: theme.spacing(2),
-        padding: theme.spacing(6),
+        paddingLeft: theme.spacing(2),
         width: '100%',
         backgroundColor: 'black',
         color: 'white',
         boxShadow: '0px 0px 20px white',
         '& *':{
             display: 'inline-block',
-            marginRight: theme.spacing(1),
-            marginLeft: theme.spacing(1),
-        }
+        },
+        [theme.breakpoints.down('md')]: {
+            paddingTop: theme.spacing(1.5),
+            paddingBottom: theme.spacing(1),
+            paddingRight: theme.spacing(2),
+            paddingLeft: theme.spacing(2),
+        },
     },
     paper: {
         overflow: 'hidden',
@@ -60,5 +64,24 @@ export default makeStyles((theme) => ({
         paddingRight: theme.spacing(1.5),
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
     },
+    mainText: {
+        display: 'block',
+        marginBottom: theme.spacing(3),
+        [theme.breakpoints.down('md')]: {
+            marginBottom: theme.spacing(2),
+        },
+    },
+    animeName: {
+        color: "black",
+    },
+    episodeName: {
+        marginTop: theme.spacing(.8),
+        marginLeft: theme.spacing(1),
+    },
+    episodeTinyDetails: {
+        display: 'inline-flex',
+        marginRight: theme.spacing(.8),
+        marginLeft: theme.spacing(.8),
+    }
 }));
   

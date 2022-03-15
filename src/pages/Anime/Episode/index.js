@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
 import SearchBar from '../../../components/SearchBar/SearchBar';
-import { Container, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -17,7 +17,9 @@ import AddIcon from '@material-ui/icons/Add';
 import { useStore } from '../../../stores';
 import * as api from '../../../api';
 import EpisodeCards from '../../../components/Cards/EpisodeCards';
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 function Episode({anime, episode}) {
     const { animeId, episodeId } = useParams();
@@ -46,32 +48,42 @@ function Episode({anime, episode}) {
                 </div>
 
                 <div className={classes.episodeDetails}>
-                    <Paper className={classes.animeTitlePaper} >
-                        <Typography variant="h5">
-                            {anime.name.hebrew}
+                    <div className={classes.mainText}>
+                        <Paper className={classes.animeTitlePaper} >
+                            <Typography className={classes.animeName} variant="h5">
+                                {anime.name.hebrew}
+                            </Typography>
+                        </Paper>
+                        <Typography variant="h5" className={classes.episodeName}>
+                                פרק&nbsp;
+                                {episode.number}
+                                &nbsp;-&nbsp;
+                                {episode.name}
                         </Typography>
-                    </Paper>
-                    <Typography variant="h5">
-                            פרק&nbsp;
-                            {episode.number}
-                            &nbsp;-&nbsp;
-                            {episode.name}
-                    </Typography>
-                    <br />
-                    <Typography variant="body2" style={{margin: 10}}>
+                    </div>
+                    <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
+                        <VisibilityIcon />
+                        <Typography variant="body2" className={classes.episodeTinyDetails}>
                             צפיות:&nbsp;
                             {episode.views}
-                    </Typography>
-                    <Typography variant="body2" style={{margin: 10}}>
+                        </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
+                        <ScheduleIcon />
+                        <Typography variant="body2" className={classes.episodeTinyDetails}>
                             פורסם בתאריך:&nbsp;
                             {new Date(episode.createdAt).toLocaleDateString()}
-                    </Typography>
-                    <Typography variant="body2" style={{margin: 10}}>
-                            הועלה על ידי:
+                        </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" className={classes.episodeTinyDetails}>
+                        <PeopleAltIcon />
+                        <Typography variant="body2" className={classes.episodeTinyDetails}>
+                            הועלה על ידי:&nbsp;
                             <MuiLink component={Link} to={`/fansubs/${episode.addedByFansub._id}`} href="#">
                                 {episode.addedByFansub.name}
                             </MuiLink>
-                    </Typography>
+                        </Typography>
+                    </Box>
                 </div>
             </Paper>
         )}
