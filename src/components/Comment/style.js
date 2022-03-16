@@ -29,10 +29,16 @@ export default makeStyles((theme) => ({
             marginRight: theme.spacing(.5),
             marginLeft: theme.spacing(.5),
             [theme.breakpoints.down('sm')]: {
-                marginRight: theme.spacing(0),
-                marginLeft: theme.spacing(0),
+                marginRight: theme.spacing(.3),
+                marginLeft: theme.spacing(.3),
                 paddingRight: theme.spacing(1),
                 paddingLeft: theme.spacing(1),
+            },
+        },
+        '& > *:last-child': {
+            marginRight: theme.spacing(0),
+            [theme.breakpoints.down('sm')]: {
+                marginRight: theme.spacing(0),
             },
         }
     },
