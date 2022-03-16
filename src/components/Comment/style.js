@@ -21,6 +21,7 @@ export default makeStyles((theme) => ({
         cursor: "pointer",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        whiteSpace: "pre-line",
     },
     headerControls: {
         marginLeft: 'auto',
