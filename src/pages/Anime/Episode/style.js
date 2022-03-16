@@ -44,7 +44,7 @@ export default makeStyles((theme) => ({
         },
         [theme.breakpoints.down('md')]: {
             paddingTop: theme.spacing(1.5),
-            paddingBottom: theme.spacing(1),
+            paddingBottom: theme.spacing(1.5),
             paddingRight: theme.spacing(2),
             paddingLeft: theme.spacing(2),
         },
@@ -66,9 +66,12 @@ export default makeStyles((theme) => ({
     },
     mainText: {
         display: 'block',
-        marginBottom: theme.spacing(3),
+        marginBottom: theme.spacing(1.5),
+        paddingBottom: theme.spacing(2),
+        borderBottom: `1px solid ${theme.palette.primary.main}`,
         [theme.breakpoints.down('md')]: {
-            marginBottom: theme.spacing(2),
+            marginBottom: theme.spacing(1.5),
+            paddingBottom: theme.spacing(1.5),
         },
     },
     animeName: {
@@ -76,10 +79,18 @@ export default makeStyles((theme) => ({
     },
     episodeName: {
         marginTop: theme.spacing(.8),
-        marginLeft: theme.spacing(1),
+        marginLeft: theme.spacing(2),
+        [theme.breakpoints.down('md')]: {
+            marginLeft: theme.spacing(1),
+        },
     },
     episodeTinyDetails: {
         display: 'inline-flex',
+        marginRight: theme.spacing(.8),
+        marginLeft: theme.spacing(.8),
+        marginBottom: theme.spacing(1.2),
+    },
+    episodeTinyTypo: {
         marginRight: theme.spacing(.8),
         marginLeft: theme.spacing(.8),
     }

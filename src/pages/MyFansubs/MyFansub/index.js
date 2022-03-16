@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
-import DeleteIcon from '@material-ui/icons/Delete';
+import LaunchIcon from '@material-ui/icons/Launch';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import useStyles from './style';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
@@ -37,6 +37,9 @@ function MyFansub() {
                     <Paper elevation={5} className={classes.panelPaper}>
                         <Typography variant="h3" align="center" className={classes.panelTitle}>
                             {fansubStore.fansub.name}
+                            <IconButton color="primary" style={{backgroundColor: 'white', marginRight: 15}} aria-label="delete" onClick={() => window.open('/fansubs/' + fansubId, '_blank', 'noopener,noreferrer')}>
+                                <LaunchIcon />
+                            </IconButton>
                             <Typography hidden={fansubStore.fansub.confirmed} variant="h6" align="center" className={classes.panelTitle}>
                                 בתהליך אישור
                             </Typography>

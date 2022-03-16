@@ -70,7 +70,7 @@ function Anime() {
                     setCurrentEpisode(episodeRes.data);
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
-                    episodeRef.current.scrollIntoView({ behavior: 'smooth' });
+                    episodeRef.current.scrollIntoView({ behavior: 'smooth', block: "center"});
                 }
             } catch (err) {
                 console.error(err.response);
@@ -98,7 +98,7 @@ function Anime() {
                     setCurrentEpisode(episodeRes.data);
                     const commentsRes = await api.fetchComments(animeId, episodeId);
                     setComments(commentsRes.data);
-                    episodeRef.current.scrollIntoView({ behavior: 'smooth' });
+                    episodeRef.current.scrollIntoView({ behavior: 'smooth', block: "center"});
                 } else {
                     setClickedEpisode(null)
                     setCurrentEpisode(null);
