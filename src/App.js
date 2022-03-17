@@ -34,6 +34,7 @@ import UserRoute from './components/UserRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Error404 from './pages/Error404';
+import ScrollToTop from './hooks/ScrollToTop';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -103,6 +104,7 @@ export default function App() {
     <SnackbarProvider maxSnack={3}>
       <Router>
         <ThemeProvider theme={appliedTheme}>
+          <ScrollToTop />
           <CssBaseline />
           <StylesProvider jss={jss}>
             <Header toggleTheme={toggleTheme} themeIcon={themeIcon}/>
