@@ -123,10 +123,10 @@ function Projects() {
             <div>
                 {statusTypes.map(status => 
                     <MenuItem style={getMenuItemStyle(status)} onClick={() => onStatusChange(status.text)}>
-                        <IconButton aria-label="show 4 new mails" style={getColorStyle(status)}>
+                        <IconButton aria-label="show 4 new mails" style={getColorStyle(status)} color="inherit">
                             {status.icon}
                         </IconButton>
-                        <p style={getColorStyle(status)}>{status.text}</p>
+                        <p style={getColorStyle(status)} color="inherit">{status.text}</p>
                     </MenuItem>
                 )}
             </div>
