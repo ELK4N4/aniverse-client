@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import useStyles from './style';
-import { Box, Button, Container, Typography } from '@material-ui/core';
+import { Box, Button, Container, Grow, Typography } from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -223,34 +223,36 @@ function Anime() {
                             </Typography>
                         </Container>
                     </div>
-                    <Container maxWidth="lg" className={classes.containers}>
-                        <AnimeDetails anime={anime} projects={anime.projects} episodes={episodes} choosenFansub={choosenFansub} changeFansub={changeFansub} clickedEpisode={clickedEpisode}/>
-                        {currentEpisode && (
-                            <>
-                                <div ref={episodeRef}>
-                                    <Episode anime={anime} episode={currentEpisode}/>
-                                </div>
-                                <Box display="flex">
-                                    <Typography variant="h5" className={classes.commentsTitle}>
-                                        {`תגובות (${comments.length})`}
-                                    </Typography>
-                                    {userStore.user ?
-                                        <>
-                                            <Button variant="contained" color="primary" onClick={openCommentDialog}>
+                    <Grow in timeout={500}>
+                        <Container maxWidth="lg" className={classes.containers}>
+                            <AnimeDetails anime={anime} projects={anime.projects} episodes={episodes} choosenFansub={choosenFansub} changeFansub={changeFansub} clickedEpisode={clickedEpisode}/>
+                            {currentEpisode && (
+                                <>
+                                    <div ref={episodeRef}>
+                                        <Episode anime={anime} episode={currentEpisode}/>
+                                    </div>
+                                    <Box display="flex">
+                                        <Typography variant="h5" className={classes.commentsTitle}>
+                                            {`תגובות (${comments.length})`}
+                                        </Typography>
+                                        {userStore.user ?
+                                            <>
+                                                <Button variant="contained" color="primary" onClick={openCommentDialog}>
+                                                    הוסף תגובה +
+                                                </Button>
+                                                <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
+                                            </>
+                                            :
+                                            <Button variant="contained" color="primary" onClick={() => history.push(`/login?redirect=${location.pathname}?fansub=${fansubId}%26episode=${episodeId}`)} >
                                                 הוסף תגובה +
                                             </Button>
-                                            <CommentDialog onSumbit={updatedComment ? updateComment : addComment} updatedComment={updatedComment} repliedComment={repliedComment} open={open} handleClose={handleClose} />
-                                        </>
-                                        :
-                                        <Button variant="contained" color="primary" onClick={() => history.push(`/login?redirect=${location.pathname}?fansub=${fansubId}%26episode=${episodeId}`)} >
-                                            הוסף תגובה +
-                                        </Button>
-                                    }
-                                </Box>
-                                <Comments comments={comments} removeComment={removeComment} editComment={editComment} replyToComment={replyToComment} />
-                            </>
-                        )}
-                    </Container>
+                                        }
+                                    </Box>
+                                    <Comments comments={comments} removeComment={removeComment} editComment={editComment} replyToComment={replyToComment} />
+                                </>
+                            )}
+                        </Container>
+                    </Grow>
                 </>
             )}
         </>

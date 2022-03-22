@@ -27,6 +27,9 @@ export default makeStyles((theme) => ({
         paddingTop: theme.spacing(9),
         paddingBottom: theme.spacing(17),
         borderBottom: `7px solid black`,
+        overflow: 'hidden',
+        zIndex: -1,
+        position: 'relative'
     },
     containers: {
         '& > *': {
@@ -50,7 +53,20 @@ export default makeStyles((theme) => ({
         color: 'white',
         textShadow: '0px 0px 20px #000000',
         fontWeight: 'bold',
+        animation: `$bla .55s ${theme.transitions.easing.easeInOut}`,
     },
+
+    "@keyframes bla": {
+        "0%, 50%": {
+            transform: 'translateY(50px)',
+            opacity: '0%',
+        },
+        "100%": {
+            transform: 'translate(0)',
+            opacity: '100%',
+        }
+    },
+
     summaryTitle: {
         color: 'white',
         textShadow: '0px 0px 10px #000000',
@@ -61,7 +77,7 @@ export default makeStyles((theme) => ({
     },
     detailsContainer: {
         padding: theme.spacing(3),
-        marginTop: -theme.spacing(14)
+        marginTop: -theme.spacing(14),
     },
     detailsTitle: {
         fontWeight: 'bold',
