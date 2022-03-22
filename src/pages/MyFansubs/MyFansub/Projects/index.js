@@ -94,6 +94,18 @@ function Projects() {
         }
     }
 
+    const getColorStyle = (status) => {
+        if(project?.status && status?.text) {
+            if(project.status === status.text) {
+                return {color: 'black'};
+            } else {
+                return {};
+            }
+        } else {
+            return {};
+        }
+    }
+
     const getCurrentStatusIcon = (project) => {
         const status = statusTypes.find(status => status.text === project.status);
         return status.icon;
@@ -111,10 +123,10 @@ function Projects() {
             <div>
                 {statusTypes.map(status => 
                     <MenuItem style={getMenuItemStyle(status)} onClick={() => onStatusChange(status.text)}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
+                        <IconButton aria-label="show 4 new mails" style={getColorStyle(status)} color="inherit">
                             {status.icon}
                         </IconButton>
-                        <p>{status.text}</p>
+                        <p style={getColorStyle(status)} color="inherit">{status.text}</p>
                     </MenuItem>
                 )}
             </div>
