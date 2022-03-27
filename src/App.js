@@ -40,6 +40,20 @@ import ScrollToTop from './hooks/ScrollToTop';
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 let lightTheme = createTheme ({
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        body: {
+          // backgroundImage: "url('https://image.shutterstock.com/image-vector/abstract-background-white-film-strip-260nw-1311813134.jpg')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          height: "100%",
+        },
+      },
+    },
+  },
   direction: 'rtl',
   shape: {
     borderRadius: 30,
@@ -47,6 +61,9 @@ let lightTheme = createTheme ({
   palette: {
     primary: red,
     type: 'light',
+    background: {
+      default: '#edf1f5'
+    }
   },
   typography: {
     h1: {
