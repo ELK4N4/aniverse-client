@@ -44,7 +44,7 @@ function Episode({anime, episode}) {
         {episode && (
             <Paper className={classes.paper} elevation={5}>
                 <div className={classes.watch}>
-                    <iframe src={episode.link} frameBorder="0" allowFullScreen="" className={classes.iframe}></iframe>
+                    <iframe src={episode.link} frameBorder="0" allowFullScreen className={classes.iframe}></iframe>
                 </div>
 
                 <div className={classes.episodeDetails}>
