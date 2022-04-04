@@ -29,4 +29,12 @@ export default makeStyles((theme) => ({
         fontSize: 20,
       },
     },
+    arrow: {
+      position: 'absolute',
+      filter: ' brightness(0) invert(1)',
+      bottom: 20,
+      left: '50%',
+      transform: 'translate(-50%, 0)',
+      cursor: 'pointer',
+    }
 }));
