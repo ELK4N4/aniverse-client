@@ -140,11 +140,6 @@ function MyFansubs() {
                                         onClick={() => goToFansub(fansub._id)}
                                         controls={[
                                             {
-                                                icon: <DeleteIcon />,
-                                                text: 'מחק',
-                                                onClick: () => deleteFansub(fansub._id, fansub.name)
-                                            },
-                                            {
                                                 icon: <LaunchIcon />,
                                                 text: 'צפייה',
                                                 onClick: () => window.open('/fansubs/' + fansub._id, '_blank', 'noopener,noreferrer')

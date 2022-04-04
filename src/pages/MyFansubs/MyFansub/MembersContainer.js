@@ -120,7 +120,7 @@ function MembersContainer() {
                                             text: 'צפייה',
                                             onClick: onClickLaunch(member.user._id)
                                         },
-                                    ].filter(control => (member.user._id !== userStore.user.user._id) || (control.text !== "מחק"))}
+                                    ].filter(control => (member.user._id !== userStore.user.user._id && member.user._id !== fansubStore.fansub.owner) || (control.text !== "מחק")).filter(control => (member.user._id !== fansubStore.fansub.owner || fansubStore.fansub.owner === userStore.user.user._id) || (control.text !== "ערוך"))}
                                 />
                             ))}
                         </List>

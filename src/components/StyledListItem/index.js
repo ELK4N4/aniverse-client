@@ -18,7 +18,7 @@ const listItemBannerStyle = (image) => {
     }
 }
 
-export default function StyledListItem({ showAvatarText, text, secondaryText, avatar, banner, onClick, controls }) {
+export default function StyledListItem({ showAvatarText, showFullText, text, secondaryText, avatar, banner, onClick, controls }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -85,7 +85,11 @@ export default function StyledListItem({ showAvatarText, text, secondaryText, av
                 <Avatar src={isValidURL(avatar) ? avatar : null} className={classes.avatar} >
                     {showAvatarText && 
                         <Typography className={classes.avatarText}>
-                            {String(avatar).charAt(0)}
+                            {showFullText ? 
+                                avatar
+                            :
+                                String(avatar).charAt(0)
+                            }
                         </Typography>
                     }
                 </Avatar>
