@@ -25,6 +25,7 @@ import FansubPreview from '../../../components/FansubPreview';
 function SettingsContainer() {
     const store = useStore();
     const { fansubStore } = store;
+    const { userStore } = store;
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
@@ -50,7 +51,15 @@ function SettingsContainer() {
 
     const leaveFansub = async () => {
         if (window.confirm("לעזוב את הפאנסאב " + fansubStore.fansub.name + "?")) {
-            alert('leaveFansub');
+            fansubStore.removeMember(userStore.user.user._id,
+                () => {
+                    enqueueSnackbar('הוסרת בהצלחה', {variant: 'success'});
+                    history.push('/');
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
         }
     };
 
@@ -198,18 +207,28 @@ function SettingsContainer() {
                                     צא מהפאנסאב
                                 </Button>
                             </Grid> */}
-                            <Grid item xs={6} sm={4}>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    fullWidth
-                                    onClick={deleteFansub}
-                                >
-                                    מחק פאנסאב
-                                </Button>
-                            </Grid>
-                            
-
+                            {fansubStore.fansub.owner === userStore.user.user._id ? 
+                                <Grid item xs={6} sm={4}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        fullWidth
+                                        onClick={deleteFansub}
+                                    >
+                                        מחק פאנסאב
+                                    </Button>
+                                </Grid>
+                            :
+                                <Grid item xs={6} sm={4}>
+                                    <Button
+                                        variant="outlined"
+                                        fullWidth
+                                        onClick={leaveFansub}
+                                    >
+                                        צא מהפאנסאב
+                                    </Button>
+                                </Grid> 
+                            }
                         </Grid>
                         
                     </form>

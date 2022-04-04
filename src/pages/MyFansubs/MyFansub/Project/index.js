@@ -157,6 +157,7 @@ function Project() {
                                 {project.episodes?.map((episode) => (
                                     <StyledListItem
                                         showAvatarText
+                                        showFullText
                                         key={episode._id}
                                         text={episode.name}
                                         avatar={episode.number}
