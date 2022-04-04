@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 
 import Paper from '@material-ui/core/Paper';
 import LaunchIcon from '@material-ui/icons/Launch';
-import TheatersIcon from '@material-ui/icons/Theaters';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import useStyles from './style';
 import { Avatar, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router';
@@ -16,6 +17,8 @@ import MembersContainer from './MembersContainer';
 import SettingsContainer from './SettingsContainer';
 import TabsGroup, { TabContainer } from '../../../components/TabsGroup';
 import { toJS } from 'mobx';
+import { useSnackbar } from 'notistack';
+import errorMessage from '../../../errorMessage';
 
 
 
@@ -26,10 +29,40 @@ function MyFansub() {
     const history = useHistory();
     const { fansubId } = useParams();
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(async () => {
         fansubStore.fetchFansub(fansubId);
     }, [fansubId]);
+
+    const leaveFansub = async () => {
+        if (window.confirm("לעזוב את הפאנסאב " + fansubStore.fansub.name + "?")) {
+            fansubStore.removeMember(userStore.user.user._id,
+                () => {
+                    enqueueSnackbar('הוסרת בהצלחה', {variant: 'success'});
+                    history.push('/');
+                },
+                (error) => {
+                    enqueueSnackbar(error, {variant: 'error'});
+                }
+            );
+        }
+    };
+
+    const deleteFansub = async () => {
+        if (window.confirm("למחוק את הפאנסאב " + fansubStore.fansub.name + "?")) {
+            store.startLoading();
+            try {
+                await api.deleteFansub(fansubStore.fansub._id);
+                enqueueSnackbar('הפאנסאב נמחק בהצלחה', {variant: 'success'});
+                history.push('/my-fansubs');
+            } catch (err) {
+                enqueueSnackbar(errorMessage(err), {variant: 'error'});
+            } finally {
+                store.stopLoading();
+            }
+        }
+    };
 
     return (
         <>
@@ -40,6 +73,15 @@ function MyFansub() {
                             <IconButton color="primary" style={{backgroundColor: 'white', marginRight: 15}} aria-label="delete" onClick={() => window.open('/fansubs/' + fansubId, '_blank', 'noopener,noreferrer')}>
                                 <LaunchIcon />
                             </IconButton>
+                            {fansubStore.fansub.owner === userStore.user.user._id ? 
+                                <IconButton color="primary" style={{backgroundColor: 'white', marginRight: 15}} aria-label="delete" onClick={deleteFansub}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            :
+                                <IconButton color="primary" style={{backgroundColor: 'white', marginRight: 15}} aria-label="leave" onClick={leaveFansub}>
+                                    <ExitToAppIcon />
+                                </IconButton>
+                            }
                             <Typography hidden={fansubStore.fansub.confirmed} variant="h6" align="center" className={classes.panelTitle}>
                                 בתהליך אישור
                             </Typography>

@@ -188,7 +188,7 @@ function SettingsContainer() {
                                     description={formik.values.description}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item sm={12} md={5}>
                                 <Button
                                     type="submit"
                                     variant="contained"
@@ -198,37 +198,6 @@ function SettingsContainer() {
                                     שמור
                                 </Button>
                             </Grid>
-                            {/* <Grid item xs={6} sm={4}>
-                                <Button
-                                    variant="outlined"
-                                    fullWidth
-                                    onClick={leaveFansub}
-                                >
-                                    צא מהפאנסאב
-                                </Button>
-                            </Grid> */}
-                            {fansubStore.fansub.owner === userStore.user.user._id ? 
-                                <Grid item xs={6} sm={4}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        fullWidth
-                                        onClick={deleteFansub}
-                                    >
-                                        מחק פאנסאב
-                                    </Button>
-                                </Grid>
-                            :
-                                <Grid item xs={6} sm={4}>
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={leaveFansub}
-                                    >
-                                        צא מהפאנסאב
-                                    </Button>
-                                </Grid> 
-                            }
                         </Grid>
                         
                     </form>
