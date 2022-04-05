@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
           width: 180
         },
         [theme.breakpoints.down('xs')]: {
-          width: 170
+          width: 160
         },
       },
       media: {
@@ -22,7 +22,7 @@ export default makeStyles((theme) => ({
           height: 280
         },
         [theme.breakpoints.down('xs')]: {
-          height: 250
+          height: 240
         },
       },
       cardActionArea: {
