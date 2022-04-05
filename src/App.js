@@ -66,6 +66,10 @@ let lightTheme = createTheme ({
     }
   },
   typography: {
+    fontFamily: [
+      'Open Sans',
+      'sans-serif',
+    ].join(','),
     h1: {
       fontWeight: 600,
     },
@@ -94,6 +98,10 @@ let darkTheme = createTheme ({
     }
   },
   typography: {
+    fontFamily: [
+      'Open Sans',
+      'sans-serif',
+    ].join(','),
     h1: {
       fontWeight: 600,
     },

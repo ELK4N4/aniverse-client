@@ -3,9 +3,27 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) => ({
     root: {
         width: 200,
+        [theme.breakpoints.down('md')]: {
+          width: 180
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: 180
+        },
+        [theme.breakpoints.down('xs')]: {
+          width: 170
+        },
       },
       media: {
         height: 300,
+        [theme.breakpoints.down('md')]: {
+          height: 280
+        },
+        [theme.breakpoints.down('sm')]: {
+          height: 280
+        },
+        [theme.breakpoints.down('xs')]: {
+          height: 250
+        },
       },
       cardActionArea: {
         position: 'relative',
