@@ -34,6 +34,7 @@ import UserRoute from './components/UserRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Error404 from './pages/Error404';
+import Sandbox from './pages/Sandbox';
 import ScrollToTop from './hooks/ScrollToTop';
 
 // Configure JSS
@@ -182,6 +183,9 @@ export default function App() {
                 <UserRoute exact path="/user/settings">
                   <UserSettings />
                 </UserRoute>
+                <Route >
+                  <Sandbox />
+                </Route>
                 <Route >
                   <Error404 />
                 </Route>
