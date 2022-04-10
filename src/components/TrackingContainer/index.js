@@ -165,12 +165,13 @@ function TrackingContainer({title, userId, fetchCallback}) {
                 <PaperBody loading={!cards}>
                     <Box display="flex" ref={rootRef} style={{height: 'min-content', overflow: 'auto'}}>
                     {cards.map(({animeId: anime}) => (
-                        <div key={anime._id} style={{margin: 15}}>
+                        <div key={anime._id} style={{margin: 15}} onClick={() => history.push('/animes/' + anime._id)}>
                             <AnimeCard
                                 name={anime.name.hebrew}
                                 summary={anime.summary}
                                 img={anime.image}
                                 showContent
+                                width={180}
                                 timeout={500}
                                 rating={anime.rating.avg}
                             />
