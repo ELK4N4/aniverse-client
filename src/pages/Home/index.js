@@ -9,6 +9,8 @@ import { useStore } from '../../stores';
 import AnimeCards from '../../components/Cards/AnimeCards';
 import FansubCards from '../../components/Cards/FansubCards';
 import Showcase from './Showcase';
+import AnimeCard from '../../components/Cards/AnimeCards/AnimeCard';
+import FansubCard from '../../components/Cards/FansubCards/FansubCard';
 
 function Home() {
     const classes = useStyles();
@@ -50,7 +52,21 @@ function Home() {
                         </PaperHeaderSection>
                     </PaperHeader>
                     <PaperBody>
-                        <AnimeCards clickable animes={animes} />
+                        <Box display="flex" style={{height: 'min-content', overflow: 'auto'}}>
+                            {animes.map((anime) => (
+                                <div key={anime._id} style={{margin: 15}} onClick={() => history.push('/animes/' + anime._id)}>
+                                    <AnimeCard
+                                        name={anime.name.hebrew}
+                                        summary={anime.summary}
+                                        img={anime.image}
+                                        showContent
+                                        width={180}
+                                        timeout={500}
+                                        rating={anime.rating.avg}
+                                    />
+                                </div>
+                            ))}       
+                        </Box>
                     </PaperBody>
                 </PaperWithHeader>
             </Container>
@@ -65,7 +81,21 @@ function Home() {
                         </PaperHeaderSection>
                     </PaperHeader>
                     <PaperBody>
-                        <AnimeCards clickable animes={animes} />
+                        <Box display="flex" style={{height: 'min-content', overflow: 'auto'}}>
+                            {animes.map((anime) => (
+                                <div key={anime._id} style={{margin: 15}} onClick={() => history.push('/animes/' + anime._id)}>
+                                    <AnimeCard
+                                        name={anime.name.hebrew}
+                                        summary={anime.summary}
+                                        img={anime.image}
+                                        showContent
+                                        width={180}
+                                        timeout={500}
+                                        rating={anime.rating.avg}
+                                    />
+                                </div>
+                            ))}       
+                        </Box>
                     </PaperBody>
                 </PaperWithHeader>
             </Container>
@@ -80,7 +110,19 @@ function Home() {
                         </PaperHeaderSection>
                     </PaperHeader>
                     <PaperBody>
-                        <FansubCards clickable fansubs={fansubs} />
+                        <Box display="flex" style={{height: 'min-content', overflow: 'auto'}}>
+                            {fansubs.map((fansub) => (
+                                <div key={fansub._id} style={{margin: 15}} onClick={() => history.push('/fansubs/' + fansub._id)}>
+                                    <FansubCard
+                                        name={fansub.name}
+                                        summary={fansub.summary}
+                                        img={fansub.avatar}
+                                        showContent
+                                        timeout={500}
+                                    />
+                                </div>
+                            ))}     
+                        </Box>
                     </PaperBody>
                 </PaperWithHeader>
             </Container>
