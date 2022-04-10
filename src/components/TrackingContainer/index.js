@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addAnime } from '../../stores/UserStore'
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -25,6 +25,7 @@ import errorMessage from '../../errorMessage';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PaperWithHeader, { PaperBody, PaperHeader, PaperHeaderSection } from '../PaperWithHeader';
 import SearchBar from '../SearchBar/SearchBar';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 
 const trackingStatus = [
     "בצפייה",
@@ -40,15 +41,21 @@ function TrackingContainer({title, userId, fetchCallback}) {
     const { enqueueSnackbar } = useSnackbar();
     const [keyword, setKeyword] = useState('');
     const [search, setSearch] = useState('');
-    const [hasMore, setHasMore] = useState(true);
-    const [cards, setCards] = useState([]);
     const limit = 7;
     const skipStart = 0;
     const [skip, setSkip] = useState(skipStart);
     const [status, setStatus] = useState("בצפייה");
 
+    const [loading, setLoading] = useState(false);
+    const [cards, setCards] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [error, setError] = useState();
+
+    
+
     useEffect(async () => {
         store.startLoading();
+        setLoading(true);
         try {
             const { data } = await fetchCallback(userId, status, search, skipStart, limit);
             if(data.length === 0) {
@@ -62,6 +69,7 @@ function TrackingContainer({title, userId, fetchCallback}) {
             console.error(err.response);
         } finally {
             store.stopLoading();
+            setLoading(false);
         }
     }, [status, search]);
 
@@ -76,8 +84,9 @@ function TrackingContainer({title, userId, fetchCallback}) {
     const handleOnSearch = async (e) => {
         setSearch(keyword);
         store.startLoading();
+        setLoading(true);
         try {
-            const { data } = await fetchCallback(userId, trackingStatus, keyword, skipStart, limit);
+            const { data } = await fetchCallback(userId, status, keyword, skipStart, limit);
             if(data.length === 0) {
                 setHasMore(false);
             } else {
@@ -89,13 +98,15 @@ function TrackingContainer({title, userId, fetchCallback}) {
             console.error(err.response);
         } finally {
             store.stopLoading();
+            setLoading(false);
         }
     }
 
     const fetchMoreData = async () => {
         store.startLoading();
+        setLoading(true);
         try {
-            const { data } = await fetchCallback(userId, trackingStatus, search, skip, limit);
+            const { data } = await fetchCallback(userId, status, search, skip, limit);
             if(data.length === 0) {
                 setHasMore(false);
             } else {
@@ -107,8 +118,17 @@ function TrackingContainer({title, userId, fetchCallback}) {
             console.error(err.response);
         } finally {
             store.stopLoading();
+            setLoading(false);
         }
     }
+
+    const [infiniteRef, { rootRef }] = useInfiniteScroll({
+        loading,
+        hasNextPage: hasMore,
+        onLoadMore: fetchMoreData,
+        disabled: !!error,
+        rootMargin: '0px 400px 0px 0px',
+    });
 
     return (
         <Container style={{marginTop: 30}}>
@@ -143,25 +163,25 @@ function TrackingContainer({title, userId, fetchCallback}) {
                 </PaperHeader>
 
                 <PaperBody loading={!cards}>
-                    <InfiniteScroll
-                        style={{paddingRight: 7, paddingLeft: 7}}
-                        dataLength={cards.length}
-                        next={fetchMoreData}
-                        hasMore={hasMore}
-                        height={350}
-                        loader={
-                            <p style={{ textAlign: 'center' }}>
-                                <b></b>
-                            </p>
-                        }
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                                <b></b>
-                            </p>
-                        }
-                        >
-                            <AnimeCards clickable animes={cards?.map((card) => card.animeId)} />
-                    </InfiniteScroll>
+                    <Box display="flex" ref={rootRef} style={{height: 'min-content', overflow: 'auto'}}>
+                    {cards.map(({animeId: anime}) => (
+                        <div key={anime._id} style={{margin: 15}}>
+                            <AnimeCard
+                                name={anime.name.hebrew}
+                                summary={anime.summary}
+                                img={anime.image}
+                                showContent
+                                timeout={500}
+                                rating={anime.rating.avg}
+                            />
+                        </div>
+                    ))}       
+                    {hasMore && (
+                        <Box ref={infiniteRef}>
+                            טוען
+                        </Box>
+                        )}
+                    </Box>
                 </PaperBody>
             </PaperWithHeader>
         </Container>

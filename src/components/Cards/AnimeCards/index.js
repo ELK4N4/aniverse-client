@@ -4,7 +4,7 @@ import AnimeCard from './AnimeCard';
 import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 
-export default function AnimeCards({ clickable, animes }) {
+export default function AnimeCards({ clickable, direction="row", animes }) {
     const classes = useStyles();
     const history = useHistory();
 
@@ -18,14 +18,12 @@ export default function AnimeCards({ clickable, animes }) {
         <Grid
             className={classes.root}
             container
-            direction="row"
+            direction={direction}
             justifyContent="center"
             alignItems="center"
-            //align="center"
-            //justify="flex-start"
         >
             {animes.map((anime) => (
-                <Grid item xs='auto' key={anime._id} className={clickable ? classes.card : null} onClick={() => handleClick(anime._id)}>
+                <Grid item xs={5} sm={3} md={2} key={anime._id} className={clickable ? classes.card : null} onClick={() => handleClick(anime._id)}>
                     <AnimeCard
                         name={anime.name.hebrew}
                         summary={anime.summary}
