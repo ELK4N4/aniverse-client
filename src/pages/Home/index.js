@@ -47,35 +47,6 @@ function Home() {
                     <PaperHeader divider>
                         <PaperHeaderSection align="center" justify="center">
                             <Typography style={{fontWeight: 'bold'}} align="center" variant="h4">
-                                פרקים חדשים
-                            </Typography>
-                        </PaperHeaderSection>
-                    </PaperHeader>
-                    <PaperBody>
-                        <Box display="flex" style={{height: 'min-content', overflow: 'auto'}}>
-                            {animes.map((anime) => (
-                                <div key={anime._id} style={{margin: 15}} onClick={() => history.push('/animes/' + anime._id)}>
-                                    <AnimeCard
-                                        name={anime.name.hebrew}
-                                        summary={anime.summary}
-                                        img={anime.image}
-                                        showContent
-                                        width={180}
-                                        timeout={500}
-                                        rating={anime.rating.avg}
-                                    />
-                                </div>
-                            ))}       
-                        </Box>
-                    </PaperBody>
-                </PaperWithHeader>
-            </Container>
-
-            <Container style={{marginTop: 70, marginBottom: 70}}>
-                <PaperWithHeader>
-                    <PaperHeader divider>
-                        <PaperHeaderSection align="center" justify="center">
-                            <Typography style={{fontWeight: 'bold'}} align="center" variant="h4">
                                 אנימות חדשות
                             </Typography>
                         </PaperHeaderSection>
