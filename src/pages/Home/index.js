@@ -35,9 +35,11 @@ function Home() {
         }
     }, []);
 
+    
     return (
         <>
             <Showcase />
+
             <Container style={{marginTop: 70, marginBottom: 70}}>
                 <PaperWithHeader>
                     <PaperHeader divider>
