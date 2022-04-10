@@ -46,7 +46,7 @@ export default function UserDetails({user, preview}) {
                     </div>
                 </Box>
                 {!preview &&
-                    <TrackingContainer title="מעקב אנימות" trackingStatus="בצפייה" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
+                    <TrackingContainer title="מעקב אנימות" userId={userId} fetchCallback={api.fetchUserAnimeTracking}/>
                 }
             </Paper>
         </>
