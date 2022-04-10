@@ -17,7 +17,7 @@ export default function ProjectCards({ clickable, animes, onProjectSelect}) {
             //justify="flex-start"
         >
             {animes.map((anime) => (
-                <Grid item xs='auto' key={anime._id} className={ clickable ? classes.card : null } onClick={() => onProjectSelect(anime)}>
+                <Grid item xs={5} sm={3} md={2} key={anime._id} className={clickable ? classes.card : null} onClick={() => onProjectSelect(anime)}>
                     <AnimeCard
                         name={anime.name.hebrew}
                         summary={anime.summary}

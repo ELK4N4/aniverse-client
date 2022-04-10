@@ -19,7 +19,7 @@ export default function AnimeCards({ clickable, direction="row", animes }) {
             className={classes.root}
             container
             direction={direction}
-            justifyContent="center"
+            justifyContent="space-between"
             alignItems="center"
         >
             {animes.map((anime) => (
